@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login Aquila</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/account.css">
+    <link rel="stylesheet" type="text/css" href="/static/plugins/css/bootstrap.min_337.css">
+</head>
+<body>
+    <div class="login_div">
+        <form class="form-horizontal" role="form" action="login.html" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">{{ login_form.username.label}}</label>
+                <div class="col-sm-10">
+                    {{ login_form.username }}
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">{{ login_form.password.label}}</label>
+                <div class="col-sm-10">
+                    {{ login_form.password }}
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" style="float: left"> 请记住我
+                        </label>
+                        <label>
+                            <a href="forget_password.html" style="text-decoration: none;">忘记密码</a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">登录</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</body>
+<script src="/static/plugins/js/jquey.min.js"></script>
+<script src="/static/plugins/js/bootstrap.min_337.js"></script>
+</html>
