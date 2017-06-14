@@ -76,12 +76,12 @@ WSGI_APPLICATION = 'aquila_v2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -140,7 +140,18 @@ STATICFILES_DIRS = [
 # }
 #
 #
-# USER_ENCRYPT_KEY = '3df6a1341e8b'
+USER_ENCRYPT_KEY = '3df6a1341e8b'
 
 
 # CELERY_RESULT_BACKEND = 'amqp://'
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'aquila2',
+        'USER': 'think',
+        'PASSWORD': '123456',
+        'HOST': '192.168.1.6',
+    }
+}

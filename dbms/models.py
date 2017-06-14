@@ -15,14 +15,21 @@ class Privileges(models.Model):
     delete_user = models.SmallIntegerField()
     insert_user = models.SmallIntegerField()
 
-    issue_inception = models.SmallIntegerField()
-    audit_inception = models.SmallIntegerField()
+    pub_ince = models.SmallIntegerField()
+    audit_ince = models.SmallIntegerField()
 
     select_data = models.SmallIntegerField()
 
-
     class Meta:
         db_table = 'auth_privileges'
+
+
+class UserGroup(models.Model):
+    user_group_name = models.CharField(max_length=50, unique=True)
+    user_group_jd = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'auth_user_group'
 
 
 class UserRole(models.Model):
@@ -38,10 +45,11 @@ class UserRole(models.Model):
 
 class UserInfo(models.Model):
     user_name = models.CharField(max_length=50, unique=True)
-    user_pass = models.CharField(max_length=50)
+    user_pass = models.CharField(max_length=96)
     email = models.EmailField()
     lock_flag = models.PositiveSmallIntegerField(default=0)
     role = models.ForeignKey(to=UserRole, related_query_name='user_role_r', db_constraint=False)
+    user_group = models.ForeignKey('UserGroup', db_constraint=False)
 
     class Meta:
         db_table = 'auth_user_info'

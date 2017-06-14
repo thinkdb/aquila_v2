@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Join Aquila</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/account.css">
+    <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Join Aquila</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            <fieldset>
+                                <div>
+                                    <span>{{ user_exists }}</span>
+                                </div>
+                                <div class="form-group">
+                                    {{ RegForm.username }}
+                                </div>
+                                <div class="form-group prompt_user check_dis_flag" >
+                                    <p class="account_error">{{ RegForm.username.errors.0 }}</p>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ RegForm.email }}
+                                </div>
+                                <div class="form-group prompt_email check_dis_flag" >
+                                    <p class="account_error">{{ RegForm.email.errors.0 }}</p>
+                                </div>
+                                <div class="form-group">
+                                    {{ RegForm.password }}
+                                </div>
+                                <div class="form-group prompt_pass check_dis_flag check_dis_flag">
+                                    <p class="account_error">{{ RegForm.password.errors.0 }}</p>
+                                </div>
+
+                                <input id="check_register_val" type="submit" class="btn btn-lg btn-success btn-block"  value="Register"/>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+</html>
