@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/plugins/metisMenu/metisMenu.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/plugins/morrisjs/morris.css">
+    <link rel="stylesheet" type="text/css" href="/static/plugins/admin/admin-2.css">
+    <link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome/css/font-awesome.min.css">
+
+{% block css %}
+{% endblock %}
+</head>
+
+<body>
+<div id="wrapper">
+        <!-- 头部标签 -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'index' %}">Aquila OS</a>
+            </div>
+            <ul class="nav navbar-top-links navbar-right ">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-envelope fa-fw"></i> <span class="badge bg-success-auto">5</span> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>
+                        <span>
+                            {{ user_info.0.user_name }}
+                        </span>
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-user">
+
+                        <li>
+                            <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{% url 'login' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+            </ul>
+             <!-- 左侧菜单栏 -->
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="{% url 'index' %}"><i class="fa fa-dashboard fa-fw"></i> 仪表盘</a>
+                        </li>
+                        {% if user_info.0.role_id == 1 %}
+                            <li>
+                                <a href="#"><i class="fa fa-database fa-fw"></i> CMDB<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level collapse">
+                                    <li>
+                                        <a>主机管理<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+
+                                            <li>
+                                                <a href="{% url 'HostManage' %}">主机管理</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'HostGroupManage' %}">主机组管理</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a>用户管理<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+
+                                            <li>
+                                                <a href="{% url 'UserManage' %}">用户管理</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'UserGroupManage' %}">用户组管理</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a>权限管理<span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+                                            <li>
+                                                <a href="{% url 'PrivManage' %}">用户权限</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'PrivGroupManage' %}">用户组权限</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="#"><i class="fa fa-database fa-fw" aria-hidden="true"></i> RDBMS<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a>数据查询<span class="fa arrow"></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#">SQL 查询</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>SQL 发布<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#">SQL 提交</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">SQL 审核</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">SQL 执行</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">工单查询</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>性能分析<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#">慢SQL优化</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>备份与恢复<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#">备份</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">恢复</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>实例安装<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#">单机</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">MHA</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+     <!-- 内容主体 -->
+    <div id="page-wrapper" class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                {% block content_title %}
+                {% endblock %}
+{#                <h6 class="page-header"></h6>#}
+            </div>
+        </div>
+        {% block body_body %}
+
+        {% endblock %}
+    </div>
+
+
+</body>
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/plugins/metisMenu/metisMenu.min.js"></script>
+<script src="/static/plugins/morrisjs/morris.js"></script>
+<script src="/static/plugins/admin/admin-2.js"></script>
+<script src="/static/plugins/raphael/raphael.min.js"></script>
+{% block js %}
+{% endblock %}
+</html>

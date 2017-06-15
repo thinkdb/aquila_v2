@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
-from dbms import models
+from model_model import models
 from django.db.models import Q
+from django.db import connection
 
 
 def AuthAccount(func):
@@ -18,6 +19,6 @@ def GetUserInfo(request):
     get user privileges, group privileges
     '''
     username = request.session.get('username', None)
-    q = models.UserInfo.objects.filter(Q(user_name=username) | Q(email=username)).all().select_related('role', 'user_group')
-    print(q)
-    pass
+    user_info = models.UserInfo.objects.filter(Q(user_name=username) |
+                                               Q(email=username)).all().select_related('role', 'user_group')
+    return user_info

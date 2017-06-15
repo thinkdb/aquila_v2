@@ -2,7 +2,7 @@ from django.forms import Form, widgets, fields
 from django.forms.models import ValidationError
 from django.db.models import Q
 from scripts import functions
-from dbms import models
+from model_model import models
 import re
 
 
@@ -65,9 +65,13 @@ class RegisterForm(Form):
     def clean_username(self):
         user_str = self.cleaned_data['username']
         result = re.search('^[a-zA-Z]*([a-zA-Z0-9]|[_]){5,15}$', user_str)
+        user_flag = models.UserInfo.objects.filter(user_name=self.cleaned_data['username']).count()
+
         if not result:
             raise ValidationError(message='用户名只能以字母开头,由下划线、字母和数字组成\n'
                                           '长度为5到15个字符', code='username_error')
+        if user_flag:
+            raise ValidationError(message='用户已经存在', code='username_exists_error')
 
     def clean_password(self):
         password_str = self.cleaned_data['password']
@@ -81,6 +85,12 @@ class RegisterForm(Form):
 
     def clean_email(self):
         email_str = self.cleaned_data['email']
-        result = re.search('^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$', email_str)
+        result = re.search('^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*'
+                           '[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$', email_str)
+        user_flag = models.UserInfo.objects.filter(email=self.cleaned_data['email']).count()
+
         if not result:
             raise ValidationError(message='邮箱格式错误或者内容不合法', code='email_error')
+
+        if user_flag:
+            raise ValidationError(message='邮箱已经存在', code='email_exists_error')

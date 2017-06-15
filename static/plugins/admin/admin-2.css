@@ -518,3 +518,15 @@ table.dataTable thead .sorting:after {
   color: white;
   border: 1px solid transparent;
 }
+
+.bg-success-auto{
+  background-color: #5cb85c;
+}
+
+.breadcrumb{
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: #ffffff;
+  border-radius: 4px;
+}

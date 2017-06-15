@@ -1,0 +1,16 @@
+{% extends 'cmdb_manage.html' %}
+
+    {% block body_title %}
+        Host Manage
+    {% endblock %}
+
+{% block body_body %}
+        <!--导入sql提交表单-->
+    {% if request_path == '/backend/host_manage.html' %}
+        {% include 'host.html' %}
+{#  {% elif request_path == '/backend/hostgroup_manage.html' %}#}
+{#      {% include 'hostgroup.html' %}#}
+    {% else %}
+        {% include 'hostgroup.html' %}
+    {% endif %}
+{% endblock %}

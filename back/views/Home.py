@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from back.views.AuthAccount import AuthAccount
+from back.views.AuthAccount import AuthAccount, GetUserInfo
 
 
 @AuthAccount
 def index(request):
-    return render(request, 'index.html', {'user_name': request.session['username']})
+    user_info = GetUserInfo(request)
+    return render(request, 'index.html', {'user_info': user_info})
