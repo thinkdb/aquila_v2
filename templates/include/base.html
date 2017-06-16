@@ -139,16 +139,16 @@
                                     <a>SQL 发布<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="#">SQL 提交</a>
+                                            <a href="{% url 'SqlCommit' %}">SQL 提交</a>
                                         </li>
                                         <li>
-                                            <a href="#">SQL 审核</a>
+                                            <a href="{% url 'SqlAudit' %}">SQL 审核</a>
                                         </li>
                                         <li>
-                                            <a href="#">SQL 执行</a>
+                                            <a href="{% url 'SqlRunning' %}">SQL 执行</a>
                                         </li>
                                         <li>
-                                            <a href="#">工单查询</a>
+                                            <a href="{% url 'SqlView' %}">工单查询</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -207,6 +207,7 @@
 
 </body>
 <script src="/static/plugins/jquery/jquery.min.js"></script>
+<script src="/static/plugins/jquery/jquery.cookie.js"></script>
 <script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/plugins/metisMenu/metisMenu.min.js"></script>
 <script src="/static/plugins/morrisjs/morris.js"></script>

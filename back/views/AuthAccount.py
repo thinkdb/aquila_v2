@@ -9,7 +9,7 @@ def AuthAccount(func):
         username = request.session.get('username', None)
         ret = models.UserInfo.objects.filter(Q(user_name=username) | Q(email=username)).count()
         if not username and not ret:
-            return redirect('/back/login.html')
+            return redirect('/account/login.html')
         return func(request, *args, **kwargs)
     return inner
 

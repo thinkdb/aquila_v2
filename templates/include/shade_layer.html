@@ -1,0 +1,19 @@
+
+<div class="shade_layer check_dis_flag" >
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-body" id="group_add_text">
+                    <fieldset style="opacity:1">
+                        <div><i id="exit_edit" class="fa fa-times" aria-hidden="true"></i></div>
+                        {% if request_path == '/cmdb/host/manage.html' %}
+                            {% include 'include/host_append.html' %}
+{#                        {% elif request_path == '/backend/hostgroup_manage.html' %}#}
+{#                            {% include 'hostgroup.html' %}#}
+                        {% else %}
+                            {% include 'include/hostgroup_append.html' %}
+                        {% endif %}
+                    </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

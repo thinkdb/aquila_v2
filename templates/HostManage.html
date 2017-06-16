@@ -8,87 +8,64 @@ HostManage
 {% endblock %}
 
 {% block body_body %}
-
+<div class="col-lg-12">
     <div class="panel">
-        <div style="margin-top: 20px; margin-left: 17px;">
-            <button id="host_group_append" type="button" class="btn btn-primary">添加</button>
-            <button id="host_delete" type="button" class="btn btn-danger" style="margin-left: 200px;">删除</button>
-        </div>
         <div class="panel-body">
-            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                <thead>
-                    <tr>
-                        <th style="display: none;"></th>
-                        <th>选择</th>
-                        <th>主机地址</th>
-                        <th>应用类型</th>
-                        <th>主机组</th>
-                        <th>主机用户</th>
-                        <th>主机密码</th>
-                        <th>主机端口</th>
-                        <th>操作</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if host_list %}
-                        {% for item in host_info %}
-                            <tr id="host">
-                                <td id="host_id" style="display: none;">{{ item.id }}</td>
-                                <td><input type="checkbox" /></td>
-                                <td id="num_to_ip">{{ item.host_ip }}</td>
-                                <td id="app_type">{{ item.app_type.app_name }}</td>
-                                <td id="host_group_id">{{ item.host_group.host_group_name }}</td>
-                                <td id="host_user">{{ item.host_user }}</td>
-                                <td id="host_pass">{{ item.host_pass }}</td>
-                                <td id="host_port">{{ item.host_port }}</td>
-                                <td><button id="host_update" type="button" class="btn btn-primary" style="margin-left: 10px;">编辑</button></td>
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
-                </tbody>
-            </table>
+            <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel">
+                            <div style="margin-top: 20px; margin-left: 17px;">
+                                <button id="host_group_append" type="button" class="btn btn-primary">添加</button>
+                                <button id="host_delete" type="button" class="btn btn-danger" style="margin-left: 200px;">删除</button>
+                            </div>
+                            <div class="panel-body">
+                                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th style="display: none;"></th>
+                                            <th>选择</th>
+                                            <th>主机地址</th>
+                                            <th>应用类型</th>
+                                            <th>主机组</th>
+                                            <th>主机用户</th>
+                                            <th>主机密码</th>
+                                            <th>主机端口</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if host_info %}
+                                            {% for item in host_info %}
+                                                <tr id="host">
+                                                    <td id="host_id" style="display: none;">{{ item.id }}</td>
+                                                    <td><input type="checkbox" /></td>
+                                                    <td id="num_to_ip">{{ item.host_ip }}</td>
+                                                    <td id="app_type">{{ item.app_type.app_name }}</td>
+                                                    <td id="host_group_id">{{ item.host_group.host_group_name }}</td>
+                                                    <td id="host_user">{{ item.host_user }}</td>
+                                                    <td id="host_pass">{{ item.host_pass }}</td>
+                                                    <td id="host_port">{{ item.host_port }}</td>
+                                                    <td><button id="host_update" type="button" class="btn btn-primary" style="margin-left: 10px;">编辑</button></td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div>
-        <form id="form"  method="post">
-            {% csrf_token %}
-            {% for item in host_form %}
-                {% if item.label == '应用类型' or item.label == '主机组' %}
-                    <div class="form-group">
-                        <div>
-                            <lable>{{ item.label }}</lable>{{ item }}
-                        </div>
-                    </div>
-                {% elif item.label == 'id' %}
-                    <div class="form-group">
-                        <div>
-                            <lable style="display: none">{{ item.label }}</lable>
-                        </div>
-                        <div style="display: none">
-                            {{ item }}
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="form-group">
-                        <div>
-                            <lable>{{ item.label }}</lable>
-                        </div>
-                        <div>
-                            {{ item }}
-                        </div>
-                    </div>
-
-                {% endif %}
-            {% endfor %}
-                <span id="err_msg" style="color: red"></span>
-
-            <input id="host_append" type="button" class="btn btn-lg btn-primary btn-block"  value="Commit"/>
-        </form>
-    </div>
+    {% include 'include/shade_layer.html' %}
 {% endblock %}
 
 {% block js %}
-
+    <script src="/static/js/host_opertion.js"></script>
+    <script src="/static/plugins/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/static/plugins/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/static/plugins/datatables-responsive/dataTables.responsive.js"></script>
 {% endblock %}

@@ -13,9 +13,7 @@ class Login(View):
 
     def post(self, request):
         LoginForm = forms.LoginForm(request.POST)
-        ret = LoginForm.is_valid()
-
-        if ret:
+        if LoginForm.is_valid():
             username = request.POST.get("username", None)
             password = functions.py_password(request.POST.get("password", None))
             user_info = models.UserInfo.objects.filter((Q(user_name=username) |

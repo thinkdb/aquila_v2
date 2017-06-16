@@ -2,6 +2,7 @@
 # _*_ coding:utf8 _*_
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 import pymysql as pymysqldb
 import paramiko
 import socket
@@ -13,7 +14,7 @@ import json
 
 
 class DBAPI(object):
-    def __init__(self, host, user, password, port, database):
+    def __init__(self, host, user, password, port, database='test'):
         try:
             self.conn = pymysqldb.connect(host=host, user=user, passwd=password, port=int(port),
                                        database=database, autocommit=1, charset='utf8')
@@ -105,50 +106,12 @@ class OpSession(object):
             return False
 
 
-def inception_sql(db_host, db_user, db_passwd, sql_content, db_port=3306,
-                  enable_check=1, enable_execute=0, enable_split=0,
-                  enable_ignore_warnings=0, sleep=500):
-    """
-    :param db_host: DB_HOST where the database server is located
-    :param db_user: DB_USER to log in as
-    :param db_passwd: DB_PASSWD to use
-    :param db_port: MySQL port to use, default is usually OK. (default: 3306)
-    :param sql_content: SQL content to execute
-    :param enable_check: Default is 1, audit the SQL_CONTENT
-    :param enable_execute: Default is 0, Audit not execute the SQL_CONTENT
-    :param enable_split: Default is 1, split the DDL and DML
-    :param enable_ignore_warnings: Default is 0, skip warning is not allowed
-    :param sleep: Defaults is 0.5s, After each SQL execution sleep seconds and then continue
-    :return: Returns a SQL content that can be supported by Inception
-    """
-    ince_run_sql = """/*--user=%s;--password=%s;--host=%s;--port=%s;--enable-check=%s;--enable-execute=%s;
-            --enable-ignore-warnings=%s;--sleep=%s;--enable-split=%s;*/
-            inception_magic_start;
-            %s
-            inception_magic_commit;
-            """ % (db_user, db_passwd, db_host, db_port, enable_check,
-                   enable_execute, enable_ignore_warnings, sleep, enable_split, sql_content)
-    return ince_run_sql
-
-
-def ince_run_sql(db_host, sql_content, db_user, db_passwd, db_port=3306, enable_check=1,
-                 enable_execute=0, enable_split=0, enable_ignore_warnings=0, sleep=500):
-    """
-    Connect Inception to execute SQL
-    :param db_host:  DB_HOST where the database server is located
-    :param sql_content: SQL content to execute
-    :param port: MySQL port to use, default is usually OK. (default: 3306)
-    :return:
-    """
-    ince_host = getattr(settings, 'INCEPTION')['default']['INCEPTION_HOST']
-    ince_port = int(getattr(settings, 'INCEPTION')['default']['INCEPTION_PORT'])
-    run_sql = inception_sql(db_user=db_user, db_passwd=db_passwd, db_host=db_host, sql_content=sql_content, db_port=db_port,
-                            enable_check=enable_check, enable_execute=enable_execute, enable_split=enable_split,
-                            enable_ignore_warnings=enable_ignore_warnings, sleep=sleep)
-    db = DBAPI(host=ince_host, user='', password='', database='', port=ince_port)
-    result = db.conn_query(run_sql)
-
-    return result
+class JsonCustomEncoder(json.JSONEncoder):
+    def default(self, field):
+        if isinstance(field, ValidationError):
+            return {'code': field.code, 'messages': field.messages}
+        else:
+            return json.JSONEncoder.default(self, field)
 
 
 def get_uuid():

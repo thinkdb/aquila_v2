@@ -57,8 +57,8 @@ class HostAppend(Form):
         self.fields['host_group'].widget.choices = models.HostGroup.objects.values_list('id', 'host_group_jd')
         self.fields['app_type'].widget.choices = models.AppType.objects.values_list('id', 'app_name')
 
-    def clean_host_ip(self):
-        ip = self.cleaned_data['host_ip']
-        host_ip = models.HostGroup.objects.filter(host_ip=ip).count()
-        if not host_ip:
-            raise ValidationError(message='%s: 主机已经存在', code='host_error') % ip
+    # def clean_host_ip(self):
+    #     ip = self.cleaned_data['host_ip']
+    #     host_ip = models.HostInfo.objects.filter(host_ip=ip).count()
+    #     if host_ip:
+    #         raise ValidationError(message='%s: 主机已经存在' % ip, code='host_exists_error')

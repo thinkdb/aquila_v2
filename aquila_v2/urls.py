@@ -21,5 +21,6 @@ urlpatterns = [
     # url(r'^admin/', admin.site.views),
     url(r'^index.html$', Home.index, name='index'),
     url(r'^account/', include('back.urls')),
-    url(r'^cmdb/', include('cmdb.urls'))
+    url(r'^cmdb/', include('cmdb.urls')),
+    url(r'^dbms/', include('dbms.urls')),
 ]

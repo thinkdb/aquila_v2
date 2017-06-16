@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'model_model',
     'back',
+    'cmdb',
+    'dbms',
 ]
 
 MIDDLEWARE = [
@@ -125,21 +127,21 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+INCEPTION = {
+    'default': {
+        'INCEPTION_HOST': '192.168.1.6',
+        'INCEPTION_PORT': 6669,
+    },
+    'backup': {
+        'BACKUP_USER': 'root',
+        'BACKUP_PASSWORD': '123456',
+        'BACKUP_PORT': 3306,
+        'BACKUP_HOST': '192.168.1.6',
+    },
+}
 
-# INCEPTION = {
-#     'default': {
-#         'INCEPTION_HOST': '192.168.1.6',
-#         'INCEPTION_PORT': 6669,
-#     },
-#     'backup': {
-#         'BACKUP_USER': 'root',
-#         'BACKUP_PASSWORD': '123456',
-#         'BACKUP_PORT': 3306,
-#         'BACKUP_HOST': '192.168.1.6',
-#     },
-# }
-#
-#
+
+
 USER_ENCRYPT_KEY = '3df6a1341e8b'
 
 

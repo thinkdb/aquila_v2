@@ -1,0 +1,35 @@
+<form id="form"  method="post">
+{% csrf_token %}
+{% for item in host_form %}
+    {% if item.label == '应用类型' or item.label == '主机组' %}
+        <div class="form-group">
+            <div>
+                <lable>{{ item.label }}</lable>{{ item }}
+            </div>
+        </div>
+    {% elif item.label == 'id' %}
+        <div class="form-group">
+            <div>
+                <lable style="display: none">{{ item.label }}</lable>
+            </div>
+            <div style="display: none">
+                {{ item }}
+            </div>
+        </div>
+    {% else %}
+        <div class="form-group">
+            <div>
+                <lable>{{ item.label }}</lable>
+            </div>
+            <div>
+                {{ item }}
+            </div>
+        </div>
+
+    {% endif %}
+{% endfor %}
+
+    <p id="err_msg" style="color: red"></p>
+
+<input id="host_append" type="button" class="btn btn-lg btn-primary btn-block"  value="Commit"/>
+</form>
