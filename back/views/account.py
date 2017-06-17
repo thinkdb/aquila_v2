@@ -42,14 +42,14 @@ class Register(View):
         reg_form = forms.RegisterForm(request.POST)
         ret = reg_form.is_valid()
         if ret:
-            models.UserInfo.objects.create(
+            r = models.UserInfo.objects.create(
                 user_name=request.POST['username'],
                 user_pass=functions.py_password(request.POST['password']),
                 email=request.POST['email'],
-                lock_flag=0,
-                role_id=2,
-                user_group_id=2
+                lock_flag=0
             )
+            models.UserRoleRelationship.create(role_id=2, user=r)
+            models.UserGroupRelationship.create(user=r, group_id=2)
             return redirect('login.html')
         else:
             return render(request, 'register.html', {'RegForm': reg_form})

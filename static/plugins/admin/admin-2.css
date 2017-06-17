@@ -537,3 +537,8 @@ table.dataTable thead .sorting:after {
 .dataTables_filter{
   float: right;
 }
+
+.body-content{
+  margin-top: 20px;
+  margin-left: 15px;
+}

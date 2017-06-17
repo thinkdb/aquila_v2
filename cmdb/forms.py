@@ -11,8 +11,7 @@ class HostAppend(Form):
                                                            'invalid': 'IP地址不合法'},
                                            protocol='ipv4',
                                            label='主机地址',
-                                           widget=widgets.TextInput(attrs={'class': 'form-control'}),
-                                           strip=True
+                                           widget=widgets.TextInput(attrs={'class': 'form-control'})
                                            )
     host_user = fields.CharField(label='主机用户',
                                  widget=widgets.TextInput(attrs={'class': 'form-control'}),
@@ -20,11 +19,17 @@ class HostAppend(Form):
     host_pass = fields.CharField(label='主机密码',
                                  widget=widgets.TextInput(attrs={'class': 'form-control'}),
                                  strip=True)
-    host_port = fields.CharField(label='主机端口',
-                                 initial=22,
-                                 widget=widgets.TextInput(attrs={'class': 'form-control'}),
-                                 error_messages={'required': 'host_port: 请输入有效端口号'},
-                                 strip=True)
+    host_port = fields.IntegerField(label='主机端口',
+                                    initial=22,
+                                    max_value=65530,
+                                    min_value=22,
+                                    widget=widgets.TextInput(attrs={'class': 'form-control'}),
+                                    error_messages={'required': 'host_port: 请输入有效端口号',
+                                                    'invalid': '请输入有效端口号',
+                                                    'min_value': '请输入一个大于或等于1025的端口号',
+                                                    'max_value': '请输入一个小于或等于65530的端口号'
+                                                    }
+                                    )
 
     app_type = fields.CharField(
         widget=widgets.Select(choices=[]),
@@ -46,11 +51,15 @@ class HostAppend(Form):
                                 label='应用密码',
                                 widget=widgets.TextInput(attrs={'class': 'form-control'}),
                                 strip=True)
-    app_port = fields.CharField(required=False,
-                                label='应用端口',
-                                widget=widgets.TextInput(attrs={'class': 'form-control'}),
-                                error_messages={'required': 'app_port: 请输入有效端口号'},
-                                strip=True)
+    app_port = fields.IntegerField(required=False,
+                                   label='应用端口',
+                                   max_value=65530,
+                                   min_value=1025,
+                                   widget=widgets.TextInput(attrs={'class': 'form-control'}),
+                                   error_messages={'required': 'app_port: 请输入有效端口号',
+                                                   'invalid': '请输入有效端口号',
+                                                   'min_value': '请输入一个大于或等于1025的端口号',
+                                                   'max_value': '请输入一个小于或等于65530的端口号'})
 
     def __init__(self, *args, **kwargs):
         super(HostAppend, self).__init__(*args, **kwargs)

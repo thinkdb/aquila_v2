@@ -1,0 +1,87 @@
+{% extends 'include/base.html' %}
+{% load udf_filter %}
+{% block css %}
+
+{% endblock %}
+
+{% block title %}
+    SqlCommit
+{% endblock %}
+
+{% block body_body %}
+<div class="body-content">
+    <form action="{% url 'SqlCommit' %}" method="post">
+        {% csrf_token %}
+
+        {% for item in SqlComFormObj %}
+            <div class="form-group">
+            <div>
+                <lable>{{ item.label }}</lable>
+            </div>
+            <div>
+                {{ item }}
+            </div>
+        </div>
+        {% endfor %}
+    <input type="submit" value="审核">
+    </form>
+
+
+
+
+
+    <!-- auto audit result -->
+
+    <div class="audit-result">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>执行结果</td>
+                    <td>错误信息</td>
+                    <td>sql内容</td>
+                    <td>影响行数</td>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                    {% if AuditResult.status == 0 %}
+                        {{ '有错误' }} {{ row.error }}
+                    {% elif AuditResult.running == 1 %}
+                        {{ '已经提交到后台执行，请查看工单详情' }}
+                    {% else %}
+
+                        {% for key, value in AuditResult.items %}
+
+                                {% for k2, v2 in value.items %}
+                                    <tr>
+                                    <td>{{ v2.sid }}</td>
+                                    <td>{{ v2.status }}</td>
+                                    <td>
+                                        {% for line in v2.error_msg|udf_split %}
+                                            <p>{{ line }}</p>
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ v2.sql }}</td>
+                                    <td>{{ v2.rows }}</td>
+                                    </tr>
+                                {% endfor %}
+
+                        {% endfor %}
+                    {% endif %}
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

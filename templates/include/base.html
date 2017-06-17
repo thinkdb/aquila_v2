@@ -81,7 +81,7 @@
                         <li>
                             <a href="{% url 'index' %}"><i class="fa fa-dashboard fa-fw"></i> 仪表盘</a>
                         </li>
-                        {% if user_info.0.role_id == 1 %}
+                        {% if user_info.0.userrolerelationship__role_id == 1 %}
                             <li>
                                 <a href="#"><i class="fa fa-database fa-fw"></i> CMDB<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">

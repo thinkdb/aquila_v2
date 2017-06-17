@@ -9,25 +9,25 @@ from scripts import functions
 current_path = os.path.split(os.path.realpath(sys.argv[0]))[0]
 path = os.path.dirname(current_path)
 sys.path.append(path)
-os.environ['DJANGO_SETTINGS_MODULE'] ='aquila_v2.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'aquila_v2.settings'
 django.setup()
 
 from model_model import models
 
-# init UserRole
-models.UserRole.objects.create(id=1, role_name='admin', comm='超级管理员')
-models.UserRole.objects.create(id=2, role_name='users', comm='普通员工,默认值')
-models.UserRole.objects.create(id=3, role_name='qa', comm='测试')
-models.UserRole.objects.create(id=4, role_name='dev', comm='开发')
-models.UserRole.objects.create(id=5, role_name='dba', comm='数据库管理员')
+# init role info
+models.RoleInfo.objects.create(id=1, role_name='admin', comm='超级管理员')
+models.RoleInfo.objects.create(id=2, role_name='users', comm='普通员工,默认值')
+models.RoleInfo.objects.create(id=3, role_name='qa', comm='测试')
+models.RoleInfo.objects.create(id=4, role_name='dev', comm='开发')
+models.RoleInfo.objects.create(id=5, role_name='dba', comm='数据库管理员')
 
 
-# init UserGroup
+# init user goup info
 models.UserGroup.objects.create(id=1, user_group_name='admin_group', user_group_jd='管理员组')
 models.UserGroup.objects.create(id=2, user_group_name='default_group', user_group_jd='普通用户组, 默认组')
 models.UserGroup.objects.create(id=3, user_group_name='dba_group', user_group_jd='数据库管理员组')
 
-# init HostGroup
+# init host group info
 models.HostGroup.objects.create(id=1, host_group_name='db', host_group_jd='数据主机组')
 models.HostGroup.objects.create(id=2, host_group_name='java', host_group_jd='java主机组')
 
@@ -35,6 +35,14 @@ models.HostGroup.objects.create(id=2, host_group_name='java', host_group_jd='jav
 # init AppType
 models.AppType.objects.create(id=1, app_name='MySQL')
 models.AppType.objects.create(id=2, app_name='Java')
+
+
+# init user role relationship
+models.UserRoleRelationship.objects.create(user_id=1, role_id=1)
+
+
+# init user group relationship
+models.UserGroupRelationship.objects.create(user_id=1, group_id=1)
 
 
 # init privileges
@@ -80,7 +88,5 @@ models.UserInfo.objects.create(
     user_name='admin',
     user_pass=pass_str,
     email='996846239@qq.com',
-    role_id=1,
-    user_group_id=1,
     lock_flag=0
 )

@@ -32,12 +32,12 @@ class UserGroup(models.Model):
         db_table = 'auth_user_group'
 
 
-class UserRole(models.Model):
-    role_name = models.CharField(max_length=50)
+class RoleInfo(models.Model):
+    role_name = models.CharField(max_length=50, unique=True)
     comm = models.CharField(max_length=100)
 
     class Meta:
-        db_table = 'auth_user_role'
+        db_table = 'auth_role_info'
 
     def __unicode__(self):
         return self.role_name, self.comm
@@ -48,11 +48,22 @@ class UserInfo(models.Model):
     user_pass = models.CharField(max_length=96)
     email = models.EmailField()
     lock_flag = models.PositiveSmallIntegerField(default=0)
-    role = models.ForeignKey(to=UserRole, related_query_name='user_role_r', db_constraint=False)
-    user_group = models.ForeignKey('UserGroup', db_constraint=False)
 
     class Meta:
         db_table = 'auth_user_info'
+
+    def __unicode__(self):
+        return self.user_name
+
+
+class UserRoleRelationship(models.Model):
+    role = models.ForeignKey(RoleInfo, db_constraint=False, db_index=True)
+    user = models.ForeignKey(UserInfo, db_constraint=False, db_index=True)
+
+
+class UserGroupRelationship(models.Model):
+    user = models.ForeignKey(UserInfo, db_constraint=False, db_index=True)
+    group = models.ForeignKey('UserGroup', db_constraint=False, db_index=True)
 
 
 class HostGroup(models.Model):
@@ -78,11 +89,11 @@ class AppType(models.Model):
 
 class HostInfo(models.Model):
     host_ip = models.CharField(max_length=45, unique=True)
-    app_type = models.ForeignKey(to='AppType', to_field='id', db_constraint=False)
+    app_type = models.ForeignKey(to='AppType', to_field='id', db_constraint=False, db_index=True)
     host_user = models.CharField(max_length=20)
     host_pass = models.CharField(max_length=30)
     host_port = models.SmallIntegerField()
-    host_group = models.ForeignKey(to='HostGroup', to_field='id', db_constraint=False)
+    host_group = models.ForeignKey(to='HostGroup', to_field='id', db_constraint=False, db_index=True)
 
     class Meta:
         db_table = 'hosts_info'
@@ -92,7 +103,7 @@ class HostInfo(models.Model):
 
 
 class HostAPPAccount(models.Model):
-    host = models.ForeignKey(to='HostInfo', to_field='id', db_constraint=False)
+    host = models.ForeignKey(to='HostInfo', to_field='id', db_constraint=False, db_index=True)
     app_user = models.CharField(max_length=20)
     app_pass = models.CharField(max_length=30)
     app_port = models.SmallIntegerField()
@@ -104,6 +115,7 @@ class HostAPPAccount(models.Model):
 # Inception
 class InceptionWorkOrderInfo(models.Model):
     id = models.AutoField(primary_key=True)
+    work_title = models.CharField(max_length=60)
     work_order_id = models.BigIntegerField(unique=True)
     work_user = models.CharField(max_length=50)
     db_host = models.CharField(max_length=45)
@@ -113,6 +125,7 @@ class InceptionWorkOrderInfo(models.Model):
     review_time = models.DateTimeField(default='1980-01-01 01:01:01')
     review_status = models.SmallIntegerField(default=10)    # 10: None， 0: pass， 1:  reject
     work_status = models.SmallIntegerField(default=10)      # 10: None， 0: successfully， 1: fail, 2: queue， 3: running
+    work_run_time = models.DateTimeField()
     r_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -122,7 +135,7 @@ class InceptionWorkOrderInfo(models.Model):
 class InceptionAuditDetail(models.Model):
     id = models.AutoField(primary_key=True)
     work_order = models.ForeignKey(to='InceptionWorkOrderInfo', on_delete=models.CASCADE,
-                                   to_field='work_order_id', db_constraint=False)
+                                   to_field='work_order_id', db_constraint=False, db_index=True)
     sql_sid = models.SmallIntegerField()              # sql_number
     status = models.SmallIntegerField()               # 0: None, 1: RERUN, 2: CHECKED, 3: EXECUTED
     err_id = models.SmallIntegerField()               # 0: None, 1: warnings, 2: error
@@ -148,7 +161,7 @@ class InceptionAuditDetail(models.Model):
 class InceAuditSQLContent(models.Model):
     id = models.AutoField(primary_key=True)
     work_order = models.ForeignKey('InceptionWorkOrderInfo', on_delete=models.CASCADE,
-                                   to_field='work_order_id', db_constraint=False)
+                                   to_field='work_order_id', db_constraint=False, db_index=True)
     sql_content = models.TextField()
 
     class Meta:
@@ -161,3 +174,8 @@ class WorkOrderTask(models.Model):
     app_pass = models.CharField(max_length=30)
     app_port = models.SmallIntegerField()
     wid = models.BigIntegerField(unique=True)
+
+
+# class AppVersion(models.Model):
+#     version = models.CharField()
+#     r_time = models.DateTimeField(auto_now_add=True)

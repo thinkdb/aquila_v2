@@ -55,9 +55,9 @@ class Inception(object):
         audit_result = conn.conn_query(self.sql)
         return audit_result
 
-a = Inception(db_host='192.168.1.6', db_user='root', db_passwd='123456',
-    sql_content='use test; grant all privileges on *.* to "t"@"%" identified by "123";')
-ret = a.run_sql(0)
-
-print(ret)
+# a = Inception(db_host='192.168.1.6', db_user='root', db_passwd='123456',
+#     sql_content='use test; grant all privileges on *.* to "t"@"%" identified by "123";')
+# ret = a.run_sql(0)
+#
+# print(ret)
 
