@@ -188,9 +188,44 @@ def tran_audit_result(result):
                 result_dict[keys]['error_msg']['status'] = 1
                 a = a+rows+'---'
             result_dict[keys]['error_msg']['error_msgs'] = a
-
         else:
             result_dict[keys]['error_msg']['status'] = 0
+    return result_dict
+
+
+def result_tran(result, result_dict):
+    for id, row in enumerate(result):
+        result_dict['data'][id] = {}
+        result_dict['data'][id]['sid'] = str(row[0])
+
+        if row[3] == 'Audit completed' and row[2] == 0:
+            msg = '审核成功'
+        elif row[3] == 'Audit completed' and row[2] == 1:
+            msg = '警告'
+        elif row[3] == 'Audit completed' and row[2] == 1:
+            msg = '审核错误'
+        elif row[3] == 'Execute failed':
+            msg = '执行失败'
+        elif row[3] == 'Execute Successfully':
+            msg = '执行成功'
+        elif row[3] == 'Execute Successfully\nBackup successfully':
+            msg = '执行成功,备份成功'
+        elif row[3] == 'Execute Successfully\nBackup filed':
+            msg = '执行成功,备份失败'
+        else:
+            msg = '未知状态'
+
+        a = ''
+        for kxxxx, rows in enumerate(row[4].split('\n')):
+            a = a + rows + '---'
+        result_dict['data'][id]['status'] = msg
+        result_dict['data'][id]['error_msg'] = a
+        result_dict['data'][id]['sql'] = row[5]
+        result_dict['data'][id]['rows'] = row[6]
+        result_dict['data'][id]['rollback_id'] = row[7]
+        result_dict['data'][id]['backup_dbname'] = row[8]
+        result_dict['data'][id]['execute_time'] = row[9]
+        result_dict['data'][id]['sql_hash'] = '----' if len(row[10]) == 0 else row[10]
     return result_dict
 
 

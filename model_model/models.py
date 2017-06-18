@@ -115,17 +115,20 @@ class HostAPPAccount(models.Model):
 # Inception
 class InceptionWorkOrderInfo(models.Model):
     id = models.AutoField(primary_key=True)
+    version = models.CharField(max_length=100, default='test')
     work_title = models.CharField(max_length=60)
     work_order_id = models.BigIntegerField(unique=True)
     work_user = models.CharField(max_length=50)
     db_host = models.CharField(max_length=45)
+    master_host = models.CharField(max_length=45, default='----')
     db_name = models.CharField(max_length=50, default='test_db')
     end_time = models.DateTimeField(default='1980-01-01 01:01:01')
-    review_user = models.CharField(max_length=50)
+    review_user = models.ForeignKey(UserInfo, db_constraint=False, db_index=True)
     review_time = models.DateTimeField(default='1980-01-01 01:01:01')
     review_status = models.SmallIntegerField(default=10)    # 10: None， 0: pass， 1:  reject
     work_status = models.SmallIntegerField(default=10)      # 10: None， 0: successfully， 1: fail, 2: queue， 3: running
-    work_run_time = models.DateTimeField()
+    work_run_time = models.DateTimeField(auto_now=True)
+    comm = models.CharField(max_length=500, default='----')
     r_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -134,12 +137,11 @@ class InceptionWorkOrderInfo(models.Model):
 
 class InceptionAuditDetail(models.Model):
     id = models.AutoField(primary_key=True)
+    flag = models.SmallIntegerField(default=1)   # 1: audit, 2: running
     work_order = models.ForeignKey(to='InceptionWorkOrderInfo', on_delete=models.CASCADE,
                                    to_field='work_order_id', db_constraint=False, db_index=True)
     sql_sid = models.SmallIntegerField()              # sql_number
-    status = models.SmallIntegerField()               # 0: None, 1: RERUN, 2: CHECKED, 3: EXECUTED
-    err_id = models.SmallIntegerField()               # 0: None, 1: warnings, 2: error
-    stage_status = models.SmallIntegerField()
+    status = models.CharField(max_length=30)
     # 0: Audit completed,  1: Execute failed
     # 2: Execute Successfully
     # 3: Execute Successfully\nBackup successfully
@@ -170,6 +172,7 @@ class InceAuditSQLContent(models.Model):
 
 class WorkOrderTask(models.Model):
     host_ip = models.CharField(max_length=45)
+    db_name = models.CharField(max_length=50, default='test_db')
     app_user = models.CharField(max_length=20)
     app_pass = models.CharField(max_length=30)
     app_port = models.SmallIntegerField()

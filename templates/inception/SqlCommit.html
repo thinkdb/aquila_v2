@@ -1,7 +1,8 @@
 {% extends 'include/base.html' %}
 {% load udf_filter %}
 {% block css %}
-
+<link href="/static/plugins/DateTimePicker/bootstrap/css/bootstrap.min.css">
+<link href="/static/plugins/DateTimePicker/css/bootstrap-datetimepicker.min.css">
 {% endblock %}
 
 {% block title %}
@@ -9,79 +10,111 @@
 {% endblock %}
 
 {% block body_body %}
-<div class="body-content">
-    <form action="{% url 'SqlCommit' %}" method="post">
+<div class="body-content container">
+    <form action="{% url 'SqlCommit' %}" method="post" class="form-horizontal"  role="form">
         {% csrf_token %}
 
         {% for item in SqlComFormObj %}
             <div class="form-group">
-            <div>
-                <lable>{{ item.label }}</lable>
+                <div>
+                    <lable>{{ item.label }}</lable>
+                </div>
+                <div>
+                    {{ item }}
+                </div>
             </div>
-            <div>
-                {{ item }}
-            </div>
-        </div>
         {% endfor %}
-    <input type="submit" value="审核">
+
+        <div class="form-group">
+            <input id="sql_own_reviews" type="submit" class="btn btn-lg btn-info"  value="提交SQL"/>
+            <button type="reset" class="btn ince_but_ret">重置</button>
+        </div>
     </form>
 
-
-
-
+{#    <div class="form-group">#}
+{#                <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>#}
+{#                <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">#}
+{#                    <input class="form-control" size="16" type="text" value="" readonly>#}
+{#                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>#}
+{#					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>#}
+{#                </div>#}
+{#				<input type="hidden" id="dtp_input1" value="" /><br/>#}
+{#            </div>#}
 
     <!-- auto audit result -->
 
-    <div class="audit-result">
-        <table border="1">
-            <thead>
-                <tr>
-                    <td>序号</td>
-                    <td>执行结果</td>
-                    <td>错误信息</td>
-                    <td>sql内容</td>
-                    <td>影响行数</td>
-                </tr>
-            </thead>
-            <tbody>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span>自审核结果</span>
+        </div>
 
-                    {% if AuditResult.status == 0 %}
-                        {{ '有错误' }} {{ row.error }}
-                    {% elif AuditResult.running == 1 %}
-                        {{ '已经提交到后台执行，请查看工单详情' }}
-                    {% else %}
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>序号</td>
+                            <td>执行结果</td>
+                            <td>错误信息</td>
+                            <td>sql内容</td>
+                            <td>影响行数</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if AuditResult.post_flag == 1 %}
+                            {% if AuditResult.status == 0 %}
+                                <tr><td>{{ '有错误' }}</td><td colspan="4"> {{ AuditResult.error }}</td></tr>
+                            {% elif AuditResult.running == 1 %}
+                                <tr><td colspan="5">{{ '任务已提交审核,请工单详情页面查看工单状态' }}</td></tr>
+                            {% elif AuditResult.data  %}
 
-                        {% for key, value in AuditResult.items %}
+                                {% for key, value in AuditResult.items %}
 
-                                {% for k2, v2 in value.items %}
-                                    <tr>
-                                    <td>{{ v2.sid }}</td>
-                                    <td>{{ v2.status }}</td>
-                                    <td>
-                                        {% for line in v2.error_msg|udf_split %}
-                                            <p>{{ line }}</p>
+                                        {% for k2, v2 in value.items %}
+                                            <tr>
+                                            <td>{{ v2.sid }}</td>
+                                            <td>{{ v2.status }}</td>
+                                            <td>
+                                                {% for line in v2.error_msg|udf_split %}
+                                                    <p>{{ line }}</p>
+                                                {% endfor %}
+                                            </td>
+                                            <td>{{ v2.sql }}</td>
+                                            <td>{{ v2.rows }}</td>
+                                            </tr>
                                         {% endfor %}
-                                    </td>
-                                    <td>{{ v2.sql }}</td>
-                                    <td>{{ v2.rows }}</td>
-                                    </tr>
+
                                 {% endfor %}
+                            {% endif %}
 
-                        {% endfor %}
-                    {% endif %}
+                        {% endif %}
 
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-
-
-            </tbody>
-        </table>
     </div>
 </div>
 
 {% endblock %}
 
 {% block js %}
-
-
+<script src="/static/plugins/DateTimePicker/jquery/jquery-1.8.3.min.js"></script>
+<script src="/static/plugins/DateTimePicker/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/plugins/DateTimePicker/js/bootstrap-datetimepicker.js"></script>
+<script src="/static/plugins/DateTimePicker/js/locales/bootstrap-datetimepicker.fr.js"></script>
+<script>
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+</script>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.forms import Form, fields, widgets
 from model_model import models
 
 
+# sql commit audit
 class SqlComForm(Form):
 
     title = fields.CharField(
@@ -56,7 +57,7 @@ class SqlComForm(Form):
         widget=widgets.DateTimeInput(
             attrs={'class': 'form-control',
                    'style': 'min-width:200px; max-width:500px',
-                   'placeholder': '时间格式为：2017-06-01 20:00:00 默认为立即执行'}
+                   'placeholder': '时间格式为：2017-06-01 20:00:00 默认为立即执行, 当前还未加入定时执行功能'}
         )
 
 
@@ -73,7 +74,14 @@ class SqlComForm(Form):
         error_messages={'required': 'SQL 内容不能为空'},
         widget=widgets.Textarea(attrs={'class': 'form-control',
                                        'style': 'min-width:200px;'
-                                                'max-width:800px'})
+                                                'max-width:800px;height: 100px'})
+    )
+    comm = fields.CharField(
+        label='工单说明',
+        required=False,
+        widget=widgets.Textarea(attrs={'class': 'form-control',
+                                       'style': 'min-width:200px; max-width:500px;height: 35px',
+                                       'placeholder': '审核中有警告时,依然需要提交执行时, 需要在此处写明原因'})
     )
 
     def __init__(self, *args, **kwargs):
@@ -82,4 +90,6 @@ class SqlComForm(Form):
         self.fields['host'].widget.choices = models.HostInfo.objects.values_list('id', 'host_ip')
         user_info = models.UserInfo.objects.filter(userrolerelationship__role_id=1).values_list('id', 'user_name')
         self.fields['review_name'].widget.choices = user_info
+
+    # 校验能否正常登录数据库
 

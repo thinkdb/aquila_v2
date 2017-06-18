@@ -27,9 +27,9 @@ class Inception(object):
 
     def montage_sql(self):
         self.sql = '/*--user=%s;--password=%s;--host=%s;--port=%s;--enable-check=%s;--enable-execute=%s;' \
-                   '--enable-ignore-warnings=%s;--sleep=1;--enable-split=0;*/ ' \
-                   'inception_magic_start; ' \
-                   '%s ' \
+                   '--enable-ignore-warnings=%s;--sleep=1;--enable-split=0;*/' \
+                   'inception_magic_start;' \
+                   '%s' \
                    'inception_magic_commit;' \
                    % (self.user, self.passwd, self.host, self.port,
                       self.check, self.execute, self.warnings, self.sql_content)

@@ -1,11 +1,11 @@
 import pymysql
-sql='/*--user=root;--password=123456;--host=192.168.1.6;--execute=1;--port=3306;*/\
+sql='/*--user=root;--password=123456;--host=127.0.0.1;--execute=1;--port=4901;*/\
 inception_magic_start;\
 use mysql;\
 CREATE TABLE adaptive_office(id int);\
 inception_magic_commit;'
 try:
-    conn=pymysql.connect(host='192.168.1.6',user='',passwd='',db='',port=6669)
+    conn=pymysql.connect(host='127.0.0.1',user='',passwd='',db='',port=6669)
     cur=conn.cursor()
     ret=cur.execute(sql)
     result=cur.fetchall()

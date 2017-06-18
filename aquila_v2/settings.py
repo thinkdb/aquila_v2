@@ -110,13 +110,19 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
-USE_L10N = True
+# USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+DATETIME_FORMAT = 'Y-m-d H:i:s'
+
+# USE_TZ = True
+USE_TZ = False
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -129,14 +135,14 @@ STATICFILES_DIRS = [
 
 INCEPTION = {
     'default': {
-        'INCEPTION_HOST': '192.168.1.6',
+        'INCEPTION_HOST': '127.0.0.1',
         'INCEPTION_PORT': 6669,
     },
     'backup': {
         'BACKUP_USER': 'root',
         'BACKUP_PASSWORD': '123456',
-        'BACKUP_PORT': 3306,
-        'BACKUP_HOST': '192.168.1.6',
+        'BACKUP_PORT': 4901,
+        'BACKUP_HOST': '127.0.0.1',
     },
 }
 
@@ -152,8 +158,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'aquila2',
-        'USER': 'think',
+        'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '192.168.1.6',
+        'HOST': '127.0.0.1',
+        'PORT': 4901
     }
 }
