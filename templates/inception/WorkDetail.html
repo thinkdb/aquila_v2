@@ -1,105 +1,31 @@
-<tr class="detail-row">
-    <td colspan="8">
-        <div class="table-detail">
-            <div class="row">
-                <div class="col-xs-12 col-sm-2">
-                    <div class="text-center">
-                        <img height="150" class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" src="assets/images/avatars/profile-pic.jpg">
-                        <br>
-                        <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
-                            <div class="inline position-relative">
-                                <a class="user-title-label" href="#">
-                                    <i class="ace-icon fa fa-circle light-green"></i>
-                                    &nbsp;
-                                    <span class="white">Alex M. Doe</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{% load udf_filter %}
+<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <thead>
+        <tr class="">
+            <td>sql序号</td>
+            <td>执行结果</td>
+            <td>错误信息</td></td>
+            <td>sql内容</td>
+            <td>影响行数</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for rows in detail_sql_info %}
 
-                <div class="col-xs-12 col-sm-7">
-                    <div class="space visible-xs"></div>
+        <tr>
+            {% if item.work_order_id == rows.work_order_id %}
+                <td>{{ rows.inceptionauditdetail__sql_sid }}</td>
+                <td>{{ rows.inceptionauditdetail__status }}</td>
+                <td>
+                    {% for line in rows.inceptionauditdetail__error_msg|udf_split %}
+                        <p>{{ line }}</p>
+                    {% endfor %}
+                </td>
+                <td>{{ rows.inceptionauditdetail__sql_content }}</td>
+                <td>{{ rows.inceptionauditdetail__aff_row }}</td>
+            {% endif %}
+        </tr>
 
-                    <div class="profile-user-info profile-user-info-striped">
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Username </div>
-
-                            <div class="profile-info-value">
-                                <span>alexdoe</span>
-                            </div>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Location </div>
-
-                            <div class="profile-info-value">
-                                <i class="fa fa-map-marker light-orange bigger-110"></i>
-                                <span>Netherlands, Amsterdam</span>
-                            </div>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Age </div>
-
-                            <div class="profile-info-value">
-                                <span>38</span>
-                            </div>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Joined </div>
-
-                            <div class="profile-info-value">
-                                <span>2010/06/20</span>
-                            </div>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Last Online </div>
-
-                            <div class="profile-info-value">
-                                <span>3 hours ago</span>
-                            </div>
-                        </div>
-
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> About Me </div>
-
-                            <div class="profile-info-value">
-                                <span>Bio</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-3">
-                    <div class="space visible-xs"></div>
-                    <h4 class="header blue lighter less-margin">Send a message to Alex</h4>
-
-                    <div class="space-6"></div>
-
-                    <form>
-                        <fieldset>
-                            <textarea class="width-100" resize="none" placeholder="Type something…"></textarea>
-                        </fieldset>
-
-                        <div class="hr hr-dotted"></div>
-
-                        <div class="clearfix">
-                            <label class="pull-left">
-                                <input type="checkbox" class="ace">
-                                <span class="lbl"> Email me a copy</span>
-                            </label>
-
-                            <button class="pull-right btn btn-sm btn-primary btn-white btn-round" type="button">
-                                Submit
-                                <i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </td>
-</tr>
+    {% endfor %}
+    </tbody>
+</table>

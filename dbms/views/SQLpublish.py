@@ -87,7 +87,7 @@ class SqlCommit(View):
                             db_name=db_name,
                             master_host=master_ip,
                             review_user_id=obj.cleaned_data['review_name'],
-                            work_run_time=datetime.datetime.now() if run_time == None else run_time,
+                            work_cron_time=datetime.datetime.now() if run_time == None else run_time,
                             comm=obj.cleaned_data['comm']
                         )
 
@@ -113,14 +113,15 @@ class SqlCommit(View):
                             sql_content=obj.cleaned_data['sql_content']
                         )
                         # WorkOrderTask
-                        # models.WorkOrderTask.objects.create(
-                        #     wid=work_order_id,
-                        #     host_ip=master_ip,
-                        #     app_user=db_user,
-                        #     app_pass=db_passwd,
-                        #     app_port=port,
-                        #     db_name=db_name
-                        # )
+                        models.WorkOrderTask.objects.create(
+                            work_order_id=work_order_id,
+                            host_ip=master_ip,
+                            app_user=db_user,
+                            app_pass=db_passwd,
+                            app_port=port,
+                            db_name=db_name,
+                            work_status=0
+                        )
         else:
             self.result_dict['error'] = json.dumps(obj.errors)
         return render(request,
@@ -150,16 +151,31 @@ class SqlAudit(View):
             'inceptionauditdetail__sql_content',
             'inceptionauditdetail__aff_row',
         )
-        for rows in detail_sql_info:
-            print(rows['inceptionauditdetail__sql_sid'])
 
         return render(request, 'inception/SqlAudit.html', {'user_info': user_info,
                                                            'audit_sql_info': audit_sql_info,
                                                            'detail_sql_info': detail_sql_info})
 
     def post(self, request):
+        result_dict = {'status': 0, 'data': 1}
         user_info = GetUserInfo(request)
-        return render(request, 'HostGroupManage.html', {'user_info': user_info})
+        audit_flag = request.POST.get('flag', None)
+        wid = request.POST.get('wid', None)
+        now_time = datetime.datetime.now()
+        if audit_flag and wid:
+            if audit_flag == '驳回':
+                audit_flag = 1
+            else:
+                audit_flag = 0
+            try:
+                models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(review_status=audit_flag,
+                                                                                       review_time=now_time)
+                result_dict['status'] = 1
+            except Exception as e:
+                result_dict['data'] = str(e)
+        else:
+            result_dict['data'] = '发送数据不对, 请联系管理员'
+        return HttpResponse(json.dumps(result_dict))
 
 
 @method_decorator(AuthAccount, name='dispatch')
@@ -168,11 +184,43 @@ class SqlRunning(View):
         user_info = GetUserInfo(request)
         run_work_info = models.InceptionWorkOrderInfo.objects.filter(work_user=user_info[0]['user_name'],
                                                                      review_status=0).all()
+        detail_sql_info = models.InceptionWorkOrderInfo.objects.filter(
+            review_user=user_info[0]['id'],
+            review_status=0
+        ).all().values(
+            'work_order_id',
+            'inceptionauditdetail__sql_sid',
+            'inceptionauditdetail__status',
+            'inceptionauditdetail__error_msg',
+            'inceptionauditdetail__sql_content',
+            'inceptionauditdetail__aff_row',
+        )
         return render(request, 'inception/SqlRunning.html', {'user_info': user_info,
-                                                             'run_work_info': run_work_info})
+                                                             'run_work_info': run_work_info,
+                                                             'detail_sql_info': detail_sql_info})
 
     def post(self, request):
-        pass
+        result_dict = {'status': 0, 'data': 1 }
+        run_flag = request.POST.get('flag', None)
+        wid = request.POST.get('wid', None)
+
+
+        task_info = models.WorkOrderTask.objects.filter(work_order_id=wid).values(
+            'work_order__inceauditsqlcontent__sql_content',
+            'host_ip',
+            'app_pass',
+            'app_user',
+            'app_port'
+        )
+        ince = Inception(db_host=task_info[0]['host_ip'],
+                         db_user=task_info[0]['app_user'],
+                         db_passwd=task_info[0]['app_pass'],
+                         db_port=task_info[0]['app_port'],
+                         sql_content=task_info[0]['work_order__inceauditsqlcontent__sql_content'],
+                         )
+        # 提交到后台执行,
+
+        return HttpResponse(json.dumps(result_dict))
 
 
 @method_decorator(AuthAccount, name='dispatch')
@@ -185,9 +233,21 @@ class SqlView(View):
         audit_work_info = models.InceptionWorkOrderInfo.objects.filter(review_user=user_info[0]['id'],
                                                                        review_status=10).all()
 
+        detail_sql_info = models.InceptionWorkOrderInfo.objects.filter(
+            review_user=user_info[0]['id']
+        ).all().values(
+            'work_order_id',
+            'inceptionauditdetail__sql_sid',
+            'inceptionauditdetail__status',
+            'inceptionauditdetail__error_msg',
+            'inceptionauditdetail__sql_content',
+            'inceptionauditdetail__aff_row',
+        )
+
         return render(request, 'inception/SqlWorkView.html', {'user_info': user_info,
                                                               'review_work_info': review_work_info,
-                                                              'audit_work_info': audit_work_info})
+                                                              'audit_work_info': audit_work_info,
+                                                              'detail_sql_info': detail_sql_info})
 
     def post(self, request):
         user_info = GetUserInfo(request)

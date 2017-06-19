@@ -4,6 +4,10 @@
 SqlAduit
 {% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/ince_work.css">
+{% endblock %}
+
 
 
 {% block body_body %}
@@ -35,6 +39,15 @@ SqlAduit
                                             <td id="r_time">{{ item.review_user.user_name }}</td>
                                             <td id="comm">{{ item.review_time }}</td>
                                             <td id="comm">{{ item.review_comm }}</td>
+                                            <td id="option">
+                                                <input class="btn btn-default run_button" type="submit" value="执行" />
+                                                <input class="btn btn-default run_button" type="submit" value="取消" />
+                                            </td>
+                                        </tr>
+                                        <tr class="detail_close">
+                                            <td colspan="8">
+                                                {% include 'inception/WorkDetail.html' %}
+                                            </td>
                                         </tr>
 
                                     {% endfor %}
@@ -53,4 +66,5 @@ SqlAduit
     <script src="/static/js/host_opertion.js"></script>
     <script src="/static/plugins/datatables/js/jquery.dataTables.min.js"></script>
     <script src="/static/plugins/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/static/js/ince_work.js"></script>
 {% endblock %}

@@ -127,7 +127,8 @@ class InceptionWorkOrderInfo(models.Model):
     review_time = models.DateTimeField(default='1980-01-01 01:01:01')
     review_status = models.SmallIntegerField(default=10)    # 10: None， 0: pass， 1:  reject
     work_status = models.SmallIntegerField(default=10)      # 10: None， 1: successfully， 0: fail, 2: queue， 3: running
-    work_run_time = models.DateTimeField(auto_now=True)
+    work_run_time = models.DateTimeField(default='1980-01-01 01:01:01')
+    work_cron_time = models.DateTimeField(auto_now=True)
     comm = models.CharField(max_length=500, default='----')
     review_comm = models.CharField(max_length=500, default='----')
     r_time = models.DateTimeField(auto_now_add=True)
@@ -177,8 +178,10 @@ class WorkOrderTask(models.Model):
     db_name = models.CharField(max_length=50, default='test_db')
     app_user = models.CharField(max_length=20)
     app_pass = models.CharField(max_length=30)
-    app_port = models.SmallIntegerField()
-    wid = models.BigIntegerField(unique=True)
+    app_port = models.SmallIntegerField(default=3306)
+    work_order = models.OneToOneField('InceptionWorkOrderInfo', on_delete=models.CASCADE,
+                                   to_field='work_order_id', db_constraint=False, unique=True)
+    work_status = models.SmallIntegerField(default=0)
 
 
 # class AppVersion(models.Model):

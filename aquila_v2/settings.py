@@ -133,14 +133,14 @@ STATICFILES_DIRS = [
 
 INCEPTION = {
     'default': {
-        'INCEPTION_HOST': '192.168.1.6',
+        'INCEPTION_HOST': '127.0.0.1',
         'INCEPTION_PORT': 6669,
     },
     'backup': {
         'BACKUP_USER': 'root',
         'BACKUP_PASSWORD': '123456',
         'BACKUP_PORT': 4901,
-        'BACKUP_HOST': '192.168.1.6',
+        'BACKUP_HOST': '127.0.0.1',
     },
 }
 
@@ -155,7 +155,7 @@ DATABASES = {
         'NAME': 'aquila2',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '192.168.1.6',
-        'PORT': 3306
+        'HOST': '127.0.0.1',
+        'PORT': 4901
     }
 }

@@ -5,6 +5,10 @@
     SqlWorkView
 {% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/ince_work.css">
+{% endblock %}
+
 
 {% block body_body %}
 
@@ -50,14 +54,21 @@
                                                     <td id="review_time">{{ item.review_time }}</td>
                                                     {% if item.work_status == 1 %}
                                                         <td id="work_status">{{ '执行成功' }}</td>
+                                                        <td id="work_run_time">{{ item.work_run_time }}</td>
                                                     {% elif item.work_status == 0 %}
                                                         <td id="work_status">{{ '执行失败' }}</td>
+                                                        <td id="work_run_time">{{ item.work_run_time }}</td>
                                                     {% elif item.work_status == 2 %}
                                                         <td id="work_status">{{ '进入执行队列' }}</td>
+                                                        <td id="work_run_time">{{ "None" }}</td>
                                                     {% elif item.work_status == 3 %}
                                                         <td id="work_status">{{ '正在执行' }}</td>
+                                                        <td id="work_run_time">{{ item.work_run_time }}</td>
+                                                    {% else %}
+                                                        <td id="work_status">{{ '未执行' }}</td>
+                                                        <td id="work_run_time">{{ "None" }}</td>
                                                     {% endif %}
-                                                    <td id="work_run_time">{{ item.work_run_time }}</td>
+
                                                 {% else %}
                                                     <td id="review_status">{{ '驳回' }}</td>
                                                     <td id="review_time">{{ item.review_time }}</td>
@@ -65,6 +76,11 @@
                                                     <td id="work_run_time">{{ 'None' }}</td>
                                                 {% endif %}
                                             <td></td>
+                                        </tr>
+                                        <tr class="detail_close">
+                                            <td colspan="11">
+                                                {% include 'inception/WorkDetail.html' %}
+                                            </td>
                                         </tr>
                                     {% endfor %}
                             </tbody>
@@ -86,5 +102,5 @@
             responsive: true
         });
     </script>
-{#    <script src="/static/js/in">#}
+    <script src="/static/js/ince_work.js"></script>
 {% endblock %}
