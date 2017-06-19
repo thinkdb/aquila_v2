@@ -123,8 +123,6 @@ DATETIME_FORMAT = 'Y-m-d H:i:s'
 # USE_TZ = True
 USE_TZ = False
 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -135,21 +133,18 @@ STATICFILES_DIRS = [
 
 INCEPTION = {
     'default': {
-        'INCEPTION_HOST': '127.0.0.1',
+        'INCEPTION_HOST': '192.168.1.6',
         'INCEPTION_PORT': 6669,
     },
     'backup': {
         'BACKUP_USER': 'root',
         'BACKUP_PASSWORD': '123456',
         'BACKUP_PORT': 4901,
-        'BACKUP_HOST': '127.0.0.1',
+        'BACKUP_HOST': '192.168.1.6',
     },
 }
 
-
-
 USER_ENCRYPT_KEY = '3df6a1341e8b'
-
 
 # CELERY_RESULT_BACKEND = 'amqp://'
 
@@ -160,7 +155,7 @@ DATABASES = {
         'NAME': 'aquila2',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': 4901
+        'HOST': '192.168.1.6',
+        'PORT': 3306
     }
 }

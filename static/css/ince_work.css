@@ -1,0 +1,6 @@
+.detail_close{
+    display: None;
+}
+#detail_open{
+    display: block;
+}

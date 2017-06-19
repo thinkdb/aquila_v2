@@ -52,7 +52,10 @@ class Inception(object):
         self.check = 1
         self.montage_sql()
         conn = DBAPI(host=self.ince_host, user='', password='', port=self.ince_port)
-        audit_result = conn.conn_query(self.sql)
+        if conn.error:
+            audit_result = {'status': 0, 'error': conn.error}
+        else:
+            audit_result = conn.conn_query(self.sql)
         return audit_result
 
 # a = Inception(db_host='192.168.1.6', db_user='root', db_passwd='123456',

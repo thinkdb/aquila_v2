@@ -83,7 +83,7 @@
                         </li>
                         {% if user_info.0.userrolerelationship__role_id == 1 %}
                             <li>
-                                <a href="#"><i class="fa fa-database fa-fw"></i> CMDB<span class="fa arrow"></span></a>
+                                <a><i class="fa fa-database fa-fw"></i> CMDB<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level collapse">
                                     <li>
                                         <a>主机管理<span class="fa arrow"></span></a>
@@ -125,8 +125,8 @@
                             </li>
                         {% endif %}
                         <li>
-                            <a href="#"><i class="fa fa-database fa-fw" aria-hidden="true"></i> RDBMS<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <a><i class="fa fa-database fa-fw" aria-hidden="true"></i> RDBMS<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
                                 <li>
                                     <a>数据查询<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
@@ -196,14 +196,13 @@
             <div class="col-lg-12">
                 {% block content_title %}
                 {% endblock %}
-{#                <h6 class="page-header"></h6>#}
+                {% block body_title %}{% endblock %}
             </div>
         </div>
         {% block body_body %}
 
         {% endblock %}
     </div>
-
 
 </body>
 <script src="/static/plugins/jquery/jquery.min.js"></script>

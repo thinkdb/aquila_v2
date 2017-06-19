@@ -1,9 +1,9 @@
 {% extends 'include/base.html' %}
 {% load udf_filter %}
-{% block css %}
-<link href="/static/plugins/DateTimePicker/bootstrap/css/bootstrap.min.css">
-<link href="/static/plugins/DateTimePicker/css/bootstrap-datetimepicker.min.css">
-{% endblock %}
+{#{% block css %}#}
+{#<link href="/static/plugins/DateTimePicker/bootstrap/css/bootstrap.min.css">#}
+{#<link href="/static/plugins/DateTimePicker/css/bootstrap-datetimepicker.min.css">#}
+{#{% endblock %}#}
 
 {% block title %}
     SqlCommit
@@ -64,9 +64,9 @@
                     <tbody>
                         {% if AuditResult.post_flag == 1 %}
                             {% if AuditResult.status == 0 %}
-                                <tr><td>{{ '有错误' }}</td><td colspan="4"> {{ AuditResult.error }}</td></tr>
+                                <tr style="background-color: red; color: white"><td>{{ '连接数据库错误' }}</td><td colspan="4"> {{ AuditResult.error }}</td></tr>
                             {% elif AuditResult.running == 1 %}
-                                <tr><td colspan="5">{{ '任务已提交审核,请工单详情页面查看工单状态' }}</td></tr>
+                                <tr style="background-color: #2aabd2; color: white"><td colspan="5">{{ '任务已提交审核,请工单查询页面查看工单状态' }}</td></tr>
                             {% elif AuditResult.data  %}
 
                                 {% for key, value in AuditResult.items %}
@@ -100,21 +100,21 @@
 
 {% endblock %}
 
-{% block js %}
-<script src="/static/plugins/DateTimePicker/jquery/jquery-1.8.3.min.js"></script>
-<script src="/static/plugins/DateTimePicker/bootstrap/js/bootstrap.min.js"></script>
-<script src="/static/plugins/DateTimePicker/js/bootstrap-datetimepicker.js"></script>
-<script src="/static/plugins/DateTimePicker/js/locales/bootstrap-datetimepicker.fr.js"></script>
-<script>
-    $('.form_datetime').datetimepicker({
-        //language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		forceParse: 0,
-        showMeridian: 1
-    });
-</script>
-{% endblock %}
+{#{% block js %}#}
+{#<script src="/static/plugins/DateTimePicker/jquery/jquery-1.8.3.min.js"></script>#}
+{#<script src="/static/plugins/DateTimePicker/bootstrap/js/bootstrap.min.js"></script>#}
+{#<script src="/static/plugins/DateTimePicker/js/bootstrap-datetimepicker.js"></script>#}
+{#<script src="/static/plugins/DateTimePicker/js/locales/bootstrap-datetimepicker.fr.js"></script>#}
+{#<script>#}
+{#    $('.form_datetime').datetimepicker({#}
+{#        //language:  'fr',#}
+{#        weekStart: 1,#}
+{#        todayBtn:  1,#}
+{#		autoclose: 1,#}
+{#		todayHighlight: 1,#}
+{#		startView: 2,#}
+{#		forceParse: 0,#}
+{#        showMeridian: 1#}
+{#    });#}
+{#</script>#}
+{#{% endblock %}#}

@@ -123,16 +123,18 @@ class InceptionWorkOrderInfo(models.Model):
     master_host = models.CharField(max_length=45, default='----')
     db_name = models.CharField(max_length=50, default='test_db')
     end_time = models.DateTimeField(default='1980-01-01 01:01:01')
-    review_user = models.ForeignKey(UserInfo, db_constraint=False, db_index=True)
+    review_user = models.ForeignKey(UserInfo, db_constraint=False)
     review_time = models.DateTimeField(default='1980-01-01 01:01:01')
     review_status = models.SmallIntegerField(default=10)    # 10: None， 0: pass， 1:  reject
-    work_status = models.SmallIntegerField(default=10)      # 10: None， 0: successfully， 1: fail, 2: queue， 3: running
+    work_status = models.SmallIntegerField(default=10)      # 10: None， 1: successfully， 0: fail, 2: queue， 3: running
     work_run_time = models.DateTimeField(auto_now=True)
     comm = models.CharField(max_length=500, default='----')
+    review_comm = models.CharField(max_length=500, default='----')
     r_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'ince_work_order_info'
+        index_together = (['work_user', 'review_status'], ['review_user', 'review_status'])
 
 
 class InceptionAuditDetail(models.Model):

@@ -36,13 +36,15 @@ class SqlComForm(Form):
         min_value=1025,
         error_messages={'invalid': '请输入有效端口号',
                         'min_value': '请输入一个大于或等于1025的端口号',
-                        'max_value': '请输入一个小于或等于65530的端口号'}
+                        'max_value': '请输入一个小于或等于65530的端口号',
+                        'placeholder': '端口号'}
     )
     db_name = fields.CharField(
         label='库名',
         strip=True,
         widget=widgets.TextInput(attrs={'class': 'form-control',
-                                        'style': 'min-width:200px; max-width:500px'})
+                                        'style': 'min-width:200px; max-width:500px',
+                                        'placeholder': '库名'})
     )
     review_name = fields.CharField(
         label='审核人',
@@ -57,7 +59,7 @@ class SqlComForm(Form):
         widget=widgets.DateTimeInput(
             attrs={'class': 'form-control',
                    'style': 'min-width:200px; max-width:500px',
-                   'placeholder': '时间格式为：2017-06-01 20:00:00 默认为立即执行, 当前还未加入定时执行功能'}
+                   'placeholder': '格式为:2017-06-01 20:00:00 默认为立即执行,当前还未加入定时执行功能'}
         )
 
 
@@ -91,5 +93,4 @@ class SqlComForm(Form):
         user_info = models.UserInfo.objects.filter(userrolerelationship__role_id=1).values_list('id', 'user_name')
         self.fields['review_name'].widget.choices = user_info
 
-    # 校验能否正常登录数据库
 

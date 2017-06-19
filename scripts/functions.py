@@ -17,9 +17,9 @@ class DBAPI(object):
     def __init__(self, host, user, password, port, database='test'):
         try:
             self.conn = pymysqldb.connect(host=host, user=user, passwd=password, port=int(port),
-                                       database=database, autocommit=1, charset='utf8')
+                                          database=database, autocommit=1, charset='utf8')
 
-            #self.conn.select_db(database)
+            # self.conn.select_db(database)
             self.cur = self.conn.cursor()
             self.error = None
         except Exception as e:
@@ -199,11 +199,11 @@ def result_tran(result, result_dict):
         result_dict['data'][id]['sid'] = str(row[0])
 
         if row[3] == 'Audit completed' and row[2] == 0:
-            msg = '审核成功'
+            msg = 'Successfully'
         elif row[3] == 'Audit completed' and row[2] == 1:
-            msg = '警告'
-        elif row[3] == 'Audit completed' and row[2] == 1:
-            msg = '审核错误'
+            msg = 'Warning'
+        elif row[3] == 'Audit completed' and row[2] == 2:
+            msg = 'Error'
         elif row[3] == 'Execute failed':
             msg = '执行失败'
         elif row[3] == 'Execute Successfully':
@@ -213,7 +213,7 @@ def result_tran(result, result_dict):
         elif row[3] == 'Execute Successfully\nBackup filed':
             msg = '执行成功,备份失败'
         else:
-            msg = '未知状态'
+            msg = '审核完成'
 
         a = ''
         for kxxxx, rows in enumerate(row[4].split('\n')):
@@ -259,10 +259,10 @@ def GetFristSqlStatus(sql_content):
     return illegality_dict
 
 
-a = GetFristSqlStatus(sql_content=sql)
-
-if a['status'] == True:
-    sql = a['sql']
+# a = GetFristSqlStatus(sql_content=sql)
+#
+# if a['status'] == True:
+#     sql = a['sql']
 
 # db = DBAPI(host='192.168.1.6', user='select_user', password='select_privi', port=3306, database='aquila')
 # result = db.conn_query(sql)

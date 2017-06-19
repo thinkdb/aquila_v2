@@ -21,5 +21,6 @@ def GetUserInfo(request):
     username = request.session.get('username', None)
     user_info = models.UserInfo.objects.filter(Q(user_name=username) |
                                                Q(email=username)).all().values('user_name',
+                                                                               'id',
                                                                                'userrolerelationship__role_id')
     return user_info
