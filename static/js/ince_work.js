@@ -3,6 +3,35 @@
  */
 $(function () {
 
+    function WorkCommit(button_name, url, msg){
+        $('tbody .'+button_name).each(function(){
+            $(this).click(function(){
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {'wid': $(this).parent().parent().find('#work_order_id').text(), 'flag': $(this).val()},
+                    dataType: 'JSON',
+                    success: function(data){
+                        status = data.status;
+                        err_msg = data.error_msg;
+
+                        if(status==1){
+                            alert(msg);
+
+                        }
+                        else{
+                            alert(err_msg);
+                        }
+
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                    })
+            })
+        });
+    }
+
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
@@ -23,55 +52,6 @@ $(function () {
         })
     });
 
-    $('tbody .audit_button').each(function(){
-        $(this).click(function(){
-            $.ajax({
-                url: '/dbms/sql_publish/sql-audit.html',
-                type: 'POST',
-                data: {'wid': $(this).parent().parent().find('#work_order_id').text(), 'flag': $(this).val()},
-                dataType: 'JSON',
-                success: function(data){
-                    status = data.status;
-                    err_msg = data.data;
-                    if(status){
-                        alert('提交成功');
-                    }
-                    else{
-                        alert(err_msg);
-                    }
-
-                },
-                error: function(data){
-                    console.log(data);
-                }
-                })
-        })
-    });
-
-    $('tbody .run_button').each(function(){
-        $(this).click(function(){
-            $.ajax({
-                url: '/dbms/sql_publish/sql-running.html',
-                type: 'POST',
-                data: {'wid': $(this).parent().parent().find('#work_order_id').text(), 'flag': $(this).val()},
-                dataType: 'JSON',
-                success: function(data){
-                    status = data.status;
-                    err_msg = data.data;
-
-                    if(status==1){
-                        alert('提交成功');
-                    }
-                    else{
-                        alert(err_msg);
-                    }
-
-                },
-                error: function(data){
-                    console.log(data);
-                }
-                })
-        })
-    });
+    WorkCommit('audit_button', '/dbms/sql_publish/sql-audit.html', '提交成功');
+    WorkCommit('run_button', '/dbms/sql_publish/sql-running.html', '任务已经提交到后台执行，请《工单查询》页面查看进度');
 });
-

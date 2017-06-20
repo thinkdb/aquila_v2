@@ -131,21 +131,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-INCEPTION = {
-    'default': {
-        'INCEPTION_HOST': '127.0.0.1',
-        'INCEPTION_PORT': 6669,
-    },
-    'backup': {
-        'BACKUP_USER': 'root',
-        'BACKUP_PASSWORD': '123456',
-        'BACKUP_PORT': 4901,
-        'BACKUP_HOST': '127.0.0.1',
-    },
-}
-
-USER_ENCRYPT_KEY = '3df6a1341e8b'
-
 # CELERY_RESULT_BACKEND = 'amqp://'
 
 
@@ -155,7 +140,22 @@ DATABASES = {
         'NAME': 'aquila2',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': 4901
+        'HOST': '192.168.1.6',
+        'PORT': 3306
     }
 }
+
+INCEPTION = {
+    'default': {
+        'INCEPTION_HOST': '192.168.1.6',
+        'INCEPTION_PORT': 6669,
+    },
+    'backup': {
+        'BACKUP_USER': 'root',
+        'BACKUP_PASSWORD': '123456',
+        'BACKUP_PORT': 3306,
+        'BACKUP_HOST': '192.168.1.6',
+    },
+}
+
+USER_ENCRYPT_KEY = '3df6a1341e8b'

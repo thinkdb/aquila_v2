@@ -76,8 +76,8 @@ class SqlCommit(View):
                 if obj.cleaned_data['is_commit'] == '1' and self.result_dict['status'] == 1:
                         # commit audit sql
                         self.result_dict['running'] = 1
-                        master_ip = functions.get_master(db_host, db_user, db_passwd, port, db_name)
-
+                        master_result = functions.get_master(db_host, db_user, db_passwd, port, db_name)
+                        master_ip = master_result['data']
                         # InceptionWorkOrderInfo
                         models.InceptionWorkOrderInfo.objects.create(
                             work_title=obj.cleaned_data['title'],
@@ -110,7 +110,7 @@ class SqlCommit(View):
                         # InceAuditSQLContent
                         models.InceAuditSQLContent.objects.create(
                             work_order_id=work_order_id,
-                            sql_content=obj.cleaned_data['sql_content']
+                            sql_content=sql_content
                         )
                         # WorkOrderTask
                         models.WorkOrderTask.objects.create(
@@ -119,9 +119,9 @@ class SqlCommit(View):
                             app_user=db_user,
                             app_pass=db_passwd,
                             app_port=port,
-                            db_name=db_name,
-                            work_status=0
+                            db_name=db_name
                         )
+
         else:
             self.result_dict['error'] = json.dumps(obj.errors)
         return render(request,
@@ -157,7 +157,7 @@ class SqlAudit(View):
                                                            'detail_sql_info': detail_sql_info})
 
     def post(self, request):
-        result_dict = {'status': 0, 'data': 1}
+        result_dict = {'status': 0, 'error_msg': 1}
         user_info = GetUserInfo(request)
         audit_flag = request.POST.get('flag', None)
         wid = request.POST.get('wid', None)
@@ -170,6 +170,7 @@ class SqlAudit(View):
             try:
                 models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(review_status=audit_flag,
                                                                                        review_time=now_time)
+                models.WorkOrderTask.objects.filter(work_order_id=wid).update(audit_status=audit_flag)
                 result_dict['status'] = 1
             except Exception as e:
                 result_dict['data'] = str(e)
@@ -183,7 +184,8 @@ class SqlRunning(View):
     def get(self, request):
         user_info = GetUserInfo(request)
         run_work_info = models.InceptionWorkOrderInfo.objects.filter(work_user=user_info[0]['user_name'],
-                                                                     review_status=0).all()
+                                                                     review_status=0,
+                                                                     work_status=10).all()
         detail_sql_info = models.InceptionWorkOrderInfo.objects.filter(
             review_user=user_info[0]['id'],
             review_status=0
@@ -200,25 +202,75 @@ class SqlRunning(View):
                                                              'detail_sql_info': detail_sql_info})
 
     def post(self, request):
-        result_dict = {'status': 0, 'data': 1 }
+        result_dict = {'status': 0, 'error_msg': 111, 'data': {}}
         run_flag = request.POST.get('flag', None)
         wid = request.POST.get('wid', None)
+        if run_flag == '取消':
+            models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=4)
+            models.WorkOrderTask.objects.filter(work_order_id=wid, audit_status=0).update(work_status=4)
+            result_dict['status'] = 1
+        else:
+            # 获取任务列表
+            task_info = models.WorkOrderTask.objects.filter(work_order_id=wid, audit_status=0, work_status=10).values(
+                'work_order__inceauditsqlcontent__sql_content',
+                'host_ip',
+                'app_pass',
+                'app_user',
+                'app_port'
+            )
+            if not task_info:
+                result_dict['error_msg'] = '工单不存在任务队中，请联系管理员'
+                return HttpResponse(json.dumps(result_dict))
 
+            # 执行任务前检测目标库能否正常通信
+            master_result = functions.get_master(task_info[0]['host_ip'],
+                                                 task_info[0]['app_user'],
+                                                 task_info[0]['app_pass'],
+                                                 task_info[0]['app_port'],
+                                                 'test')
+            if not master_result['status']:
+                result_dict['error_msg'] = master_result['data']
+                return HttpResponse(json.dumps(result_dict))
 
-        task_info = models.WorkOrderTask.objects.filter(work_order_id=wid).values(
-            'work_order__inceauditsqlcontent__sql_content',
-            'host_ip',
-            'app_pass',
-            'app_user',
-            'app_port'
-        )
-        ince = Inception(db_host=task_info[0]['host_ip'],
-                         db_user=task_info[0]['app_user'],
-                         db_passwd=task_info[0]['app_pass'],
-                         db_port=task_info[0]['app_port'],
-                         sql_content=task_info[0]['work_order__inceauditsqlcontent__sql_content'],
-                         )
-        # 提交到后台执行,
+            models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=2,
+                                                                                   work_run_time=datetime.datetime.now())
+            result_dict['status'] = 1
+            master_ip = master_result['data']
+            ince = Inception(db_host=master_ip,
+                             db_user=task_info[0]['app_user'],
+                             db_passwd=task_info[0]['app_pass'],
+                             db_port=task_info[0]['app_port'],
+                             sql_content=task_info[0]['work_order__inceauditsqlcontent__sql_content'],
+                             )
+            # 提交到后台执行,
+            # from dbms.tasks import work_run_task
+            # ret = work_run_task.delay(ince, 1)
+
+            run_result = ince.run_sql(1)
+            result = result_tran(run_result, result_dict)
+            run_error_id = 1
+            for items in result['data']:
+                if result['data'][items]['status'] == '执行失败' or\
+                        result['data'][items]['status'] == 'Error':
+                    run_error_id = 0
+                elif result['data'][items]['status'] == '执行成功,备份失败':
+                    run_error_id = 5
+                models.InceptionAuditDetail.objects.create(
+                    work_order_id=wid,
+                    sql_sid=items,
+                    flag=3,
+                    status=result['data'][items]['status'],
+                    error_msg=result['data'][items]['error_msg'],
+                    sql_content=result['data'][items]['sql'],
+                    aff_row=result['data'][items]['rows'],
+                    rollback_id=result['data'][items]['rollback_id'],
+                    backup_dbname=result['data'][items]['backup_dbname'],
+                    execute_time=int(float(result['data'][items]['execute_time'])* 1000),
+                    sql_hash=result['data'][items]['sql_hash']
+                )
+
+            models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=run_error_id)
+            models.WorkOrderTask.objects.filter(work_order_id=wid).update(work_status=run_error_id)
 
         return HttpResponse(json.dumps(result_dict))
 
@@ -234,7 +286,7 @@ class SqlView(View):
                                                                        review_status=10).all()
 
         detail_sql_info = models.InceptionWorkOrderInfo.objects.filter(
-            review_user=user_info[0]['id']
+            work_user=user_info[0]['user_name']
         ).all().values(
             'work_order_id',
             'inceptionauditdetail__sql_sid',

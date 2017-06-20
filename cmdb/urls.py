@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from cmdb.views import CMDBManage, test
+from cmdb.views import CMDBManage
 
 urlpatterns = [
     url(r'^host/manage.html$', CMDBManage.HostManage.as_view(), name='HostManage'),
@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^privileges/manage.html$', CMDBManage.PrivManage.as_view(), name='PrivManage'),
     url(r'^privilegesgroup/manage.html$', CMDBManage.PrivGroupManage.as_view(), name='PrivGroupManage'),
 
-    url(r'^test$', test.test),
+
 ]

@@ -27,7 +27,7 @@ class Inception(object):
 
     def montage_sql(self):
         self.sql = '/*--user=%s;--password=%s;--host=%s;--port=%s;--enable-check=%s;--enable-execute=%s;' \
-                   '--enable-ignore-warnings=%s;--sleep=1;--enable-split=0;*/' \
+                   '--enable-ignore-warnings=%s;*/' \
                    'inception_magic_start;' \
                    '%s' \
                    'inception_magic_commit;' \
@@ -57,10 +57,4 @@ class Inception(object):
         else:
             audit_result = conn.conn_query(self.sql)
         return audit_result
-
-# a = Inception(db_host='192.168.1.6', db_user='root', db_passwd='123456',
-#     sql_content='use test; grant all privileges on *.* to "t"@"%" identified by "123";')
-# ret = a.run_sql(0)
-#
-# print(ret)
 

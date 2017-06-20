@@ -231,15 +231,17 @@ def result_tran(result, result_dict):
 
 def get_master(db_ip, app_user, app_pass, app_port, database):
     db = DBAPI(db_ip, app_user, app_pass, app_port, database)
-
+    master_result = {'status': 1, 'data': ''}
     if db.error:
-        return db.error
+        master_result['staus'] = 0
+        master_result['data'] = db.error
+        return master_result
     ret = db.conn_query('show slave status')
     if len(ret):
-        master = ret[0][1]
+        master_result['data'] = ret[0][1]
     else:
-        master = db_ip
-    return master
+        master_result['data'] = db_ip
+    return master_result
 
 
 sql = "explain select session_key from django_session"

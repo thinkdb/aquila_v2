@@ -126,9 +126,11 @@ class InceptionWorkOrderInfo(models.Model):
     review_user = models.ForeignKey(UserInfo, db_constraint=False)
     review_time = models.DateTimeField(default='1980-01-01 01:01:01')
     review_status = models.SmallIntegerField(default=10)    # 10: None， 0: pass， 1:  reject
-    work_status = models.SmallIntegerField(default=10)      # 10: None， 1: successfully， 0: fail, 2: queue， 3: running
+    work_status = models.SmallIntegerField(default=10)
+    # 10: None， 1: successfully， 0: fail, 2: queue， 3: running, 4:cancel, 5: 部分成功
+
     work_run_time = models.DateTimeField(default='1980-01-01 01:01:01')
-    work_cron_time = models.DateTimeField(auto_now=True)
+    work_cron_time = models.DateTimeField(default='1980-01-01 01:01:01')
     comm = models.CharField(max_length=500, default='----')
     review_comm = models.CharField(max_length=500, default='----')
     r_time = models.DateTimeField(auto_now_add=True)
@@ -140,7 +142,7 @@ class InceptionWorkOrderInfo(models.Model):
 
 class InceptionAuditDetail(models.Model):
     id = models.AutoField(primary_key=True)
-    flag = models.SmallIntegerField(default=1)   # 1: audit, 2: running
+    flag = models.SmallIntegerField(default=1)   # 1: audit, 2: running 3: over
     work_order = models.ForeignKey(to='InceptionWorkOrderInfo', on_delete=models.CASCADE,
                                    to_field='work_order_id', db_constraint=False, db_index=True)
     sql_sid = models.SmallIntegerField()              # sql_number
@@ -180,8 +182,9 @@ class WorkOrderTask(models.Model):
     app_pass = models.CharField(max_length=30)
     app_port = models.SmallIntegerField(default=3306)
     work_order = models.OneToOneField('InceptionWorkOrderInfo', on_delete=models.CASCADE,
-                                   to_field='work_order_id', db_constraint=False, unique=True)
-    work_status = models.SmallIntegerField(default=0)
+                                      to_field='work_order_id', db_constraint=False, unique=True)
+    work_status = models.SmallIntegerField(default=10)  # 10 None, 1 run, 4 cancle
+    audit_status = models.SmallIntegerField(default=10)  # 10 None, 0: pass, 1: reject
 
 
 # class AppVersion(models.Model):
