@@ -159,3 +159,8 @@ INCEPTION = {
 }
 
 USER_ENCRYPT_KEY = '3df6a1341e8b'
+
+# 错误日志
+ERROR_LOG_FILE = os.path.join(BASE_DIR, "logs", 'error.log')
+# 运行日志
+RUN_LOG_FILE = os.path.join(BASE_DIR, "logs", 'run.log')

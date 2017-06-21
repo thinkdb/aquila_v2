@@ -11,6 +11,8 @@ import re
 import time
 import hashlib
 import json
+import os
+import logging
 
 
 class DBAPI(object):
@@ -163,36 +165,6 @@ def get_config():
         return incepiton_cnf
 
 
-def tran_audit_result(result):
-    result_dict = {}
-    for i, items in enumerate(result):
-        keys = i+1
-        result_dict[keys] = {'error_msg': {}}
-        result_dict[keys]['sql_sid'] = items[0]
-        result_dict[keys]['status'] = items[1]
-        result_dict[keys]['err_id'] = items[2]
-        result_dict[keys]['stage_status'] = items[3]
-        result_dict[keys]['sql_content'] = items[5]
-        result_dict[keys]['aff_row'] = items[6]
-        result_dict[keys]['rollback_id'] = items[7]
-        result_dict[keys]['backup_dbname'] = items[8]
-        result_dict[keys]['execute_time'] = items[9]
-        result_dict[keys]['sql_hash'] = items[10]
-
-        error_result = items[4]
-        if error_result != 'None':
-
-            result_dict[keys]['error_msg'] = {'error_msgs': {}}
-            a = ''
-            for id, rows in enumerate(error_result.split('\n')):
-                result_dict[keys]['error_msg']['status'] = 1
-                a = a+rows+'---'
-            result_dict[keys]['error_msg']['error_msgs'] = a
-        else:
-            result_dict[keys]['error_msg']['status'] = 0
-    return result_dict
-
-
 def result_tran(result, result_dict):
     for id, row in enumerate(result):
         result_dict['data'][id] = {}
@@ -244,32 +216,127 @@ def get_master(db_ip, app_user, app_pass, app_port, database):
     return master_result
 
 
-sql = "explain select session_key from django_session"
+class SplitSql(object):
+    def __init__(self, task_type, sql):
+        """
+        :param task_type: 1: explain, 2: select, 3: audit
+        :param sql: to be checked SQL content
+        """
+        self.task_type = task_type
+        self.sql = sql
+        self.check_all_flag = True
+        self.sql_check_result_dict = {'status': False, 'sql': self.sql}
+        self.sql_content_list = self.sql.lower().split(';')
+
+    def get_audit(self):
+        self.check_all()
+        if not self.check_all_flag:
+            return self.sql_check_result_dict
+        audit_dict = {'ddl': 0, 'dml': 0}
+        ddl_sql_list = ['alter', 'create']
+        dml_sql_list = ['insert', 'update', 'delete']
+        for row in self.sql_content_list[:-1]:
+            for dml in dml_sql_list:
+                flag = re.search(r'^{0}$'.format(dml), row.split()[0])
+                if flag:
+                    audit_dict['dml'] = 1
+            for ddl in ddl_sql_list:
+                flag = re.search(r'^{0}$'.format(ddl), row.split()[0])
+                if flag:
+                    audit_dict['ddl'] = 1
+        if audit_dict['ddl'] == audit_dict['dml'] and audit_dict['ddl'] == 1:
+            pass
+        else:
+            self.sql_check_result_dict['status'] = True
+        return self.sql_check_result_dict
+
+    def sql_split(self):
+        self.check_all()
+        if not self.check_all_flag:
+            return self.sql_check_result_dict
+
+        if self.task_type == 1 or self.task_type == 2:
+            frist_sql_content_list = self.sql_content_list[0].split()
+            if self.task_type == 1:
+                if frist_sql_content_list[0] == 'explain':
+                    if frist_sql_content_list[1] == 'select' or frist_sql_content_list[1] == 'update':
+                        self.sql_check_result_dict['status'] = True
+                elif frist_sql_content_list[0] == 'select':
+                    self.sql_check_result_dict['status'] = True
+            elif frist_sql_content_list[0] == 'select':
+                for item in frist_sql_content_list:
+                    into_status = re.search(r'^into$', item)
+                    if into_status:
+                        self.sql_check_result_dict['status'] = False
+                        break
+                    else:
+                        self.sql_check_result_dict['status'] = True
+            return self.sql_check_result_dict
+        else:
+            self.get_audit()
+
+    def check_all(self):
+        sql_content_list = self.sql.lower().split()
+        error_list = ['begin', 'set', 'commit', 'rollback', 'revoke', 'into', 'rename',
+                      'grant', '\*', 'execute', 'flush', 'shutdown', 'change', 'call']
+        for item in sql_content_list:
+            for i in error_list:
+                flag = re.search(r'^{0}$'.format(i), item)
+                if flag:
+                    self.check_all_flag = False
+                    break
 
 
-def GetFristSqlStatus(sql_content):
-    illegality_dict = {'sql': '', 'status': True}
-    frist_sql = sql_content.lower().split(';')[0]
-    sql_content_list = frist_sql.split()
-    for item in sql_content_list:
-        r = re.search('insert|delete|update|alter|drop|begin|set|commit|rollback|revoke|'
-                      'grant|\*|execute|flush|shutdown|change', item)
-        if r:
-            illegality_dict['status'] = False
-            return illegality_dict
-    illegality_dict['sql'] = frist_sql
-    return illegality_dict
+class Logger(object):
+    __instance = None
 
+    def __init__(self):
+        self.run_log_file = settings.RUN_LOG_FILE
+        self.error_log_file = settings.ERROR_LOG_FILE
+        self.run_logger = None
+        self.error_logger = None
 
-# a = GetFristSqlStatus(sql_content=sql)
-#
-# if a['status'] == True:
-#     sql = a['sql']
+        self.initialize_run_log()
+        self.initialize_error_log()
 
-# db = DBAPI(host='192.168.1.6', user='select_user', password='select_privi', port=3306, database='aquila')
-# result = db.conn_query(sql)
-# if isinstance(result, pymysqldb.err.ProgrammingError):
-#     print(str(result).split(',')[1].strip(')'))
-# else:
-#     for item in result:
-#         print(item)
+    def __new__(cls, *args, **kwargs):
+        if not cls.__instance:
+            cls.__instance = object.__new__(cls, *args, **kwargs)
+        return cls.__instance
+
+    @staticmethod
+    def check_path_exist(log_abs_file):
+        log_path = os.path.split(log_abs_file)[0]
+        if not os.path.exists(log_path):
+            os.mkdir(log_path)
+
+    def initialize_run_log(self):
+        self.check_path_exist(self.run_log_file)
+        file_1_1 = logging.FileHandler(self.run_log_file, 'a', encoding='utf-8')
+        fmt = logging.Formatter(fmt="%(asctime)s - %(levelname)s :  %(message)s")
+        file_1_1.setFormatter(fmt)
+        logger1 = logging.Logger('run_log', level=logging.INFO)
+        logger1.addHandler(file_1_1)
+        self.run_logger = logger1
+
+    def initialize_error_log(self):
+        self.check_path_exist(self.error_log_file)
+        file_1_1 = logging.FileHandler(self.error_log_file, 'a', encoding='utf-8')
+        fmt = logging.Formatter(fmt="%(asctime)s  - %(levelname)s :  %(message)s")
+        file_1_1.setFormatter(fmt)
+        logger1 = logging.Logger('run_log', level=logging.ERROR)
+        logger1.addHandler(file_1_1)
+        self.error_logger = logger1
+
+    def log(self, message, mode=True):
+        """
+        写入日志 Logger().log(str(response), False)
+        :param message: 日志信息
+        :param mode: True表示运行信息，False表示错误信息
+        :return:
+        """
+        if mode:
+            self.run_logger.info(message)
+        else:
+            self.error_logger.error(message)
+

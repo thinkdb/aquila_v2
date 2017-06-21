@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^account/', include('back.urls')),
     url(r'^cmdb/', include('cmdb.urls')),
     url(r'^dbms/', include('dbms.urls')),
+    url(r'^test$', Home.test),
 ]
