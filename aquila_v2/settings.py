@@ -140,27 +140,27 @@ DATABASES = {
         'NAME': 'aquila2',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '192.168.1.6',
-        'PORT': 3306
+        'HOST': '127.0.0.1',
+        'PORT': 4901
     }
 }
 
 INCEPTION = {
     'default': {
-        'INCEPTION_HOST': '192.168.1.6',
+        'INCEPTION_HOST': '127.0.0.1',
         'INCEPTION_PORT': 6669,
     },
     'backup': {
         'BACKUP_USER': 'root',
         'BACKUP_PASSWORD': '123456',
         'BACKUP_PORT': 3306,
-        'BACKUP_HOST': '192.168.1.6',
+        'BACKUP_HOST': '127.0.0.1',
     },
 }
 
 USER_ENCRYPT_KEY = '3df6a1341e8b'
 
-<<<<<<< HEAD
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -179,7 +179,7 @@ LOGGING = {
         'celery': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': './logs/celery.log',
+            'filename': BASE_DIR + '/logs/celery.log',
             'formatter': 'simple',
             'maxBytes': 1024 * 1024 * 100,  # 100 mb
         },
@@ -192,9 +192,9 @@ LOGGING = {
     }
 }
 dictConfig(LOGGING)
-=======
+
 # 错误日志
 ERROR_LOG_FILE = os.path.join(BASE_DIR, "logs", 'error.log')
 # 运行日志
 RUN_LOG_FILE = os.path.join(BASE_DIR, "logs", 'run.log')
->>>>>>> de10c29c9cc4e0a155f9c46b9483963707c6543e
+

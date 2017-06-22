@@ -194,7 +194,7 @@ class WorkOrderTask(models.Model):
 
 # ============================= MySQL MetaData =============================
 class MetaDataTables(models.Model):
-    host = models.ForeignKey(HostInfo, db_constraint=False)
+    host_ip = models.CharField(max_length=50)
     table_schema = models.CharField(max_length=64)
     table_name = models.CharField(max_length=64)
     engine = models.CharField(max_length=64)
@@ -215,57 +215,57 @@ class MetaDataTables(models.Model):
 
     class Meta:
         db_table = 'mysql_metadata_tables'
-        unique_together = ('table_name', 'table_schema', 'host')
+        unique_together = ('table_name', 'table_schema', 'host_ip')
 
     def __unicode__(self):
         return self.table_schema, self.table_name
 
 
 class MetaDataColumns(models.Model):
-    host = models.ForeignKey(HostInfo, db_constraint=False)
+    host_ip = models.CharField(max_length=50)
     table_schema = models.CharField(max_length=64)
     table_name = models.CharField(max_length=64)
     column_name = models.CharField(max_length=64)
     column_type = models.CharField(max_length=64)
     collation_name = models.CharField(max_length=32)
-    is_nullable = models.CharField(max_length=3)
-    column_key = models.CharField(max_length=3)
-    column_default = models.CharField(max_length=150)
-    extra = models.CharField(max_length=30)
+    is_nullable = models.CharField(max_length=3, default='---')
+    column_key = models.CharField(max_length=3, default='---')
+    column_default = models.CharField(max_length=150, default='----')
+    extra = models.CharField(max_length=30, default='----')
     PRIVILEGES = models.CharField(max_length=80)
-    column_comment = models.CharField(max_length=500)
+    column_comment = models.CharField(max_length=500, default='----')
 
     class Meta:
         db_table = 'mysql_metadata_columns'
-        index_together = ('table_name', 'table_schema', 'host')
+        index_together = ('table_name', 'table_schema', 'host_ip')
 
     def __unicode__(self):
         return self.table_schema, self.table_name
 
 
 class MetaDataIndexs(models.Model):
-    host = models.ForeignKey(HostInfo, db_constraint=False)
+    host_ip = models.CharField(max_length=50)
     table_schema = models.CharField(max_length=64)
     table_name = models.CharField(max_length=64)
     column_name = models.CharField(max_length=64)
     non_unique = models.SmallIntegerField()
     index_name = models.CharField(max_length=64)
     seq_in_index = models.SmallIntegerField()
-    cardinality = models.BigIntegerField()
+    cardinality = models.BigIntegerField(default=0)
     nullable = models.CharField(max_length=3)
     index_type = models.CharField(max_length=16)
     index_comment = models.CharField(max_length=500)
 
     class Meta:
         db_table = 'mysql_metadata_indexs'
-        index_together = ('table_name', 'table_schema', 'host')
+        index_together = ('table_name', 'table_schema', 'host_ip')
 
     def __unicode__(self):
         return self.table_schema, self.table_name
 
 
 class MetaDataProcedure(models.Model):
-    host = models.ForeignKey(HostInfo, db_constraint=False)
+    host_ip = models.CharField(max_length=50)
     schema_name = models.CharField(max_length=64)
     routine_name = models.CharField(max_length=64)
     routine_type = models.CharField(max_length=9)
@@ -275,7 +275,7 @@ class MetaDataProcedure(models.Model):
 
     class Meta:
         db_table = 'mysql_metadata_procedure'
-        index_together = ('routine_name', 'schema_name', 'host')
+        index_together = ('routine_name', 'schema_name', 'host_ip')
 
     def __unicode__(self):
         return self.schema_name, self.routine_name

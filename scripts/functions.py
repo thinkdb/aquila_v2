@@ -216,7 +216,7 @@ def get_master(db_ip, app_user, app_pass, app_port, database):
     return master_result
 
 
-<<<<<<< HEAD
+
 sql = "explain select session_key from django_session"
 
 
@@ -234,8 +234,7 @@ def GetFristSqlStatus(sql_content):
     return illegality_dict
 
 
-=======
->>>>>>> de10c29c9cc4e0a155f9c46b9483963707c6543e
+
 class SplitSql(object):
     def __init__(self, task_type, sql):
         """
@@ -306,8 +305,7 @@ class SplitSql(object):
                     self.check_all_flag = False
                     break
 
-<<<<<<< HEAD
-=======
+
 
 class Logger(object):
     __instance = None
@@ -361,5 +359,3 @@ class Logger(object):
             self.run_logger.info(message)
         else:
             self.error_logger.error(message)
->>>>>>> de10c29c9cc4e0a155f9c46b9483963707c6543e
-
