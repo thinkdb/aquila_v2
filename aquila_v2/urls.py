@@ -24,5 +24,9 @@ urlpatterns = [
     url(r'^account/', include('back.urls')),
     url(r'^cmdb/', include('cmdb.urls')),
     url(r'^dbms/', include('dbms.urls')),
+<<<<<<< HEAD
     url(r'^get_matedata.html$', MySQL_MetaData.GetMetaData.as_view(), name='MySQLmetadata'),
+=======
+    url(r'^test$', Home.test),
+>>>>>>> de10c29c9cc4e0a155f9c46b9483963707c6543e
 ]

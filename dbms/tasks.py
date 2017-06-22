@@ -7,6 +7,8 @@ from scripts import MyThreadPool
 from model_model import models
 import time
 
+from model_model import models
+
 
 @app.task()
 def addx(x, y):
@@ -57,6 +59,7 @@ def work_run_task(host, user, passwd, port, sql_content, wid):
             execute_time=int(float(result['data'][items]['execute_time']) * 1000),
             sql_hash=result['data'][items]['sql_hash']
         )
+
     models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=run_error_id)
     models.WorkOrderTask.objects.filter(work_order_id=wid).update(work_status=run_error_id)
 
@@ -183,6 +186,11 @@ last_altered
            check_time
         FROM information_schema.tables
         WHERE table_schema = 'aquila' AND table_name = 'dbms_workordertask';
+=======
+
+    models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=run_error_id)
+    models.WorkOrderTask.objects.filter(work_order_id=wid).update(work_status=run_error_id)
+>>>>>>> de10c29c9cc4e0a155f9c46b9483963707c6543e
 
     显示表的建表语句
 """

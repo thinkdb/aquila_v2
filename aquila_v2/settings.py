@@ -160,6 +160,7 @@ INCEPTION = {
 
 USER_ENCRYPT_KEY = '3df6a1341e8b'
 
+<<<<<<< HEAD
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -191,3 +192,9 @@ LOGGING = {
     }
 }
 dictConfig(LOGGING)
+=======
+# 错误日志
+ERROR_LOG_FILE = os.path.join(BASE_DIR, "logs", 'error.log')
+# 运行日志
+RUN_LOG_FILE = os.path.join(BASE_DIR, "logs", 'run.log')
+>>>>>>> de10c29c9cc4e0a155f9c46b9483963707c6543e

@@ -10,6 +10,10 @@ from scripts.Inception import Inception
 from dbms.tasks import work_run_task
 import json
 import datetime
+<<<<<<< HEAD
+=======
+
+>>>>>>> de10c29c9cc4e0a155f9c46b9483963707c6543e
 
 
 @method_decorator(AuthAccount, name='dispatch')
@@ -76,6 +80,7 @@ class SqlCommit(View):
                                      db_port=port,
                                      sql_content=sql_content)
                     result = ince.audit_sql()
+
                     if isinstance(result, dict):
                         self.result_dict['status'] = 0
                         self.result_dict['error'] = '无连接 Inception，请联系管理员！！！'
