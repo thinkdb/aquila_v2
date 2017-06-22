@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 # from django.contrib import admin
 from back.views import Home
+from dbms.views import MySQL_MetaData
 
 urlpatterns = [
     # url(r'^admin/', admin.site.views),
@@ -23,4 +24,5 @@ urlpatterns = [
     url(r'^account/', include('back.urls')),
     url(r'^cmdb/', include('cmdb.urls')),
     url(r'^dbms/', include('dbms.urls')),
+    url(r'^get_matedata.html$', MySQL_MetaData.GetMetaData.as_view(), name='MySQLmetadata'),
 ]

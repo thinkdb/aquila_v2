@@ -7,6 +7,8 @@ certifi==2017.4.17
 cffi==1.10.0
 cryptography==1.9
 Django==1.11.2
+django-celery-results==1.0.1
+gunicorn==19.7.1
 idna==2.5
 kombu==4.0.2
 paramiko==2.2.1
@@ -18,4 +20,5 @@ PyNaCl==1.1.2
 pytz==2017.2
 redis==2.10.5
 six==1.10.0
+SQLAlchemy==1.1.10
 vine==1.1.3

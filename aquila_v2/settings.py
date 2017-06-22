@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+from logging.config import dictConfig
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,7 +25,7 @@ SECRET_KEY = '+84%+2isig-7s6^gc(30h=%-u*ns53=gr%v3d4i!noq08=!3ep'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -159,3 +159,35 @@ INCEPTION = {
 }
 
 USER_ENCRYPT_KEY = '3df6a1341e8b'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(message)s',
+             'datefmt': '%y %b %d, %H:%M:%S',
+            },
+        },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'celery': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './logs/celery.log',
+            'formatter': 'simple',
+            'maxBytes': 1024 * 1024 * 100,  # 100 mb
+        },
+    },
+    'loggers': {
+        'celery': {
+            'handlers': ['celery', 'console'],
+            'level': 'DEBUG',
+        },
+    }
+}
+dictConfig(LOGGING)

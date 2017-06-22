@@ -7,7 +7,9 @@ from django.utils.decorators import method_decorator
 from scripts import functions
 from scripts.functions import JsonCustomEncoder, get_uuid, result_tran
 from scripts.Inception import Inception
-import json, datetime
+from dbms.tasks import work_run_task
+import json
+import datetime
 
 
 @method_decorator(AuthAccount, name='dispatch')
@@ -59,6 +61,13 @@ class SqlCommit(View):
                     self.result_dict['error'] = '无连接当前数据库，请确认联系管理员！！！'
                 else:
                     self.result_dict['status'] = 1
+
+                sql_audit = functions.SplitSql(3, obj.cleaned_data['sql_content'])
+                sql_audit_status = sql_audit.get_audit()
+                if not sql_audit_status['status']:
+                    self.result_dict['status'] = 0
+                    self.result_dict['error'] = '语句不合法'
+
                 if self.result_dict['status'] == 1:
                     # auto audit sql
                     ince = Inception(db_host=db_host,
@@ -210,6 +219,8 @@ class SqlRunning(View):
             models.WorkOrderTask.objects.filter(work_order_id=wid, audit_status=0).update(work_status=4)
             result_dict['status'] = 1
         else:
+            # 提交时，调用任务执行函数去执行任务， 接着返回提交任务成功的信息到前端显示
+
             # 获取任务列表
             task_info = models.WorkOrderTask.objects.filter(work_order_id=wid, audit_status=0, work_status=10).values(
                 'work_order__inceauditsqlcontent__sql_content',
@@ -232,45 +243,52 @@ class SqlRunning(View):
                 result_dict['error_msg'] = master_result['data']
                 return HttpResponse(json.dumps(result_dict))
 
+            # 更新工单状态为 进入执行队列
             models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=2,
                                                                                    work_run_time=datetime.datetime.now())
             result_dict['status'] = 1
+
+            # 以下内容为任务执行函数中的内容
             master_ip = master_result['data']
-            ince = Inception(db_host=master_ip,
-                             db_user=task_info[0]['app_user'],
-                             db_passwd=task_info[0]['app_pass'],
-                             db_port=task_info[0]['app_port'],
-                             sql_content=task_info[0]['work_order__inceauditsqlcontent__sql_content'],
-                             )
+            # ince = Inception(db_host=master_ip,
+            #                  db_user=task_info[0]['app_user'],
+            #                  db_passwd=task_info[0]['app_pass'],
+            #                  db_port=task_info[0]['app_port'],
+            #                  sql_content=task_info[0]['work_order__inceauditsqlcontent__sql_content'],
+            #                  )
             # 提交到后台执行,
             # from dbms.tasks import work_run_task
-            # ret = work_run_task.delay(ince, 1)
+            work_run_task.delay(master_ip, task_info[0]['app_user'],
+                                task_info[0]['app_pass'],
+                                task_info[0]['app_port'],
+                                task_info[0]['work_order__inceauditsqlcontent__sql_content'],
+                                wid)
 
-            run_result = ince.run_sql(1)
-            result = result_tran(run_result, result_dict)
-            run_error_id = 1
-            for items in result['data']:
-                if result['data'][items]['status'] == '执行失败' or\
-                        result['data'][items]['status'] == 'Error':
-                    run_error_id = 0
-                elif result['data'][items]['status'] == '执行成功,备份失败':
-                    run_error_id = 5
-                models.InceptionAuditDetail.objects.create(
-                    work_order_id=wid,
-                    sql_sid=items,
-                    flag=3,
-                    status=result['data'][items]['status'],
-                    error_msg=result['data'][items]['error_msg'],
-                    sql_content=result['data'][items]['sql'],
-                    aff_row=result['data'][items]['rows'],
-                    rollback_id=result['data'][items]['rollback_id'],
-                    backup_dbname=result['data'][items]['backup_dbname'],
-                    execute_time=int(float(result['data'][items]['execute_time'])* 1000),
-                    sql_hash=result['data'][items]['sql_hash']
-                )
-
-            models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=run_error_id)
-            models.WorkOrderTask.objects.filter(work_order_id=wid).update(work_status=run_error_id)
+            # run_result = ince.run_sql(1)
+            # result = result_tran(run_result, result_dict)
+            # run_error_id = 1
+            # for items in result['data']:
+            #     if result['data'][items]['status'] == '执行失败' or\
+            #             result['data'][items]['status'] == 'Error':
+            #         run_error_id = 0
+            #     elif result['data'][items]['status'] == '执行成功,备份失败':
+            #         run_error_id = 5
+            #     models.InceptionAuditDetail.objects.create(
+            #         work_order_id=wid,
+            #         sql_sid=items,
+            #         flag=3,
+            #         status=result['data'][items]['status'],
+            #         error_msg=result['data'][items]['error_msg'],
+            #         sql_content=result['data'][items]['sql'],
+            #         aff_row=result['data'][items]['rows'],
+            #         rollback_id=result['data'][items]['rollback_id'],
+            #         backup_dbname=result['data'][items]['backup_dbname'],
+            #         execute_time=int(float(result['data'][items]['execute_time'])* 1000),
+            #         sql_hash=result['data'][items]['sql_hash']
+            #     )
+            #
+            # models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=run_error_id)
+            # models.WorkOrderTask.objects.filter(work_order_id=wid).update(work_status=run_error_id)
 
         return HttpResponse(json.dumps(result_dict))
 

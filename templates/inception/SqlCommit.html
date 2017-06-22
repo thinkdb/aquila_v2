@@ -64,7 +64,7 @@
                     <tbody>
                         {% if AuditResult.post_flag == 1 %}
                             {% if AuditResult.status == 0 %}
-                                <tr style="background-color: red; color: white"><td>{{ '连接数据库错误' }}</td><td colspan="4"> {{ AuditResult.error }}</td></tr>
+                                <tr style="background-color: red; color: white"><td colspan="5"> {{ AuditResult.error }}</td></tr>
                             {% elif AuditResult.running == 1 %}
                                 <tr style="background-color: #2aabd2; color: white"><td colspan="5">{{ '任务已提交审核,请工单查询页面查看工单状态' }}</td></tr>
                             {% elif AuditResult.data  %}

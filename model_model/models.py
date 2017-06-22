@@ -190,3 +190,101 @@ class WorkOrderTask(models.Model):
 # class AppVersion(models.Model):
 #     version = models.CharField()
 #     r_time = models.DateTimeField(auto_now_add=True)
+
+
+# ============================= MySQL MetaData =============================
+class MetaDataTables(models.Model):
+    host = models.ForeignKey(HostInfo, db_constraint=False)
+    table_schema = models.CharField(max_length=64)
+    table_name = models.CharField(max_length=64)
+    engine = models.CharField(max_length=64)
+    row_format = models.CharField(max_length=10)
+    table_rows = models.BigIntegerField()
+    avg_row_length = models.BigIntegerField()
+    max_data_length = models.BigIntegerField()
+    data_length = models.BigIntegerField()
+    index_length = models.BigIntegerField()
+    data_free = models.BigIntegerField()
+    chip_size = models.BigIntegerField()
+    auto_increment = models.BigIntegerField(default=0)
+    table_collation = models.CharField(max_length=32)
+    create_time = models.DateTimeField(null=True)
+    update_time = models.DateTimeField(null=True)
+    check_time = models.DateTimeField(null=True)
+    table_comment = models.CharField(max_length=500, null=True)
+
+    class Meta:
+        db_table = 'mysql_metadata_tables'
+        unique_together = ('table_name', 'table_schema', 'host')
+
+    def __unicode__(self):
+        return self.table_schema, self.table_name
+
+
+class MetaDataColumns(models.Model):
+    host = models.ForeignKey(HostInfo, db_constraint=False)
+    table_schema = models.CharField(max_length=64)
+    table_name = models.CharField(max_length=64)
+    column_name = models.CharField(max_length=64)
+    column_type = models.CharField(max_length=64)
+    collation_name = models.CharField(max_length=32)
+    is_nullable = models.CharField(max_length=3)
+    column_key = models.CharField(max_length=3)
+    column_default = models.CharField(max_length=150)
+    extra = models.CharField(max_length=30)
+    PRIVILEGES = models.CharField(max_length=80)
+    column_comment = models.CharField(max_length=500)
+
+    class Meta:
+        db_table = 'mysql_metadata_columns'
+        index_together = ('table_name', 'table_schema', 'host')
+
+    def __unicode__(self):
+        return self.table_schema, self.table_name
+
+
+class MetaDataIndexs(models.Model):
+    host = models.ForeignKey(HostInfo, db_constraint=False)
+    table_schema = models.CharField(max_length=64)
+    table_name = models.CharField(max_length=64)
+    column_name = models.CharField(max_length=64)
+    non_unique = models.SmallIntegerField()
+    index_name = models.CharField(max_length=64)
+    seq_in_index = models.SmallIntegerField()
+    cardinality = models.BigIntegerField()
+    nullable = models.CharField(max_length=3)
+    index_type = models.CharField(max_length=16)
+    index_comment = models.CharField(max_length=500)
+
+    class Meta:
+        db_table = 'mysql_metadata_indexs'
+        index_together = ('table_name', 'table_schema', 'host')
+
+    def __unicode__(self):
+        return self.table_schema, self.table_name
+
+
+class MetaDataProcedure(models.Model):
+    host = models.ForeignKey(HostInfo, db_constraint=False)
+    schema_name = models.CharField(max_length=64)
+    routine_name = models.CharField(max_length=64)
+    routine_type = models.CharField(max_length=9)
+    content = models.TextField()
+    create_time = models.DateTimeField()
+    last_altered = models.DateTimeField()
+
+    class Meta:
+        db_table = 'mysql_metadata_procedure'
+        index_together = ('routine_name', 'schema_name', 'host')
+
+    def __unicode__(self):
+        return self.schema_name, self.routine_name
+
+
+class GetMetaDataError(models.Model):
+    host_ip = models.CharField(max_length=50)
+    error_msg = models.CharField(max_length=1000)
+    r_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'get_metadata_error'

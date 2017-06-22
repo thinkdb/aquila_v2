@@ -78,6 +78,7 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
 4. 启动 aquila
     ```
     python manage.py runserver 0.0.0.0:8001
+    celery -A aquila_v2 worker
     ```
 
 5. 登录

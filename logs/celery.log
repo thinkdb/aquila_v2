@@ -1,0 +1,16 @@
+[2017-06-22 14:06:39,307: INFO/MainProcess] Connected to amqp://guest:**@127.0.0.1:5672//
+[2017-06-22 14:06:39,317: INFO/MainProcess] mingle: searching for neighbors
+[2017-06-22 14:06:40,358: INFO/MainProcess] mingle: all alone
+[2017-06-22 14:06:40,362: WARNING/MainProcess] /opt/soft/enter/envs/aquila_v2/lib/python3.5/site-packages/kombu/pidbox.py:71: UserWarning: A node named celery@mq6 is already using this process mailbox!
+
+Maybe you forgot to shutdown the other node or did not do so properly?
+Or if you meant to start multiple nodes on the same host please make sure
+you give each node a unique node name!
+
+  warnings.warn(W_PIDBOX_IN_USE.format(node=self))
+[2017-06-22 14:06:40,381: WARNING/MainProcess] /opt/soft/enter/envs/aquila_v2/lib/python3.5/site-packages/celery/fixups/django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
+[2017-06-22 14:06:40,381: INFO/MainProcess] celery@mq6 ready.
+[2017-06-22 14:16:41,692: INFO/MainProcess] Received task: dbms.tasks.addx[ef388dcd-324e-419d-a67f-ddf0bc8a73d6]  
+[2017-06-22 14:16:46,930: WARNING/PoolWorker-3] sleep 5
+[2017-06-22 14:16:46,930: INFO/PoolWorker-3] Task dbms.tasks.addx[ef388dcd-324e-419d-a67f-ddf0bc8a73d6] succeeded in 5.005765746347606s: 21

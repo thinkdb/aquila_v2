@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>get_metadata</title>
+</head>
+<body>
+<form action="{% url 'MySQLmetadata' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" name="提交">
+</form>
+
+</body>
+</html>
