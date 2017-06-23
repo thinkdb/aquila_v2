@@ -216,25 +216,6 @@ def get_master(db_ip, app_user, app_pass, app_port, database):
     return master_result
 
 
-
-sql = "explain select session_key from django_session"
-
-
-def GetFristSqlStatus(sql_content):
-    illegality_dict = {'sql': '', 'status': True}
-    frist_sql = sql_content.lower().split(';')[0]
-    sql_content_list = frist_sql.split()
-    for item in sql_content_list:
-        r = re.search('insert|delete|update|alter|drop|begin|set|commit|rollback|revoke|'
-                      'grant|\*|execute|flush|shutdown|change', item)
-        if r:
-            illegality_dict['status'] = False
-            return illegality_dict
-    illegality_dict['sql'] = frist_sql
-    return illegality_dict
-
-
-
 class SplitSql(object):
     def __init__(self, task_type, sql):
         """
@@ -304,7 +285,6 @@ class SplitSql(object):
                 if flag:
                     self.check_all_flag = False
                     break
-
 
 
 class Logger(object):

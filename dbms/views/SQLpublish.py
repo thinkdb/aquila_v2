@@ -5,15 +5,15 @@ from dbms import forms
 from back.views.AuthAccount import AuthAccount, GetUserInfo
 from django.utils.decorators import method_decorator
 from scripts import functions
-from scripts.functions import JsonCustomEncoder, get_uuid, result_tran
+from scripts.functions import JsonCustomEncoder, get_uuid, result_tran, Logger
 from scripts.Inception import Inception
 from dbms.tasks import work_run_task
 import json
 import datetime
 
+
 @method_decorator(AuthAccount, name='dispatch')
 class SqlCommit(View):
-
     def __init__(self, **kwargs):
         super(SqlCommit, self).__init__(**kwargs)
         self.result_dict = {'data': {}, 'status': 0, 'error': '', 'running': 0, 'post_flag': 0}

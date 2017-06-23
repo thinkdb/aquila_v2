@@ -34,8 +34,8 @@ def xsum(numbers):
 
 @app.task()
 def work_run_task(host, user, passwd, port, sql_content, wid):
+    functions.Logger().log('{0}--开始执行工单'.format(wid))
     result_dict = {'data': {}}
-
     ince = Inception.Inception(db_host=host, db_user=user, db_passwd=passwd, db_port=port, sql_content=sql_content)
     run_result = ince.run_sql(1)
     result = functions.result_tran(run_result, result_dict)
@@ -62,6 +62,7 @@ def work_run_task(host, user, passwd, port, sql_content, wid):
 
     models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=run_error_id)
     models.WorkOrderTask.objects.filter(work_order_id=wid).update(work_status=run_error_id)
+    functions.Logger().log('{0}--工单执行结束'.format(wid))
 
 
 def get_matedata(account_info):
@@ -76,7 +77,7 @@ def get_matedata(account_info):
         os_port = item['host__host_port']
 
         conn_info = GetMetadataitem(host=host, user=app_user, port=app_port, passwd=app_pass)
-        conn_info.get_columns()
+        conn_info.get_tables()
 
 
 class GetMetadataitem(object):
@@ -89,16 +90,19 @@ class GetMetadataitem(object):
         db = functions.DBAPI(host=self.host, user=self.user, password=self.passwd, port=self.port)
         if db.error:
             models.GetMetaDataError.objects.create(host=self.host, error_msg=db.error)
+            functions.Logger().log('{0}--收集元数据失败--{}'.format(self.host, str(db.error)), False)
         else:
             self.cur = db
+        functions.Logger().log('{0}--开始收集元数据'.format(self.host))
 
     def get_tables(self):
         sql = """SELECT table_schema, table_name, engine, row_format, table_rows, avg_row_length,
                    data_length, max_data_length, index_length, data_free, auto_increment,
                    table_collation, table_comment, create_time, update_time, check_time
             FROM information_schema.tables
-            where table_schema not in ('sys', 'test', 'information_schema', 'performance_schema', 'mysql')"""
+            where table_schema  in ('sys', 'test', 'information_schema', 'performance_schema', 'mysql')"""
         if self.cur:
+            functions.Logger().log('{0}--开始收集表的基础数据'.format(self.host))
             result = self.cur.conn_query(sql)
             for item in result:
                 try:
@@ -110,30 +114,53 @@ class GetMetadataitem(object):
                     if item[15]:
                         check_time = time.strftime(item[15].strftime('%Y-%m-%d %H:%M:%S'))
 
-                    models.MetaDataTables.objects.create(
-                        host_ip=self.host,
-                        table_schema=item[0],
-                        table_name=item[1],
-                        engine=item[2],
-                        row_format=item[3],
-                        table_rows=item[4],
-                        avg_row_length=item[5],
-                        max_data_length=item[7],
-                        data_length=item[6],
-                        index_length=item[8],
-                        data_free=item[9],
-                        auto_increment=item[10],
-                        table_collation=item[11],
-                        create_time=c_time,
-                        update_time=u_time,
-                        check_time=check_time,
-                        table_comment=item[12],
-                        chip_size=0
-                    )
+                    table_schema = item[0],
+                    table_name = item[1],
+                    engine = item[2] if item[2] else '---',
+                    row_format = item[3] if item[3] else '---',
+                    table_rows = item[4] if item[4] else 0,
+                    avg_row_length = item[5] if item[5] else 0,
+                    max_data_length = item[7] if item[7] else 0,
+                    data_length = item[6] if item[6] else 0,
+                    index_length = item[8] if item[8] else 0,
+                    data_free = item[9] if item[9] else 0,
+                    auto_increment = item[10] if item[10] else 0,
+                    table_collation = item[11] if item[11] else '---',
+                    table_comment = item[12] if item[12] else '---',
+                    print(table_rows)
+                    unique_rows = ''.join(table_schema + table_name + engine + row_format + str(table_rows) + str(avg_row_length)\
+                                  + str(max_data_length) + str(data_length) + str(index_length) + str(data_free) + \
+                                  str(auto_increment) + table_collation + table_comment + c_time + u_time + check_time)
+                    row_md52 = functions.py_password(unique_rows)
+                    print(row_md52)
+
+                    # r = models.MetaDataTables.objects.create(
+                    #     host_ip=self.host,
+                    #     table_schema=item[0],
+                    #     table_name=item[1],
+                    #     engine=item[2] if item[2] else '---',
+                    #     row_format=item[3] if item[3] else '---',
+                    #     table_rows=item[4] if item[4] else 0,
+                    #     avg_row_length=item[5] if item[5] else 0,
+                    #     max_data_length=item[7] if item[7] else 0,
+                    #     data_length=item[6] if item[6] else 0,
+                    #     index_length=item[8] if item[8] else 0,
+                    #     data_free=item[9] if item[9] else 0,
+                    #     auto_increment=item[10] if item[10] else 0,
+                    #     table_collation=item[11] if item[11] else '---',
+                    #     create_time=c_time,
+                    #     update_time=u_time,
+                    #     check_time=check_time,
+                    #     table_comment=item[12] if item[12] else '---',
+                    #     chip_size=0
+                    # )
+                    # structure_result = self.cur.conn_query('show create table {0}.{1}'.format(item[0], item[1]))
+                    # for row in structure_result:
+                    #     models.MetaDataTableStructure.objects.create(table=r, content=row[1])
+
                 except Exception as e:
-                    print(e)
-        else:
-            print(11111)
+                    functions.Logger().log('{0}--收集表的基础数据失败--{1}'.format(self.host, str(e)), False)
+            self.cur.close()
 
     def get_indexs(self):
         sql = """
@@ -151,6 +178,7 @@ class GetMetadataitem(object):
         from information_schema.statistics
         where table_schema not in ('sys', 'test', 'information_schema', 'performance_schema', 'mysql') """
         if self.cur:
+            functions.Logger().log('{0}--开始收集索引的基础数据'.format(self.host))
             result = self.cur.conn_query(sql)
             for item in result:
                 try:
@@ -168,10 +196,8 @@ class GetMetadataitem(object):
                         index_comment=item[9]
                     )
                 except Exception as e:
-                    print(e)
-
-        else:
-            print(11111)
+                    functions.Logger().log('{0}--收集索引的基础数据失败--{1}'.format(self.host, str(e)), False)
+            self.cur.close()
 
     def get_columns(self):
         sql = """
@@ -191,6 +217,7 @@ class GetMetadataitem(object):
         where table_schema not in ('sys', 'test', 'information_schema', 'performance_schema', 'mysql')
         """
         if self.cur:
+            functions.Logger().log('{0}--开始收集列的基础数据'.format(self.host))
             result = self.cur.conn_query(sql)
             for item in result:
                 try:
@@ -209,9 +236,8 @@ class GetMetadataitem(object):
                         column_comment=item[10] if item[10] else '---'
                     )
                 except Exception as e:
-                    print(e)
-        else:
-            print(11111)
+                    functions.Logger().log('{0}--收集列的基础数据失败--{1}'.format(self.host, str(e)), False)
+            self.cur.close()
 
     def get_rocedure(self):
         sql = """
@@ -228,6 +254,7 @@ class GetMetadataitem(object):
         if self.cur:
             result = self.cur.conn_query(sql)
             print(result)
+            self.cur.close()
         else:
             print(11111)
 

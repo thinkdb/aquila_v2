@@ -112,7 +112,7 @@ class HostAPPAccount(models.Model):
         db_table = 'host_app_account'
 
 
-# Inception
+# ============================= Inception =============================
 class InceptionWorkOrderInfo(models.Model):
     id = models.AutoField(primary_key=True)
     version = models.CharField(max_length=100, default='test')
@@ -211,7 +211,7 @@ class MetaDataTables(models.Model):
     create_time = models.DateTimeField(null=True)
     update_time = models.DateTimeField(null=True)
     check_time = models.DateTimeField(null=True)
-    table_comment = models.CharField(max_length=500, null=True)
+    table_comment = models.CharField(max_length=500)
 
     class Meta:
         db_table = 'mysql_metadata_tables'
@@ -269,7 +269,6 @@ class MetaDataProcedure(models.Model):
     schema_name = models.CharField(max_length=64)
     routine_name = models.CharField(max_length=64)
     routine_type = models.CharField(max_length=9)
-    content = models.TextField()
     create_time = models.DateTimeField()
     last_altered = models.DateTimeField()
 
@@ -288,3 +287,13 @@ class GetMetaDataError(models.Model):
 
     class Meta:
         db_table = 'get_metadata_error'
+
+
+class MetaDataTableStructure(models.Model):
+    table = models.ForeignKey(MetaDataTables, db_constraint=False, unique=True)
+    content = models.TextField()
+
+
+class MetaDataProcedureStructure(models.Model):
+    procedure = models.ForeignKey(MetaDataProcedure, db_constraint=False, unique=True)
+    content = models.TextField()
