@@ -293,7 +293,7 @@ class GetMetaDataError(models.Model):
 
 
 class MetaDataTableStructure(models.Model):
-    table = models.ForeignKey(MetaDataTables, db_constraint=False, unique=True)
+    table = models.OneToOneField(MetaDataTables, db_constraint=False, unique=True)
     content = models.TextField()
 
     class Meta:
@@ -301,7 +301,7 @@ class MetaDataTableStructure(models.Model):
 
 
 class MetaDataProcedureStructure(models.Model):
-    procedure = models.ForeignKey(MetaDataProcedure, db_constraint=False, unique=True)
+    procedure = models.OneToOneField(MetaDataProcedure, db_constraint=False, unique=True)
     content = models.TextField()
 
     class Meta:

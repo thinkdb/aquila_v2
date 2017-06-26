@@ -3,23 +3,25 @@
 {% block title %}
 GetMetaData
 {% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/metadata.css"/>
+{% endblock %}
+
 
 {% block body_body %}
-    <div style="position: relative;">
-        <div class="left-style" style="position: absolute">
+    <div style="position: relative; top: 20px" >
+        <div class="body_left" style="width: 300px; position: absolute;">
             <div>
-                <label>库地址：</label>
-                <select class="form-control">
+                <label>选择数据库</label>
+                <select class="form-control" >
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
                 </select>
-            </div>
-            <div>
-                <label>tables</label>
-                <select class="form-control" multiple size="40">
+                <label class="base_info">选择表</label>
+                <select class="form-control" multiple size="25";>
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -28,17 +30,96 @@ GetMetaData
                 </select>
             </div>
         </div>
-    </div>
-    <div style="float:right">
-        <div style="max-width: 300px;">
-            <label>tables</label>
-            <select class="form-control" multiple size="10">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+
+        <div class="body_right" style="position: absolute; float: right; right: 10px; width:600px;">
+            <div class="db_info">
+                <label>库信息</label>
+                <table border="1px">
+                    <thead>
+                        <th>库名</th>
+                        <th>默认字符集</th>
+                        <th>默认校验码</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>test</td>
+                            <td>utf-8</td>
+                            <td>utf-8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table_info base_info">
+                <label>表信息</label>
+                <table border="1px">
+                    <thead>
+                        <th>库名</th>
+                        <th>默认字符集</th>
+                        <th>默认校验码</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>test</td>
+                            <td>utf-8</td>
+                            <td>utf-8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="colume_info base_info">
+                <label>列信息</label>
+                <table border="1px">
+                    <thead>
+                        <th>库名</th>
+                        <th>默认字符集</th>
+                        <th>默认校验码</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>test</td>
+                            <td>utf-8</td>
+                            <td>utf-8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="index_info base_info">
+                <label>索引信息</label>
+                <table border="1px">
+                    <thead>
+                        <th>库名</th>
+                        <th>默认字符集</th>
+                        <th>默认校验码</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>test</td>
+                            <td>utf-8</td>
+                            <td>utf-8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sql_info base_info">
+                <label>建表语句</label>
+                <table border="1px">
+                    <thead>
+                        <th>库名</th>
+                        <th>默认字符集</th>
+                        <th>默认校验码</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>test</td>
+                            <td>utf-8</td>
+                            <td>utf-8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    <div style="clear: both"></div>
+
 {% endblock %}
