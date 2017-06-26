@@ -25,32 +25,32 @@
                 <a class="navbar-brand" href="{% url 'index' %}">Aquila OS</a>
             </div>
             <ul class="nav navbar-top-links navbar-right ">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-envelope fa-fw"></i> <span class="badge bg-success-auto">5</span> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+{#                <li class="dropdown">#}
+{#                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">#}
+{#                        <i class="fa fa-envelope fa-fw"></i> <span class="badge bg-success-auto">5</span> <i class="fa fa-caret-down"></i>#}
+{#                    </a>#}
+{#                    <ul class="dropdown-menu dropdown-messages">#}
+{#                        <li>#}
+{#                            <a href="#">#}
+{#                                <div>#}
+{#                                    <strong>John Smith</strong>#}
+{#                                    <span class="pull-right text-muted">#}
+{#                                        <em>Yesterday</em>#}
+{#                                    </span>#}
+{#                                </div>#}
+{#                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="divider"></li>#}
+{##}
+{#                        <li>#}
+{#                            <a class="text-center" href="#">#}
+{#                                <strong>Read All Messages</strong>#}
+{#                                <i class="fa fa-angle-right"></i>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
 
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -132,6 +132,14 @@
                                     <ul class="nav nav-third-level">
                                         <li>
                                             <a href="#">SQL 查询</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>元数据查询<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="{% url 'MySQLmetadata' %}">元数据查询</a>
                                         </li>
                                     </ul>
                                 </li>

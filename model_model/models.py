@@ -212,6 +212,7 @@ class MetaDataTables(models.Model):
     update_time = models.DateTimeField(null=True)
     check_time = models.DateTimeField(null=True)
     table_comment = models.CharField(max_length=500)
+    table_md5 = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'mysql_metadata_tables'
@@ -234,6 +235,7 @@ class MetaDataColumns(models.Model):
     extra = models.CharField(max_length=30, default='----')
     PRIVILEGES = models.CharField(max_length=80)
     column_comment = models.CharField(max_length=500, default='----')
+    column_md5 = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'mysql_metadata_columns'
@@ -255,6 +257,7 @@ class MetaDataIndexs(models.Model):
     nullable = models.CharField(max_length=3)
     index_type = models.CharField(max_length=16)
     index_comment = models.CharField(max_length=500)
+    index_md5 = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'mysql_metadata_indexs'
@@ -293,7 +296,24 @@ class MetaDataTableStructure(models.Model):
     table = models.ForeignKey(MetaDataTables, db_constraint=False, unique=True)
     content = models.TextField()
 
+    class Meta:
+        db_table = 'mysql_metadata_table_structure'
+
 
 class MetaDataProcedureStructure(models.Model):
     procedure = models.ForeignKey(MetaDataProcedure, db_constraint=False, unique=True)
     content = models.TextField()
+
+    class Meta:
+        db_table = 'mysql_metadata_procedure_structure'
+
+
+class MetaDataDatabase(models.Model):
+    host_ip = models.CharField(max_length=50)
+    schema_name = models.CharField(max_length=64)
+    default_character_set_name = models.CharField(max_length=32)
+    default_collation_name = models.CharField(max_length=32)
+    db_md5 = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'mysql_metadata_database'

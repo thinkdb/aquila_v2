@@ -1,14 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>get_metadata</title>
-</head>
-<body>
-<form action="{% url 'MySQLmetadata' %}" method="post">
-    {% csrf_token %}
-    <input type="submit" name="提交">
-</form>
+{% extends 'include/base.html' %}
 
-</body>
-</html>
+{% block title %}
+GetMetaData
+{% endblock %}
+
+{% block body_body %}
+    <div style="position: relative;">
+        <div class="left-style" style="position: absolute">
+            <div>
+                <label>库地址：</label>
+                <select class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div>
+                <label>tables</label>
+                <select class="form-control" multiple size="40">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div style="float:right">
+        <div style="max-width: 300px;">
+            <label>tables</label>
+            <select class="form-control" multiple size="10">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+    </div>
+{% endblock %}
