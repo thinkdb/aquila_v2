@@ -3,6 +3,10 @@
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from multiprocessing import Process
+from email.header import Header
+from email.mime.text import MIMEText
+import smtplib
 import pymysql as pymysqldb
 import paramiko
 import socket
@@ -339,3 +343,25 @@ class Logger(object):
             self.run_logger.info(message)
         else:
             self.error_logger.error(message)
+
+
+class MailSender(object):
+    def __init__(self):
+        self.mail_server = settings.EMAIL['SERVER']
+        self.mail_ssl_port = int(settings.EMAIL['SSL_PORT'])
+        self.mail_form_user = settings.EMAIL['FROM_ADDRESS']
+        self.mail_passwd = settings.EMAIL['PASSWORD']
+
+    def _send(self, title, content, to_address):
+        msg = MIMEText(content)
+        msg['From'] = self.mail_form_user
+        msg['To'] = ','.join(to_address)
+        msg['Subject'] = Header(title, "utf-8").encode()
+        server = smtplib.SMTP_SSL(self.mail_server, self.mail_ssl_port)
+        server.login(self.mail_form_user, self.mail_passwd)
+        server.sendmail(self.mail_form_user, to_address, msg.as_string())
+        server.quit()
+
+    def send_email(self, title, content, to_address):
+        p = Process(target=self._send, args=(title, content, to_address))
+        p.start()

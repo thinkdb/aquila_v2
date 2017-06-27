@@ -16,3 +16,8 @@ def num2ip(arg, int_ip):
 @register.filter
 def udf_split(ret):
     return ret.split('---')
+
+
+@register.filter
+def udf_split_2(ret):
+    return ret.split(',')

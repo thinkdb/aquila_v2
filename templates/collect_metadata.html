@@ -1,0 +1,12 @@
+{% extends 'include/base.html' %}
+
+{% block title %}
+CollectMetadata
+{% endblock %}
+
+{% block body_body %}
+    <form action="{% url 'CollectMetadata' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="提交">
+    </form>
+{% endblock %}

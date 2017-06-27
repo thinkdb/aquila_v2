@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^sql_publish/sql-running.html$', SQLpublish.SqlRunning.as_view(), name='SqlRunning'),
     url(r'^sql_publish/sql-view.html$', SQLpublish.SqlView.as_view(), name='SqlView'),
     url(r'^sql_publish/sql-detail-(?P<wid>\d+).html$', SQLpublish.SqlDetail.as_view(), name='SqlDetail'),
-    url(r'^metadata/metadata_info.html', MySQL_MetaData.GetMetaData.as_view(), name='MySQLmetadata')
+    url(r'^metadata/metadata_info.html', MySQL_MetaData.GetMetaData.as_view(), name='MySQLmetadata'),
+    url(r'^metadata/collect_metadata.html', MySQL_MetaData.CollectMetadata.as_view(), name='CollectMetadata')
 ]

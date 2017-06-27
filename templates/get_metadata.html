@@ -1,5 +1,5 @@
 {% extends 'include/base.html' %}
-
+{% load udf_filter %}
 {% block title %}
 GetMetaData
 {% endblock %}
@@ -13,55 +13,70 @@ GetMetaData
         <div class="body_left" style="width: 300px; position: absolute;">
             <div>
                 <label>选择数据库</label>
-                <select class="form-control" >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <select class="form-control host_list" >
+                    {% for item in host_info %}
+                        <option>{{ item.host_ip }}</option>
+                    {% endfor %}
+
                 </select>
                 <label class="base_info">选择表</label>
-                <select class="form-control" multiple size="25";>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <select class="form-control table_list" multiple size="25";>
+                    {% for item in table_list %}
+                        <option>{{ item.table_name }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
 
-        <div class="body_right" style="position: absolute; float: right; right: 10px; width:600px;">
-            <div class="db_info">
+        <div class="body_right" style="position: absolute; float: right; left: 350px; width:600px;">
+            <div class="db_info db_list">
                 <label>库信息</label>
                 <table border="1px">
                     <thead>
+                    <tr>
                         <th>库名</th>
                         <th>默认字符集</th>
                         <th>默认校验码</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>test</td>
-                            <td>utf-8</td>
-                            <td>utf-8</td>
-                        </tr>
+                        {% for item in db_info %}
+                            <tr>
+                                <td>{{ item.schema_name }}</td>
+                                <td>{{ item.default_character_set_name }}</td>
+                                <td>{{ item.default_collation_name }}</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <div class="table_info base_info">
+            <div class="base_info table_list">
                 <label>表信息</label>
                 <table border="1px">
-                    <thead>
-                        <th>库名</th>
-                        <th>默认字符集</th>
-                        <th>默认校验码</th>
-                    </thead>
                     <tbody>
                         <tr>
-                            <td>test</td>
-                            <td>utf-8</td>
-                            <td>utf-8</td>
+                            <th>table_name</th><td>{{ table_info.0.table_name }}</td>
+                            <th>engine</th><td>{{ table_info.0.engine }}</td>
+                            <th>row_format</th><td>{{ table_info.0.row_format }}</td>
+                            <th>table_rows</th><td>{{ table_info.0.table_rows }}</td>
+                        </tr>
+                        <tr>
+                            <th>avg_row_length</th><td>{{ table_info.0.avg_row_length }}</td>
+                            <th>max_data_length</th><td>{{ table_info.0.max_data_length }}</td>
+                            <th>data_length</th><td>{{ table_info.0.data_length }}</td>
+                            <th>index_length</th><td>{{ table_info.0.index_length }}</td>
+                        </tr>
+                        <tr>
+                            <th>data_free</th><td>{{ table_info.0.data_free }}</td>
+                            <th>chip_size</th><td>{{ table_info.0.auto_increment }}</td>
+                            <th>auto_increment</th><td>{{ table_info.0.auto_increment }}</td>
+                            <th>table_collation</th><td>{{ table_info.0.table_collation }}</td>
+                        </tr>
+                        <tr>
+                            <th>create_time</th><td>{{ table_info.0.create_time }}</td>
+                            <th>update_time</th><td>{{ table_info.0.update_time }}</td>
+                            <th>check_time</th><td>{{ table_info.0.check_time }}</td>
+                            <th>table_comment</th><td>{{ table_info.0.table_comment }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -70,50 +85,76 @@ GetMetaData
                 <label>列信息</label>
                 <table border="1px">
                     <thead>
-                        <th>库名</th>
-                        <th>默认字符集</th>
-                        <th>默认校验码</th>
+                        <tr>
+                            <th>column_name</th>
+                            <th>column_type</th>
+                            <th>collation_name</th>
+                            <th>is_nullable</th>
+                            <th>column_key</th>
+                            <th>column_default</th>
+                            <th>extra</th>
+                            <th>privileges</th>
+                            <th>column_comment</th>
+                        </tr>
                     </thead>
                     <tbody>
+                    {% for item in column_info %}
                         <tr>
-                            <td>test</td>
-                            <td>utf-8</td>
-                            <td>utf-8</td>
+                            <td>{{ item.column_name }}</td>
+                            <td>{{ item.column_type }}</td>
+                            <td>{{ item.collation_name }}</td>
+                            <td>{{ item.is_nullable }}</td>
+                            <td>{{ item.column_key }}</td>
+                            <td>{{ item.column_default }}</td>
+                            <td>{{ item.extra }}</td>
+                            <td>{{ item.privileges }}</td>
+                            <td>{{ item.column_comment }}</td>
                         </tr>
                     </tbody>
+                    {% endfor %}
                 </table>
             </div>
             <div class="index_info base_info">
                 <label>索引信息</label>
                 <table border="1px">
                     <thead>
-                        <th>库名</th>
-                        <th>默认字符集</th>
-                        <th>默认校验码</th>
+                        <tr>
+                            <th>column_name</th>
+                            <th>non_unique</th>
+                            <th>index_name</th>
+                            <th>seq_in_index</th>
+                            <th>cardinality</th>
+                            <th>nullable</th>
+                            <th>index_type</th>
+                            <th>index_comment</th>
+                        </tr>
                     </thead>
                     <tbody>
+                    {% for item in index_info %}
                         <tr>
-                            <td>test</td>
-                            <td>utf-8</td>
-                            <td>utf-8</td>
+                            <td>{{ item.column_name }}</td>
+                            <td>{{ item.non_unique }}</td>
+                            <td>{{ item.index_name }}</td>
+                            <td>{{ item.seq_in_index }}</td>
+                            <td>{{ item.cardinality }}</td>
+                            <td>{{ item.nullable }}</td>
+                            <td>{{ item.index_type }}</td>
+                            <td>{{ item.index_comment }}</td>
                         </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
             <div class="sql_info base_info">
                 <label>建表语句</label>
                 <table border="1px">
-                    <thead>
-                        <th>库名</th>
-                        <th>默认字符集</th>
-                        <th>默认校验码</th>
-                    </thead>
                     <tbody>
-                        <tr>
-                            <td>test</td>
-                            <td>utf-8</td>
-                            <td>utf-8</td>
-                        </tr>
+                    <tr>
+                    <td>
+                        {{ table_sc.0.content }}
+
+                    </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

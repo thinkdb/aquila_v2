@@ -60,10 +60,16 @@ class UserRoleRelationship(models.Model):
     role = models.ForeignKey(RoleInfo, db_constraint=False, db_index=True)
     user = models.ForeignKey(UserInfo, db_constraint=False, db_index=True)
 
+    class Meta:
+        db_table = 'user_role_relationship'
+
 
 class UserGroupRelationship(models.Model):
     user = models.ForeignKey(UserInfo, db_constraint=False, db_index=True)
     group = models.ForeignKey('UserGroup', db_constraint=False, db_index=True)
+
+    class Meta:
+        db_table = 'user_group_relationship'
 
 
 class HostGroup(models.Model):
@@ -185,6 +191,9 @@ class WorkOrderTask(models.Model):
                                       to_field='work_order_id', db_constraint=False, unique=True)
     work_status = models.SmallIntegerField(default=10)  # 10 None, 1 run, 4 cancle
     audit_status = models.SmallIntegerField(default=10)  # 10 None, 0: pass, 1: reject
+
+    class Meta:
+        db_table = 'work_order_tasks'
 
 
 # class AppVersion(models.Model):
