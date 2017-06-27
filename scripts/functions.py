@@ -173,28 +173,36 @@ def result_tran(result, result_dict):
     for id, row in enumerate(result):
         result_dict['data'][id] = {}
         result_dict['data'][id]['sid'] = str(row[0])
-
         if row[3] == 'Audit completed' and row[2] == 0:
             msg = 'Successfully'
+            msg_code=0
         elif row[3] == 'Audit completed' and row[2] == 1:
             msg = 'Warning'
+            msg_code = 1
         elif row[3] == 'Audit completed' and row[2] == 2:
             msg = 'Error'
+            msg_code = 2
         elif row[3] == 'Execute failed':
             msg = '执行失败'
+            msg_code = 3
         elif row[3] == 'Execute Successfully':
             msg = '执行成功'
+            msg_code = 4
         elif row[3] == 'Execute Successfully\nBackup successfully':
             msg = '执行成功,备份成功'
+            msg_code = 5
         elif row[3] == 'Execute Successfully\nBackup filed':
             msg = '执行成功,备份失败'
+            msg_code = 6
         else:
             msg = '审核完成'
+            msg_code = 7
 
         a = ''
         for kxxxx, rows in enumerate(row[4].split('\n')):
             a = a + rows + '---'
         result_dict['data'][id]['status'] = msg
+        result_dict['data'][id]['status_code'] = msg_code
         result_dict['data'][id]['error_msg'] = a
         result_dict['data'][id]['sql'] = row[5]
         result_dict['data'][id]['rows'] = row[6]

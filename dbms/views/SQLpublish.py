@@ -107,6 +107,7 @@ class SqlCommit(View):
                                 sql_sid=id,
                                 flag=1,
                                 status=self.result_dict['data'][id]['status'],
+                                status_code=self.result_dict['data'][id]['status_code'],
                                 error_msg=self.result_dict['data'][id]['error_msg'],
                                 sql_content=self.result_dict['data'][id]['sql'],
                                 aff_row=self.result_dict['data'][id]['rows'],

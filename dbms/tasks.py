@@ -51,6 +51,7 @@ def work_run_task(host, user, passwd, port, sql_content, wid):
             sql_sid=items,
             flag=3,
             status=result['data'][items]['status'],
+            status_code=result['data'][items]['status_code'],
             error_msg=result['data'][items]['error_msg'],
             sql_content=result['data'][items]['sql'],
             aff_row=result['data'][items]['rows'],

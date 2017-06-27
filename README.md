@@ -80,6 +80,7 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
     python manage.py runserver 0.0.0.0:8001
     celery -A aquila_v2 worker
     ```
+    使用 celery 功能时,需要安装 rabbitmq, 默认安装即可，不需要配置
 
 5. 登录
    ```
@@ -90,6 +91,10 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
 
 待完成工作:
 1. 展示工单的回滚语句
+```
+select tablename from $_$Inception_backup_information$_$;
+select aa.sql_statement,e.rollback_statement from $_$Inception_backup_information$_$ aa, TABLENAME e where aa.opid_time = e.opid_time;
+```
 2. 工单执行进度
 3. 工单定时执行
-4. 收集MySQL元数据信息（进行中。。。)
+4. 收集MySQL元数据信息（待完成展示页面)

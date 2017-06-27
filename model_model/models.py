@@ -153,10 +153,12 @@ class InceptionAuditDetail(models.Model):
                                    to_field='work_order_id', db_constraint=False, db_index=True)
     sql_sid = models.SmallIntegerField()              # sql_number
     status = models.CharField(max_length=30)
-    # 0: Audit completed,  1: Execute failed
-    # 2: Execute Successfully
-    # 3: Execute Successfully\nBackup successfully
-    # 4: Execute Successfully\nBackup filed
+    status_code = models.SmallIntegerField()
+    # Audit
+    # 0: Successfully,  1: Warning, 2: Error, 7: 审核完成
+
+    # Execute
+    # 3: 执行失败, 4: 执行成功, 5: 执行成功,备份成功, 6: 执行成功,备份失败
 
     error_msg = models.TextField()                    # None, str,
     sql_content = models.TextField()                  # sql content
