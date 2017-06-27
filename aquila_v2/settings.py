@@ -203,5 +203,5 @@ EMAIL = {
     'SERVER': 'smtp.qq.com',
     'SSL_PORT': 465,
     'FROM_ADDRESS': '996846239@qq.com',
-    'PASSWORD': 'qxhonddalbdtbaja'
+    'PASSWORD': 'qxhonddalbdtbajb'
 }
