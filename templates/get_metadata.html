@@ -11,7 +11,7 @@ GetMetaData
 
 {% block body_body %}
     <div style="position: relative; top: 20px" >
-        <div class="body_left" style="width: 300px; position: absolute;">
+        <div class="body_left" style="width: 250px; position: absolute;">
             <div>
                 <label>选择主机</label>
                 <select class="form-control host_list" name="host_ip">
@@ -28,7 +28,7 @@ GetMetaData
 
                     </select>
                 <label class="base_info">选择表</label>
-                <select class="form-control table_list" multiple size="35";>
+                <select class="form-control table_list">
                     {% for item in table_list %}
                         <option>{{ item.table_name }}</option>
                     {% endfor %}
@@ -36,55 +36,34 @@ GetMetaData
             </div>
         </div>
 
-        <div class="body_right" style="position: absolute; float: right; left: 350px; width:600px;">
-{#            <div class="db_info db_list">#}
-{#                <label>库信息</label>#}
-{#                <table class="table table-bordered table-hover">#}
-{#                    <thead>#}
-{#                    <tr>#}
-{#                        <th>库名</th>#}
-{#                        <th>默认字符集</th>#}
-{#                        <th>默认校验码</th>#}
-{#                    </tr>#}
-{#                    </thead>#}
-{#                    <tbody>#}
-{#                        {% for item in db_info %}#}
-{#                            <tr>#}
-{#                                <td>{{ item.schema_name }}</td>#}
-{#                                <td>{{ item.default_character_set_name }}</td>#}
-{#                                <td>{{ item.default_collation_name }}</td>#}
-{#                            </tr>#}
-{#                        {% endfor %}#}
-{#                    </tbody>#}
-{#                </table>#}
-{#            </div>#}
-            <div class="base_info table_list">
+        <div class="body_right" style="position: absolute; float: right; left: 280px; width:600px;">
+            <div class="base_info">
                 <label>表信息</label>
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" id="table_info">
                     <tbody>
                         <tr>
-                            <th>table_name</th><td>{{ table_info.0.table_name }}</td>
-                            <th>engine</th><td>{{ table_info.0.engine }}</td>
-                            <th>row_format</th><td>{{ table_info.0.row_format }}</td>
-                            <th>table_rows</th><td>{{ table_info.0.table_rows }}</td>
+                            <th>表名</th><td id="table_name"></td>
+                            <th>引擎</th><td id="engine"></td>
+                            <th>行格式</th><td id="row_format"></td>
+                            <th>表行数</th><td id="table_rows"></td>
                         </tr>
                         <tr>
-                            <th>avg_row_length</th><td>{{ table_info.0.avg_row_length }}</td>
-                            <th>max_data_length</th><td>{{ table_info.0.max_data_length }}</td>
-                            <th>data_length</th><td>{{ table_info.0.data_length }}</td>
-                            <th>index_length</th><td>{{ table_info.0.index_length }}</td>
+                            <th>平均行长度</th><td id="avg_row_length"></td>
+                            <th>最大行长度</th><td id="max_data_length"></td>
+                            <th>数据长度</th><td id="data_length"></td>
+                            <th>索引长度</th><td id="index_length"></td>
                         </tr>
                         <tr>
-                            <th>data_free</th><td>{{ table_info.0.data_free }}</td>
-                            <th>chip_size</th><td>{{ table_info.0.auto_increment }}</td>
-                            <th>auto_increment</th><td>{{ table_info.0.auto_increment }}</td>
-                            <th>table_collation</th><td>{{ table_info.0.table_collation }}</td>
+                            <th>空闲数据大小</th><td id="data_free"></td>
+                            <th>碎片大小</th><td id="chip_size"></td>
+                            <th>当前自增值</th><td id="auto_increment"></td>
+                            <th>表的校验码</th><td id="table_collation"></td>
                         </tr>
                         <tr>
-                            <th>create_time</th><td>{{ table_info.0.create_time }}</td>
-                            <th>update_time</th><td>{{ table_info.0.update_time }}</td>
-                            <th>check_time</th><td>{{ table_info.0.check_time }}</td>
-                            <th>table_comment</th><td>{{ table_info.0.table_comment }}</td>
+                            <th>创建时间</th><td id="create_time"></td>
+                            <th>更新时间</th><td id="update_time"></td>
+                            <th>检查时间</th><td id="check_time"></td>
+                            <th>表说明</th><td id="table_comment"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -94,32 +73,35 @@ GetMetaData
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>column_name</th>
-                            <th>column_type</th>
-                            <th>collation_name</th>
-                            <th>is_nullable</th>
+                            <th>列名</th>
+                            <th>列类型</th>
+                            <th>列校验码</th>
+                            <th>是否为空</th>
                             <th>column_key</th>
-                            <th>column_default</th>
-                            <th>extra</th>
-                            <th>privileges</th>
-                            <th>column_comment</th>
+                            <th>默认值</th>
+                            <th>扩展信息</th>
+                            <th>权限</th>
+                            <th>列说明</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {% for item in column_info %}
-                        <tr>
-                            <td>{{ item.column_name }}</td>
-                            <td>{{ item.column_type }}</td>
-                            <td>{{ item.collation_name }}</td>
-                            <td>{{ item.is_nullable }}</td>
-                            <td>{{ item.column_key }}</td>
-                            <td>{{ item.column_default }}</td>
-                            <td>{{ item.extra }}</td>
-                            <td>{{ item.privileges }}</td>
-                            <td>{{ item.column_comment }}</td>
-                        </tr>
+{#                    {% if column_info %}#}
+{#                        {% for item in column_info %}#}
+{#                            <tr>#}
+{#                                <td>{{ item.column_name }}</td>#}
+{#                                <td>{{ item.column_type }}</td>#}
+{#                                <td>{{ item.collation_name }}</td>#}
+{#                                <td>{{ item.is_nullable }}</td>#}
+{#                                <td>{{ item.column_key }}</td>#}
+{#                                <td>{{ item.column_default }}</td>#}
+{#                                <td>{{ item.extra }}</td>#}
+{#                                <td>{{ item.privileges }}</td>#}
+{#                                <td>{{ item.column_comment }}</td>#}
+{#                            </tr>#}
+{#                         {% endfor %}#}
+{#                    {% endif %}#}
                     </tbody>
-                    {% endfor %}
+
                 </table>
             </div>
             <div class="index_info base_info">
@@ -127,29 +109,31 @@ GetMetaData
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>column_name</th>
-                            <th>non_unique</th>
-                            <th>index_name</th>
-                            <th>seq_in_index</th>
-                            <th>cardinality</th>
-                            <th>nullable</th>
-                            <th>index_type</th>
-                            <th>index_comment</th>
+                            <th>列名</th>
+                            <th>是否唯一索引</th>
+                            <th>索引名</th>
+                            <th>列序列</th>
+                            <th>基数</th>
+                            <th>是否是空</th>
+                            <th>索引类型</th>
+                            <th>索引说明</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {% for item in index_info %}
-                        <tr>
-                            <td>{{ item.column_name }}</td>
-                            <td>{{ item.non_unique }}</td>
-                            <td>{{ item.index_name }}</td>
-                            <td>{{ item.seq_in_index }}</td>
-                            <td>{{ item.cardinality }}</td>
-                            <td>{{ item.nullable }}</td>
-                            <td>{{ item.index_type }}</td>
-                            <td>{{ item.index_comment }}</td>
-                        </tr>
-                    {% endfor %}
+{#                    {% if index_info %}#}
+{#                        {% for item in index_info %}#}
+{#                            <tr>#}
+{#                                <td id="column_name"></td>#}
+{#                                <td id="non_unique"></td>#}
+{#                                <td id="index_name">{{ item.index_name }}</td>#}
+{#                                <td id="seq_in_index">{{ item.seq_in_index }}</td>#}
+{#                                <td id="cardinality">{{ item.cardinality }}</td>#}
+{#                                <td id="nullable">{{ item.nullable }}</td>#}
+{#                                <td id="index_type">{{ item.index_type }}</td>#}
+{#                                <td id="index_comment">{</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                    {% endif %}#}
                     </tbody>
                 </table>
             </div>
@@ -158,11 +142,11 @@ GetMetaData
                 <table class="table table-bordered table-hover">
                     <tbody>
                     <tr>
-                    <td>
+                    <td id="sql_content">
 
-                        {% for line in table_sc.0.content|udf_split_4:'  ' %}
-                            {{ line}}<br>
-                        {% endfor %}
+{#                        {% for line in table_sc.0.content|udf_split_4:'  ' %}#}
+{#                            {{ line}}<br>#}
+{#                        {% endfor %}#}
 
                     </td>
                     </tr>

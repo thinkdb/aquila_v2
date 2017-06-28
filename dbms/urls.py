@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^metadata/collect_metadata.html', MySQL_MetaData.CollectMetadata.as_view(), name='CollectMetadata'),
 
     url(r'^rollback/get_rollback-(?P<wid>\d+).html', RollBackWork.RollBack.as_view(), name='Rollback'),
+
+    url(r'^metadata/get_table_info.html$', MySQL_MetaData.GetTableInfo.as_view(), name='GetTableInfo'),
 ]

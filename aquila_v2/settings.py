@@ -181,8 +181,8 @@ DATABASES = {
         'NAME': 'aquila2',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '192.168.1.6',
-        'PORT': 3306
+        'HOST': '127.0.0.1',
+        'PORT': 4901
     }
 }
 
