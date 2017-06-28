@@ -90,11 +90,7 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
 初始化时只给了管理账号， 其他用户账号自行注册
 
 待完成工作:
-1. 展示工单的回滚语句
-```
-select tablename from $_$Inception_backup_information$_$;
-select aa.sql_statement,e.rollback_statement from $_$Inception_backup_information$_$ aa, TABLENAME e where aa.opid_time = e.opid_time;
-```
+1. 展示工单的回滚语句(完成)
 2. 工单执行进度
 3. 工单定时执行
 4. 收集MySQL元数据信息（待完成展示页面)

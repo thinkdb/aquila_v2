@@ -52,6 +52,11 @@ $(function () {
         })
     });
 
+    $('.rollback_a').each(function(){
+            var wid = $(this).parent().parent().find('#work_order_id').text();
+            $(this).attr('href','/dbms/rollback/get_rollback-'+wid+'.html');
+    });
+
     WorkCommit('audit_button', '/dbms/sql_publish/sql-audit.html', '提交成功');
     WorkCommit('run_button', '/dbms/sql_publish/sql-running.html', '任务查已经提交到后台执行，请《工单询》页面查看进度');
 });

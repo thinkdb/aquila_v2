@@ -244,7 +244,7 @@ class MetaDataColumns(models.Model):
     column_key = models.CharField(max_length=3, default='---')
     column_default = models.CharField(max_length=150, default='----')
     extra = models.CharField(max_length=30, default='----')
-    PRIVILEGES = models.CharField(max_length=80)
+    privileges = models.CharField(max_length=80)
     column_comment = models.CharField(max_length=500, default='----')
     column_md5 = models.CharField(max_length=100)
 

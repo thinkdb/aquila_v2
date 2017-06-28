@@ -20,12 +20,13 @@ import logging
 
 
 class DBAPI(object):
-    def __init__(self, host, user, password, port, database='test'):
+    def __init__(self, host, user, password, port, database=None):
         try:
             self.conn = pymysqldb.connect(host=host, user=user, passwd=password, port=int(port),
-                                          database=database, autocommit=1, charset='utf8')
+                                          autocommit=1, charset='utf8')
 
-            # self.conn.select_db(database)
+            if database:
+                self.conn.select_db(database)
             self.cur = self.conn.cursor()
             self.error = None
         except Exception as e:
@@ -44,7 +45,6 @@ class DBAPI(object):
 
         try:
             rel = self.cur.execute(sql)
-
             return rel
         except Exception as e:
             return e
@@ -289,7 +289,7 @@ class SplitSql(object):
 
     def check_all(self):
         sql_content_list = self.sql.lower().split()
-        error_list = ['begin', 'set', 'commit', 'rollback', 'revoke', 'into', 'rename',
+        error_list = ['begin', 'set', 'commit', 'rollback', 'revoke', 'rename', 'use'
                       'grant', '\*', 'execute', 'flush', 'shutdown', 'change', 'call']
         for item in sql_content_list:
             for i in error_list:

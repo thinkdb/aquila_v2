@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RollBack</title>
+    <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>工单</th>
+                <th>发布SQL</th>
+                <th>回滚SQL</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for line in rollback_info %}
+            <tr>
+                <td>{{ line.0 }}</td>
+                <td>{{ line.1 }}</td>
+                <td>{{ line.2 }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

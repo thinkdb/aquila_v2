@@ -77,10 +77,14 @@
                                             <td>{{ v2.status }}</td>
                                             <td>
                                                 {% for line in v2.error_msg|udf_split %}
-                                                    <p>{{ line }}</p>
+                                                    {{ line }}<br>
                                                 {% endfor %}
                                             </td>
-                                            <td>{{ v2.sql }}</td>
+                                            <td>
+                                                {% for line in v2.sql|udf_split_3 %}
+                                                    {{ line }}<br>
+                                                {% endfor %}
+                                            </td>
                                             <td>{{ v2.rows }}</td>
                                             </tr>
                                         {% endfor %}

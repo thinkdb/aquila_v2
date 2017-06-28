@@ -32,6 +32,7 @@
                                     <th>工单状态</th>
                                     <th>执行时间</th>
                                     <th>执行进度</th>
+                                    <th>回滚</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,9 +80,18 @@
                                                     <td id="work_run_time">{{ 'None' }}</td>
                                                 {% endif %}
                                             <td></td>
+                                            <td>
+                                                {% if item.work_status == 1 %}
+                                                    <a class="rollback_a" target="_blank" >获取回滚语句</a>
+                                                {% else %}
+                                                    <span class="rollback_b" target="_blank">无回滚语句</span>
+                                                {% endif %}
+
+
+                                            </td>
                                         </tr>
                                         <tr class="detail_close">
-                                            <td colspan="11">
+                                            <td colspan="12">
                                                 {% include 'inception/WorkDetail.html' %}
                                             </td>
                                         </tr>

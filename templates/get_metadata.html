@@ -4,7 +4,8 @@
 GetMetaData
 {% endblock %}
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/static/css/metadata.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/metadata.css"/>
 {% endblock %}
 
 
@@ -12,15 +13,22 @@ GetMetaData
     <div style="position: relative; top: 20px" >
         <div class="body_left" style="width: 300px; position: absolute;">
             <div>
-                <label>选择数据库</label>
-                <select class="form-control host_list" >
+                <label>选择主机</label>
+                <select class="form-control host_list" name="host_ip">
                     {% for item in host_info %}
-                        <option>{{ item.host_ip }}</option>
+                        <option value="{{ item.host_ip }}">{{ item.host_ip }}</option>
                     {% endfor %}
 
                 </select>
+                <label class="base_info">选择库</label>
+                    <select class="form-control db_list" name="table_schema">
+                        {% for item in db_info %}
+                            <option value="{{ item.schema_name }}">{{ item.schema_name }}</option>
+                        {% endfor %}
+
+                    </select>
                 <label class="base_info">选择表</label>
-                <select class="form-control table_list" multiple size="25";>
+                <select class="form-control table_list" multiple size="35";>
                     {% for item in table_list %}
                         <option>{{ item.table_name }}</option>
                     {% endfor %}
@@ -29,30 +37,30 @@ GetMetaData
         </div>
 
         <div class="body_right" style="position: absolute; float: right; left: 350px; width:600px;">
-            <div class="db_info db_list">
-                <label>库信息</label>
-                <table border="1px">
-                    <thead>
-                    <tr>
-                        <th>库名</th>
-                        <th>默认字符集</th>
-                        <th>默认校验码</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in db_info %}
-                            <tr>
-                                <td>{{ item.schema_name }}</td>
-                                <td>{{ item.default_character_set_name }}</td>
-                                <td>{{ item.default_collation_name }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+{#            <div class="db_info db_list">#}
+{#                <label>库信息</label>#}
+{#                <table class="table table-bordered table-hover">#}
+{#                    <thead>#}
+{#                    <tr>#}
+{#                        <th>库名</th>#}
+{#                        <th>默认字符集</th>#}
+{#                        <th>默认校验码</th>#}
+{#                    </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                        {% for item in db_info %}#}
+{#                            <tr>#}
+{#                                <td>{{ item.schema_name }}</td>#}
+{#                                <td>{{ item.default_character_set_name }}</td>#}
+{#                                <td>{{ item.default_collation_name }}</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                    </tbody>#}
+{#                </table>#}
+{#            </div>#}
             <div class="base_info table_list">
                 <label>表信息</label>
-                <table border="1px">
+                <table class="table table-bordered table-hover">
                     <tbody>
                         <tr>
                             <th>table_name</th><td>{{ table_info.0.table_name }}</td>
@@ -83,7 +91,7 @@ GetMetaData
             </div>
             <div class="colume_info base_info">
                 <label>列信息</label>
-                <table border="1px">
+                <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>column_name</th>
@@ -116,7 +124,7 @@ GetMetaData
             </div>
             <div class="index_info base_info">
                 <label>索引信息</label>
-                <table border="1px">
+                <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>column_name</th>
@@ -147,11 +155,14 @@ GetMetaData
             </div>
             <div class="sql_info base_info">
                 <label>建表语句</label>
-                <table border="1px">
+                <table class="table table-bordered table-hover">
                     <tbody>
                     <tr>
                     <td>
-                        {{ table_sc.0.content }}
+
+                        {% for line in table_sc.0.content|udf_split_4:'  ' %}
+                            {{ line}}<br>
+                        {% endfor %}
 
                     </td>
                     </tr>
@@ -163,4 +174,8 @@ GetMetaData
 
     <div style="clear: both"></div>
 
+{% endblock %}
+
+{% block js %}
+    <script src="/static/js/metadata.js"></script>
 {% endblock %}

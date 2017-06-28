@@ -9,6 +9,9 @@ from dbms.tasks import get_matedata
 @method_decorator(AuthAccount, name='dispatch')
 class GetMetaData(View):
     def get(self, request):
+        host_ip = request.GET.get('host_ip', None)
+        table_schema = request.GET.get('table_schema', None)
+        table_name = request.GET.get('table_name', None)
         host_info = models.HostInfo.objects.filter(app_type__app_name='MySQL').values('host_ip')
         db_info = models.MetaDataDatabase.objects.filter(host_ip='192.168.1.4').all()
         table_list = models.MetaDataTables.objects.filter(host_ip='192.168.1.4', table_schema='monitor').all()

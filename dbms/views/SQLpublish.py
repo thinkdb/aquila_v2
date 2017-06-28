@@ -81,7 +81,6 @@ class SqlCommit(View):
                         self.result_dict['error'] = '无连接 Inception，请联系管理员！！！'
                     else:
                         self.result_dict = result_tran(result, self.result_dict)
-
                 if obj.cleaned_data['is_commit'] == '1' and self.result_dict['status'] == 1:
                         # commit audit sql
                         self.result_dict['running'] = 1
@@ -259,7 +258,7 @@ class SqlRunning(View):
             #                  )
             # 提交到后台执行,
             # from dbms.tasks import work_run_task
-            work_run_task.delay(master_ip, task_info[0]['app_user'],
+            work_run_task(master_ip, task_info[0]['app_user'],
                                 task_info[0]['app_pass'],
                                 task_info[0]['app_port'],
                                 task_info[0]['work_order__inceauditsqlcontent__sql_content'],
@@ -314,11 +313,13 @@ class SqlView(View):
             'inceptionauditdetail__sql_content',
             'inceptionauditdetail__aff_row',
         )
+        rollback = models.InceptionAuditDetail.objects.filter(flag=3).exclude(backup_dbname='None').all()
 
         return render(request, 'inception/SqlWorkView.html', {'user_info': user_info,
                                                               'review_work_info': review_work_info,
                                                               'audit_work_info': audit_work_info,
-                                                              'detail_sql_info': detail_sql_info})
+                                                              'detail_sql_info': detail_sql_info,
+                                                              'rollback_flag': rollback})
 
     def post(self, request):
         user_info = GetUserInfo(request)

@@ -2,6 +2,7 @@ from django import template
 import socket, struct
 register = template.Library()
 
+
 @register.simple_tag
 def num2ip(arg, int_ip):
     """
@@ -13,6 +14,7 @@ def num2ip(arg, int_ip):
         ip = str(socket.ntohl(struct.unpack('I', socket.inet_aton(int_ip))[0]))
     return ip
 
+
 @register.filter
 def udf_split(ret):
     return ret.split('---')
@@ -21,3 +23,13 @@ def udf_split(ret):
 @register.filter
 def udf_split_2(ret):
     return ret.split(',')
+
+
+@register.filter
+def udf_split_3(ret):
+    return ret.split('\r\n')
+
+
+@register.filter
+def udf_split_4(ret, args):
+    return ret.split(args)

@@ -7,6 +7,7 @@ CollectMetadata
 {% block body_body %}
     <form action="{% url 'CollectMetadata' %}" method="post">
         {% csrf_token %}
+        <p>收集功能只是临时使用，后期改成定时执行， 收集时是所有MySQL服务器一起收集</p>
         <input type="submit" name="提交">
     </form>
 {% endblock %}
