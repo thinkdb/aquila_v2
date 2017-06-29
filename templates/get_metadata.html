@@ -15,6 +15,7 @@ GetMetaData
             <div>
                 <label>选择主机</label>
                 <select class="form-control host_list" name="host_ip">
+                    <option class="host_option">----</option>
                     {% for item in host_info %}
                         <option value="{{ item.host_ip }}">{{ item.host_ip }}</option>
                     {% endfor %}
@@ -22,21 +23,16 @@ GetMetaData
                 </select>
                 <label class="base_info">选择库</label>
                     <select class="form-control db_list" name="table_schema">
-                        {% for item in db_info %}
-                            <option value="{{ item.schema_name }}">{{ item.schema_name }}</option>
-                        {% endfor %}
-
+                        <option class="db_option">----</option>
                     </select>
                 <label class="base_info">选择表</label>
                 <select class="form-control table_list">
-                    {% for item in table_list %}
-                        <option>{{ item.table_name }}</option>
-                    {% endfor %}
+                    <option class="table_option">----</option>
                 </select>
             </div>
         </div>
 
-        <div class="body_right" style="position: absolute; float: right; left: 280px; width:600px;">
+        <div class="body_right" style="position: absolute; float: right; left: 280px; width:70%;">
             <div class="base_info">
                 <label>表信息</label>
                 <table class="table table-bordered table-hover" id="table_info">
@@ -84,7 +80,7 @@ GetMetaData
                             <th>列说明</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="tbody_column">
 {#                    {% if column_info %}#}
 {#                        {% for item in column_info %}#}
 {#                            <tr>#}

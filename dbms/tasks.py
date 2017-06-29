@@ -66,6 +66,7 @@ def work_run_task(host, user, passwd, port, sql_content, wid):
     functions.Logger().log('{0}--工单执行结束'.format(wid))
 
 
+@app.task()
 def get_matedata(account_info):
     for item in account_info:
         host = item['host__host_ip']
@@ -264,7 +265,7 @@ class GetMetadataitem(object):
             column_key,
             column_default,
             extra,
-            PRIVILEGES,
+            privileges,
             column_comment
         FROM information_schema.columns
         where table_schema not in ('sys', 'test', 'information_schema', 'performance_schema', 'mysql')
@@ -302,7 +303,7 @@ class GetMetadataitem(object):
                                 column_key=column_key,
                                 column_default=column_default,
                                 extra=extra,
-                                PRIVILEGES=item[9],
+                                privileges=item[9],
                                 column_comment=column_comment,
                                 column_md5=column_md5
                             )
@@ -323,7 +324,7 @@ class GetMetadataitem(object):
                             column_key=column_key,
                             column_default=column_default,
                             extra=extra,
-                            PRIVILEGES=item[9],
+                            privileges=item[9],
                             column_comment=column_comment,
                             column_md5=column_md5
                         )
