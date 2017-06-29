@@ -79,7 +79,13 @@
                                                     <td id="work_status">{{ '未执行' }}</td>
                                                     <td id="work_run_time">{{ 'None' }}</td>
                                                 {% endif %}
-                                            <td></td>
+                                            <td>
+                                                <div class="progress">
+                                                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                    <span class="w-progress-bar">60%</span>
+                                                  </div>
+                                                </div>
+                                            </td>
                                             <td>
                                                 {% if item.work_status == 1 %}
                                                     <a class="rollback_a" target="_blank" >获取回滚语句</a>

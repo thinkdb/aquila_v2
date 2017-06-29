@@ -11,20 +11,24 @@ GetMetaData
 
 {% block body_body %}
     <div style="position: relative; top: 20px" >
-        <div class="body_left" style="width: 250px; position: absolute;">
-            <div>
+{#        <div class="body_left2" style="width: 250px; position: absolute;">#}
+        <div class="body_left2">
+            <div style="width: 200px; display: inline-block;">
                 <label>选择主机</label>
                 <select class="form-control host_list" name="host_ip">
                     <option class="host_option">----</option>
                     {% for item in host_info %}
                         <option value="{{ item.host_ip }}">{{ item.host_ip }}</option>
                     {% endfor %}
-
                 </select>
+            </div>
+            <div style="width: 200px; display: inline-block">
                 <label class="base_info">选择库</label>
-                    <select class="form-control db_list" name="table_schema">
-                        <option class="db_option">----</option>
-                    </select>
+                <select class="form-control db_list" name="table_schema">
+                    <option class="db_option">----</option>
+                </select>
+            </div>
+            <div style="width: 200px; display: inline-block">
                 <label class="base_info">选择表</label>
                 <select class="form-control table_list">
                     <option class="table_option">----</option>
@@ -32,7 +36,8 @@ GetMetaData
             </div>
         </div>
 
-        <div class="body_right" style="position: absolute; float: right; left: 280px; width:70%;">
+{#        <div class="body_right" style="position: absolute; float: right; left: 280px; width:70%;">#}
+        <div>
             <div class="base_info">
                 <label>表信息</label>
                 <table class="table table-bordered table-hover" id="table_info">
@@ -81,21 +86,6 @@ GetMetaData
                         </tr>
                     </thead>
                     <tbody class="tbody_column">
-{#                    {% if column_info %}#}
-{#                        {% for item in column_info %}#}
-{#                            <tr>#}
-{#                                <td>{{ item.column_name }}</td>#}
-{#                                <td>{{ item.column_type }}</td>#}
-{#                                <td>{{ item.collation_name }}</td>#}
-{#                                <td>{{ item.is_nullable }}</td>#}
-{#                                <td>{{ item.column_key }}</td>#}
-{#                                <td>{{ item.column_default }}</td>#}
-{#                                <td>{{ item.extra }}</td>#}
-{#                                <td>{{ item.privileges }}</td>#}
-{#                                <td>{{ item.column_comment }}</td>#}
-{#                            </tr>#}
-{#                         {% endfor %}#}
-{#                    {% endif %}#}
                     </tbody>
 
                 </table>
@@ -115,21 +105,7 @@ GetMetaData
                             <th>索引说明</th>
                         </tr>
                     </thead>
-                    <tbody>
-{#                    {% if index_info %}#}
-{#                        {% for item in index_info %}#}
-{#                            <tr>#}
-{#                                <td id="column_name"></td>#}
-{#                                <td id="non_unique"></td>#}
-{#                                <td id="index_name">{{ item.index_name }}</td>#}
-{#                                <td id="seq_in_index">{{ item.seq_in_index }}</td>#}
-{#                                <td id="cardinality">{{ item.cardinality }}</td>#}
-{#                                <td id="nullable">{{ item.nullable }}</td>#}
-{#                                <td id="index_type">{{ item.index_type }}</td>#}
-{#                                <td id="index_comment">{</td>#}
-{#                            </tr>#}
-{#                        {% endfor %}#}
-{#                    {% endif %}#}
+                    <tbody class="tbody_index">
                     </tbody>
                 </table>
             </div>
@@ -137,15 +113,7 @@ GetMetaData
                 <label>建表语句</label>
                 <table class="table table-bordered table-hover">
                     <tbody>
-                    <tr>
-                    <td id="sql_content">
-
-{#                        {% for line in table_sc.0.content|udf_split_4:'  ' %}#}
-{#                            {{ line}}<br>#}
-{#                        {% endfor %}#}
-
-                    </td>
-                    </tr>
+                        <tr class="sql_content"></tr>
                     </tbody>
                 </table>
             </div>

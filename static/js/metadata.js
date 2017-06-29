@@ -35,7 +35,7 @@ $(function () {
         var host_ip = $('.host_list').val();
         var table_schema = $('.db_list').val();
         var table_name = $('.table_list').val();
-        console.log(host_ip, table_schema, table_name);
+        console.log(table_name);
         $.ajax({
             url: '/dbms/metadata/get_table_info.html',
             type: 'GET',
@@ -47,6 +47,11 @@ $(function () {
                 index_info = data.index_info;
                 table_sc = data.table_sc;
                 update_table_info(table_info);
+                update_column_info(column_info);
+                update_index_info(index_info);
+
+                update_sql_info(table_sc);
+                // $('#sql_content').text(table_sc['sql_content']);
             },
             error: function(data){
                 console.log(data);
@@ -71,7 +76,6 @@ $(function () {
     // 填充表信息
     function updated_table_info(data) {
         $('.table_list .table_option').nextAll().remove();
-        console.log(11111);
         if(data.table_info.length > 0){
             for (item in data.table_info) {
                 var option_obj = document.createElement('option');
@@ -105,6 +109,53 @@ $(function () {
 
     // 填充列信息
     function update_column_info(data) {
-        
+        $('.tbody_column').find('tr').remove();
+        for(item in data){
+            var row = data[item];
+            var tr_obj = document.createElement('tr');
+            tr_obj.innerHTML = '<td>' + row["column_name"] + '</td>' +
+            '<td>'+row["column_type"]+'</td>'+
+            '<td>'+row["collation_name"]+'</td>'+
+            '<td>'+row["is_nullable"]+'</td>'+
+            '<td>'+row["column_key"]+'</td>'+
+            '<td>'+row["column_default"]+'</td>'+
+            '<td>'+row["extra"]+'</td>'+
+            '<td>'+row["privileges"]+'</td>'+
+            '<td>'+row["column_comment"]+'</td>';
+            $(tr_obj).appendTo('.tbody_column');
+        }
+    }
+
+    // 填充索引信息
+    function update_index_info(data) {
+        $('.tbody_index').find('tr').remove();
+        for(item in data){
+            var row = data[item];
+            console.log(row);
+            var tr_obj = document.createElement('tr');
+            tr_obj.innerHTML = '<td>' + row["column_name"] + '</td>' +
+            '<td>'+row["non_unique"]+'</td>'+
+            '<td>'+row["index_name"]+'</td>'+
+            '<td>'+row["seq_in_index"]+'</td>'+
+            '<td>'+row["cardinality"]+'</td>'+
+            '<td>'+row["nullable"]+'</td>'+
+            '<td>'+row["index_type"]+'</td>'+
+            '<td>'+row["index_comment"]+'</td>';
+            $(tr_obj).appendTo('.tbody_index');
+        }
+    }
+
+    // 更新表结构
+    function update_sql_info(data) {
+        $('.sql_content').find('td').remove();
+        var td_obj = document.createElement('td');
+        var td_content = '';
+        var  sql_list = data['sql_content'].split('\n');
+        for(item in sql_list){
+            td_content = td_content + sql_list[item] + '<br>';
+        }
+        console.log(td_content);
+        td_obj.innerHTML = td_content;
+        $(td_obj).appendTo('.sql_content');
     }
 });

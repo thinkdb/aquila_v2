@@ -59,4 +59,30 @@ $(function () {
 
     WorkCommit('audit_button', '/dbms/sql_publish/sql-audit.html', '提交成功');
     WorkCommit('run_button', '/dbms/sql_publish/sql-running.html', '任务查已经提交到后台执行，请《工单询》页面查看进度');
+
+    // 获取工单进度   
+    function get_progress(){
+        $.ajax({
+            url: '/dbms/',
+            type: 'GET',
+            data: {'wid': 'xx'},
+            dataType: 'JSON',
+            success: function(data){
+                status = data.status;
+                err_msg = data.error_msg;
+
+                if(status==1){
+                    alert(msg);
+
+                }
+                else{
+                    alert(err_msg);
+                }
+
+            },
+            error: function(data){
+                console.log(data);
+            }
+        })
+    }
 });
