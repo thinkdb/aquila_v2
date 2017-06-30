@@ -49,16 +49,33 @@ $(function () {
     $('tbody #work_info #work_order_id').each(function () {
         $(this).click(function () {
             var self = $(this);
-            $('tbody #all_layer').each(function(){
-                if($(this).attr('class') == 'detail_close dd') {
+            self.parent().prevAll().find('#all_layer').each(function(){
+                console.log($(this).attr('class'));
+                if ($(this).attr('class') == 'detail_close'){
+
                 }else{
                     $(this).attr('class', 'detail_close');
                 }
             });
-            if (self.parent().next().attr('class') == 'detail_close dd') {
+
+            self.parent().nextAll().find('#all_layer').each(function(){
+                if ($(this).attr('class') == 'detail_close'){
+
+                }else{
+                    $(this).attr('class', 'detail_close');
+                }
+            });
+            // $('tbody #all_layer').each(function(){
+            //     if($(this).attr('class') == 'detail_close dd') {
+            //     }else{
+            //         $(this).attr('class', 'detail_close');
+            //     }
+            // });
+
+            if (self.parent().next().attr('class') == 'detail_close') {
                 self.parent().next().toggleClass('detail_close');
             }else {
-                self.parent().next().addClass('detail_close dd');
+                self.parent().next().addClass('detail_close');
             }
             var sql_hash = self.parent().next().find('#sql_hash').text();
             get_progress(sql_hash, self);
@@ -75,28 +92,54 @@ $(function () {
     WorkCommit('run_button', '/dbms/sql_publish/sql-running.html', '任务查已经提交到后台执行，请《工单询》页面查看进度');
 
     // 获取工单进度   
-    function get_progress(sql_hash, self){
-        $.ajax({
-            url: '/dbms/sql_publish/sql-progress.html',
-            type: 'GET',
-            data: {'sql_hash': sql_hash},
-            dataType: 'JSON',
-            success: function(data){
-                var status = data.status;
-                var time_con = data.time;
-                var per = data.per;
+    async function get_progress(sql_hash, self){
+        var flag = 1;
+        while(flag){
+            $.ajax({
+                url: '/dbms/sql_publish/sql-progress.html',
+                type: 'GET',
+                data: {'sql_hash': sql_hash},
+                dataType: 'JSON',
+                success: function(data){
+                    var status = data.status;
+                    var time_con = data.time;
+                    var per = data.per;
 
-                if(status==1){
-                    self.parent().next().find('.w-progress-bar').text(per);
-                    $('.progress-ba').attr('style', 'width: '+ per+'%');
+                    if(status==1){
+                        if(per){
+                            if (per == 100){
+                                self.parent().next().find('.w-progress-bar').text(per);
+                                $('.progress-bar').attr('style', 'width: '+ per+'%');
+                                $('.time_consuming').text('0');
+                                flag = 0
+                            }else{
+                                self.parent().next().find('.w-progress-bar').text(per);
+                                $('.progress-bar').attr('style', 'width: '+ per+'%');
+                                $('.time_consuming').text(time_con);
+                            }
+                        }else{flag=0};
+                    }
+                    else{
+                        alert('数据异常，请联系DBA');
+                    }
+                },
+                error: function(data){
+                    console.log(data);
                 }
-                else{
-                    alert('数据异常，请联系DBA');
-                }
-            },
-            error: function(data){
-                console.log(data);
+            });
+            await sleep(1000);
+            console.log(self.parent().next().attr('class') );
+            if (self.parent().next().attr('class') == 'detail_close'){
+                flag = 0;
             }
-        })
+        }
+
     }
+
+
+
+    // function sleep(ms) {
+    //   return new Promise(resolve => setTimeout(resolve, ms));
+    // }
+
 });

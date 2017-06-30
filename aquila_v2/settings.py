@@ -181,8 +181,8 @@ DATABASES = {
         'NAME': 'aquila2',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '192.168.1.6',
-        'PORT': 3306
+        'HOST': '127.0.0.1',
+        'PORT': 4901
     }
 }
 
@@ -190,14 +190,14 @@ DATABASES = {
 # backup: 为inception产生备份信息存放的地方，需要跟 inception 的配置文件中的信息一致，这边用于查找备份
 INCEPTION = {
     'default': {
-        'INCEPTION_HOST': '192.168.1.6',
+        'INCEPTION_HOST': '127.0.0.1',
         'INCEPTION_PORT': 6669,
     },
     'backup': {
         'BACKUP_USER': 'root',          # inception_remote_system_user=root
         'BACKUP_PASSWORD': '123456',    # inception_remote_system_password=123456
-        'BACKUP_PORT': 3306,            # inception_remote_backup_port=4901
-        'BACKUP_HOST': '192.168.1.6',     # inception_remote_backup_host=127.0.0.1
+        'BACKUP_PORT': 4901,            # inception_remote_backup_port=4901
+        'BACKUP_HOST': '127.0.0.1',     # inception_remote_backup_host=127.0.0.1
     },
 }
 

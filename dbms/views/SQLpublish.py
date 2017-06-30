@@ -301,7 +301,7 @@ class SqlProgress(View):
     def get(self, request):
         sql_hash = request.GET.get('sql_hash', None)
         result_dict = {'status': 1, 'per': '', 'time': ''}
-        if sql_hash:
+        if sql_hash and sql_hash != '----':
             ince_host = settings.INCEPTION['default']['INCEPTION_HOST']
             ince_port = settings.INCEPTION['default']['INCEPTION_PORT']
             conn = functions.DBAPI(host=ince_host, password='', port=int(ince_port), user='')
@@ -309,12 +309,9 @@ class SqlProgress(View):
             result = conn.conn_query("inception get osc_percent '%s'" % sql_hash)
             if result:
                 result_dict['per'] = result[0][3]
-                result_dict['time_consuming'] = result[0][4]
+                result_dict['time_consuming'] = str(result[0][4])
             else:
                 result_dict['per'] = 100
-        else:
-            result_dict['status'] = 0
-        print(result_dict)
         return HttpResponse(json.dumps(result_dict))
 
     def post(self, request, wid):
