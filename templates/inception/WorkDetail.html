@@ -2,32 +2,57 @@
 
 <table class="table table-hover">
     <thead>
-        <tr class="">
-            <td>sql序号</td>
-            <td>执行结果</td>
-            <td>错误信息</td></td>
-            <td>sql内容</td>
-            <td>影响行数</td>
+        <tr>
+            <th>sql序号</th>
+            <th>执行结果</th>
+            <th>错误信息</th></td>
+            <th>sql内容</th>
+            <th>影响行数</th>
+            <th>执行进度</th>
+            <th>剩于时间</th>
         </tr>
     </thead>
     <tbody>
     {% for rows in detail_sql_info %}
-
-        <tr>
+    {% if rows.inceptionauditdetail__status == '执行成功' or rows.inceptionauditdetail__status == 'Successfully' or rows.inceptionauditdetail__status == '执行成功,备份成功' %}
+        <tr class="success">
+    {% elif rows.inceptionauditdetail__status == 'Warning' %}
+        <tr class="warning">
+    {% else %}
+        <tr class="danger">
+    {% endif %}
             {% if item.work_order_id == rows.work_order_id %}
                 <td>{{ rows.inceptionauditdetail__sql_sid }}</td>
                 <td>{{ rows.inceptionauditdetail__status }}</td>
                 <td>
-                    {% for line in rows.inceptionauditdetail__error_msg|udf_split %}
+                    {% for line in rows.inceptionauditdetail__error_msg|udf_split_4:'---' %}
                         {{ line }}<br>
                     {% endfor %}
                 </td>
                 <td>
-                    {% for line in rows.inceptionauditdetail__sql_content|udf_split_3 %}
+                    {% for line in rows.inceptionauditdetail__sql_content|udf_split_4:'\r\n' %}
                         {{ line }}<br>
                     {% endfor %}
                 </td>
                 <td>{{ rows.inceptionauditdetail__aff_row }}</td>
+
+                {% if rows.inceptionauditdetail__sql_hash != '----' and rows.inceptionauditdetail__status_code >= 3 %}
+                    <td>
+                        <div class="progress" style="margin-bottom: 0;">
+                          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                              <span style="display: none" id="sql_hash">{{ rows.inceptionauditdetail__sql_hash }}</span>
+                              <span class="w-progress-bar"></span>
+                          </div>
+                        </div>
+                    </td>
+                    <td></td>
+                {% else %}
+                    <td>
+                    非pt-osc任务，无法获取进度
+                    </td>
+                    <td></td>
+                {% endif %}
+
             {% endif %}
         </tr>
 

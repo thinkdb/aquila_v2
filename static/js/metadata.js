@@ -49,9 +49,7 @@ $(function () {
                 update_table_info(table_info);
                 update_column_info(column_info);
                 update_index_info(index_info);
-
                 update_sql_info(table_sc);
-                // $('#sql_content').text(table_sc['sql_content']);
             },
             error: function(data){
                 console.log(data);
@@ -73,7 +71,7 @@ $(function () {
 
     }
 
-    // 填充表信息
+    // 填充表列表
     function updated_table_info(data) {
         $('.table_list .table_option').nextAll().remove();
         if(data.table_info.length > 0){

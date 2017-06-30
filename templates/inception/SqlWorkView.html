@@ -31,14 +31,13 @@
                                     <th>审核时间</th>
                                     <th>工单状态</th>
                                     <th>执行时间</th>
-                                    <th>执行进度</th>
                                     <th>回滚</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="all">
                                     {% for item in review_work_info %}
                                         <tr id="work_info">
-                                            <td id="work_order_id"><a href="#">{{ item.work_order_id }}</a></td>
+                                            <td id="work_order_id"><a>{{ item.work_order_id }}</a></td>
                                             <td id="work_title">{{ item.work_title }}</td>
                                             <td id="master_host">{{ item.master_host }}</td>
                                             <td id="db_name">{{ item.db_name }}</td>
@@ -48,25 +47,25 @@
                                                 {% if item.review_status == 10 %}
                                                     <td id="review_status">{{ '未审核' }}</td>
                                                     <td id="review_time">{{ 'None' }}</td>
-                                                    <td id="work_status">{{ '未执行' }}</td>
+                                                    <td id="work_status" class="active">{{ '未执行' }}</td>
                                                     <td id="work_run_time">{{ 'None' }}</td>
                                                 {% elif item.review_status == 0 %}
                                                     <td id="review_status">{{ '通过' }}</td>
                                                     <td id="review_time">{{ item.review_time }}</td>
                                                     {% if item.work_status == 1 %}
-                                                        <td id="work_status">{{ '执行成功' }}</td>
+                                                        <td id="work_status" class="success">{{ '执行成功' }}</td>
                                                         <td id="work_run_time">{{ item.work_run_time }}</td>
                                                     {% elif item.work_status == 0 %}
-                                                        <td id="work_status">{{ '执行失败' }}</td>
+                                                        <td id="work_status" class="danger">{{ '执行失败' }}</td>
                                                         <td id="work_run_time">{{ item.work_run_time }}</td>
                                                     {% elif item.work_status == 2 %}
-                                                        <td id="work_status">{{ '进入执行队列' }}</td>
+                                                        <td id="work_status" class="wait_run">{{ '进入执行队列' }}</td>
                                                         <td id="work_run_time">{{ "None" }}</td>
                                                     {% elif item.work_status == 3 %}
-                                                        <td id="work_status">{{ '正在执行' }}</td>
+                                                        <td id="work_status" class="running">{{ '正在执行' }}</td>
                                                         <td id="work_run_time">{{ item.work_run_time }}</td>
                                                     {% elif item.work_status == 4 %}
-                                                        <td id="work_status">{{ '取消执行' }}</td>
+                                                        <td id="work_status" class="cancle">{{ '取消执行' }}</td>
                                                         <td id="work_run_time">{{ "None" }}</td>
                                                     {% else %}
                                                         <td id="work_status">{{ '未执行' }}</td>
@@ -79,24 +78,18 @@
                                                     <td id="work_status">{{ '未执行' }}</td>
                                                     <td id="work_run_time">{{ 'None' }}</td>
                                                 {% endif %}
-                                            <td>
-                                                <div class="progress">
-                                                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                    <span class="w-progress-bar">60%</span>
-                                                  </div>
-                                                </div>
-                                            </td>
+
                                             <td>
                                                 {% if item.work_status == 1 %}
                                                     <a class="rollback_a" target="_blank" >获取回滚语句</a>
                                                 {% else %}
-                                                    <span class="rollback_b" target="_blank">无回滚语句</span>
+                                                    <span>无回滚语句</span>
                                                 {% endif %}
 
 
                                             </td>
                                         </tr>
-                                        <tr class="detail_close">
+                                        <tr class="detail_close dd" id="all_layer">
                                             <td colspan="12">
                                                 {% include 'inception/WorkDetail.html' %}
                                             </td>

@@ -1,5 +1,5 @@
 {% extends 'include/base.html' %}
-{% load udf_filter %}
+{#{% load udf_filter %}#}
 {% block title %}
 GetMetaData
 {% endblock %}
@@ -38,84 +38,92 @@ GetMetaData
 
 {#        <div class="body_right" style="position: absolute; float: right; left: 280px; width:70%;">#}
         <div>
-            <div class="base_info">
-                <label>表信息</label>
-                <table class="table table-bordered table-hover" id="table_info">
-                    <tbody>
-                        <tr>
-                            <th>表名</th><td id="table_name"></td>
-                            <th>引擎</th><td id="engine"></td>
-                            <th>行格式</th><td id="row_format"></td>
-                            <th>表行数</th><td id="table_rows"></td>
-                        </tr>
-                        <tr>
-                            <th>平均行长度</th><td id="avg_row_length"></td>
-                            <th>最大行长度</th><td id="max_data_length"></td>
-                            <th>数据长度</th><td id="data_length"></td>
-                            <th>索引长度</th><td id="index_length"></td>
-                        </tr>
-                        <tr>
-                            <th>空闲数据大小</th><td id="data_free"></td>
-                            <th>碎片大小</th><td id="chip_size"></td>
-                            <th>当前自增值</th><td id="auto_increment"></td>
-                            <th>表的校验码</th><td id="table_collation"></td>
-                        </tr>
-                        <tr>
-                            <th>创建时间</th><td id="create_time"></td>
-                            <th>更新时间</th><td id="update_time"></td>
-                            <th>检查时间</th><td id="check_time"></td>
-                            <th>表说明</th><td id="table_comment"></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="panel panel-default base_info" style="border-color: #2aabd2;">
+                <div class="panel-heading" style="background-color: #2aabd2; color: white">表信息</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover" id="table_info">
+                            <tbody>
+                                <tr>
+                                    <th>表名</th><td id="table_name"></td>
+                                    <th>引擎</th><td id="engine"></td>
+                                    <th>行格式</th><td id="row_format"></td>
+                                    <th>表行数</th><td id="table_rows"></td>
+                                </tr>
+                                <tr>
+                                    <th>平均行长度</th><td id="avg_row_length"></td>
+                                    <th>最大行长度</th><td id="max_data_length"></td>
+                                    <th>数据长度</th><td id="data_length"></td>
+                                    <th>索引长度</th><td id="index_length"></td>
+                                </tr>
+                                <tr>
+                                    <th>空闲数据大小</th><td id="data_free"></td>
+                                    <th>碎片大小</th><td id="chip_size"></td>
+                                    <th>当前自增值</th><td id="auto_increment"></td>
+                                    <th>表的校验码</th><td id="table_collation"></td>
+                                </tr>
+                                <tr>
+                                    <th>创建时间</th><td id="create_time"></td>
+                                    <th>更新时间</th><td id="update_time"></td>
+                                    <th>检查时间</th><td id="check_time"></td>
+                                    <th>表说明</th><td id="table_comment"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
             </div>
-            <div class="colume_info base_info">
-                <label>列信息</label>
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>列名</th>
-                            <th>列类型</th>
-                            <th>列校验码</th>
-                            <th>是否为空</th>
-                            <th>column_key</th>
-                            <th>默认值</th>
-                            <th>扩展信息</th>
-                            <th>权限</th>
-                            <th>列说明</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody_column">
-                    </tbody>
+            <div class="panel panel-default base_info" style="border-color: #2aabd2;">
+                <div class="panel-heading" style="background-color: #2aabd2; color: white">列信息</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>列名</th>
+                                <th>列类型</th>
+                                <th>列校验码</th>
+                                <th>是否为空</th>
+                                <th>索引列</th>
+                                <th>默认值</th>
+                                <th>扩展信息</th>
+                                <th>权限</th>
+                                <th>列说明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody_column">
+                        </tbody>
 
-                </table>
+                    </table>
+                </div>
             </div>
-            <div class="index_info base_info">
-                <label>索引信息</label>
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>列名</th>
-                            <th>是否唯一索引</th>
-                            <th>索引名</th>
-                            <th>列序列</th>
-                            <th>基数</th>
-                            <th>是否是空</th>
-                            <th>索引类型</th>
-                            <th>索引说明</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody_index">
-                    </tbody>
-                </table>
+            <div class="panel panel-default base_info" style="border-color: #2aabd2;">
+                <div class="panel-heading" style="background-color: #2aabd2; color: white">索引信息</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>列名</th>
+                                <th>是否唯一索引</th>
+                                <th>索引名</th>
+                                <th>列序列</th>
+                                <th>基数</th>
+                                <th>是否是空</th>
+                                <th>索引类型</th>
+                                <th>索引说明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody_index">
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="sql_info base_info">
-                <label>建表语句</label>
-                <table class="table table-bordered table-hover">
-                    <tbody>
-                        <tr class="sql_content"></tr>
-                    </tbody>
-                </table>
+            <div class="panel panel-default base_info" style="border-color: #2aabd2;">
+                <div class="panel-heading" style="background-color: #2aabd2; color: white">建表语句</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover">
+                        <tbody>
+                            <tr><code class="sql_content"></code></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

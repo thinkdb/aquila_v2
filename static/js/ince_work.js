@@ -12,8 +12,8 @@ $(function () {
                     data: {'wid': $(this).parent().parent().find('#work_order_id').text(), 'flag': $(this).val()},
                     dataType: 'JSON',
                     success: function(data){
-                        status = data.status;
-                        err_msg = data.error_msg;
+                        var status = data.status;
+                        var err_msg = data.error_msg;
 
                         if(status==1){
                             alert(msg);
@@ -48,7 +48,21 @@ $(function () {
 
     $('tbody #work_info #work_order_id').each(function () {
         $(this).click(function () {
-                $(this).parent().next().toggleClass('detail_close');
+            var self = $(this);
+            $('tbody #all_layer').each(function(){
+                if($(this).attr('class') == 'detail_close dd') {
+                }else{
+                    $(this).attr('class', 'detail_close');
+                }
+            });
+            if (self.parent().next().attr('class') == 'detail_close dd') {
+                self.parent().next().toggleClass('detail_close');
+            }else {
+                self.parent().next().addClass('detail_close dd');
+            }
+            var sql_hash = self.parent().next().find('#sql_hash').text();
+            get_progress(sql_hash, self);
+
         })
     });
 
@@ -61,24 +75,24 @@ $(function () {
     WorkCommit('run_button', '/dbms/sql_publish/sql-running.html', '任务查已经提交到后台执行，请《工单询》页面查看进度');
 
     // 获取工单进度   
-    function get_progress(){
+    function get_progress(sql_hash, self){
         $.ajax({
-            url: '/dbms/',
+            url: '/dbms/sql_publish/sql-progress.html',
             type: 'GET',
-            data: {'wid': 'xx'},
+            data: {'sql_hash': sql_hash},
             dataType: 'JSON',
             success: function(data){
-                status = data.status;
-                err_msg = data.error_msg;
+                var status = data.status;
+                var time_con = data.time;
+                var per = data.per;
 
                 if(status==1){
-                    alert(msg);
-
+                    self.parent().next().find('.w-progress-bar').text(per);
+                    $('.progress-ba').attr('style', 'width: '+ per+'%');
                 }
                 else{
-                    alert(err_msg);
+                    alert('数据异常，请联系DBA');
                 }
-
             },
             error: function(data){
                 console.log(data);

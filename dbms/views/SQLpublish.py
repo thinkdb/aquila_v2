@@ -4,6 +4,7 @@ from model_model import models
 from dbms import forms
 from back.views.AuthAccount import AuthAccount, GetUserInfo
 from django.utils.decorators import method_decorator
+from django.conf import settings
 from scripts import functions
 from scripts.functions import JsonCustomEncoder, get_uuid, result_tran, Logger
 from scripts.Inception import Inception
@@ -167,7 +168,6 @@ class SqlAudit(View):
 
     def post(self, request):
         result_dict = {'status': 0, 'error_msg': 1}
-        user_info = GetUserInfo(request)
         audit_flag = request.POST.get('flag', None)
         wid = request.POST.get('wid', None)
         now_time = datetime.datetime.now()
@@ -250,45 +250,13 @@ class SqlRunning(View):
 
             # 以下内容为任务执行函数中的内容
             master_ip = master_result['data']
-            # ince = Inception(db_host=master_ip,
-            #                  db_user=task_info[0]['app_user'],
-            #                  db_passwd=task_info[0]['app_pass'],
-            #                  db_port=task_info[0]['app_port'],
-            #                  sql_content=task_info[0]['work_order__inceauditsqlcontent__sql_content'],
-            #                  )
-            # 提交到后台执行,
-            # from dbms.tasks import work_run_task
-            work_run_task(master_ip, task_info[0]['app_user'],
-                                task_info[0]['app_pass'],
-                                task_info[0]['app_port'],
-                                task_info[0]['work_order__inceauditsqlcontent__sql_content'],
-                                wid)
 
-            # run_result = ince.run_sql(1)
-            # result = result_tran(run_result, result_dict)
-            # run_error_id = 1
-            # for items in result['data']:
-            #     if result['data'][items]['status'] == '执行失败' or\
-            #             result['data'][items]['status'] == 'Error':
-            #         run_error_id = 0
-            #     elif result['data'][items]['status'] == '执行成功,备份失败':
-            #         run_error_id = 5
-            #     models.InceptionAuditDetail.objects.create(
-            #         work_order_id=wid,
-            #         sql_sid=items,
-            #         flag=3,
-            #         status=result['data'][items]['status'],
-            #         error_msg=result['data'][items]['error_msg'],
-            #         sql_content=result['data'][items]['sql'],
-            #         aff_row=result['data'][items]['rows'],
-            #         rollback_id=result['data'][items]['rollback_id'],
-            #         backup_dbname=result['data'][items]['backup_dbname'],
-            #         execute_time=int(float(result['data'][items]['execute_time'])* 1000),
-            #         sql_hash=result['data'][items]['sql_hash']
-            #     )
-            #
-            # models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=run_error_id)
-            # models.WorkOrderTask.objects.filter(work_order_id=wid).update(work_status=run_error_id)
+            # 提交到后台执行, Linux下需要改成： work_run_task.delay, windowns 如下
+            work_run_task(master_ip, task_info[0]['app_user'],
+                          task_info[0]['app_pass'],
+                          task_info[0]['app_port'],
+                          task_info[0]['work_order__inceauditsqlcontent__sql_content'],
+                          wid)
 
         return HttpResponse(json.dumps(result_dict))
 
@@ -312,6 +280,8 @@ class SqlView(View):
             'inceptionauditdetail__error_msg',
             'inceptionauditdetail__sql_content',
             'inceptionauditdetail__aff_row',
+            'inceptionauditdetail__sql_hash',
+            'inceptionauditdetail__status_code',
         )
         rollback = models.InceptionAuditDetail.objects.filter(flag=3).exclude(backup_dbname='None').all()
 
@@ -327,10 +297,25 @@ class SqlView(View):
 
 
 @method_decorator(AuthAccount, name='dispatch')
-class SqlDetail(View):
-    def get(self, request, wid):
-        user_info = GetUserInfo(request)
-        return render(request, 'HostGroupManage.html', {'user_info': user_info})
+class SqlProgress(View):
+    def get(self, request):
+        sql_hash = request.GET.get('sql_hash', None)
+        result_dict = {'status': 1, 'per': '', 'time': ''}
+        if sql_hash:
+            ince_host = settings.INCEPTION['default']['INCEPTION_HOST']
+            ince_port = settings.INCEPTION['default']['INCEPTION_PORT']
+            conn = functions.DBAPI(host=ince_host, password='', port=int(ince_port), user='')
+
+            result = conn.conn_query("inception get osc_percent '%s'" % sql_hash)
+            if result:
+                result_dict['per'] = result[0][3]
+                result_dict['time_consuming'] = result[0][4]
+            else:
+                result_dict['per'] = 100
+        else:
+            result_dict['status'] = 0
+        print(result_dict)
+        return HttpResponse(json.dumps(result_dict))
 
     def post(self, request, wid):
         user_info = GetUserInfo(request)

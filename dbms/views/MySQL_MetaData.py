@@ -85,7 +85,9 @@ class GetTableInfo(View):
         index_info = models.MetaDataIndexs.objects.filter(host_ip=host_ip,
                                                           table_schema=table_schema,
                                                           table_name=table_name).all()
-        table_sc = models.MetaDataTables.objects.filter(table_name=table_name).values('metadatatablestructure__content')
+        table_sc = models.MetaDataTables.objects.filter(table_name=table_name,
+                                                        table_schema=table_schema,
+                                                        host_ip=host_ip).values('metadatatablestructure__content')
         for item in table_info:
             result_dict['table_info']['table_name'] = item.table_name
             result_dict['table_info']['engine'] = item.engine
@@ -117,18 +119,16 @@ class GetTableInfo(View):
             result_dict['column_info'][item.column_name]['column_comment'] = item.column_comment
 
         for item in index_info:
-            result_dict['index_info'][item.index_name] = {}
-            result_dict['index_info'][item.index_name]['column_name'] = item.column_name
-            result_dict['index_info'][item.index_name]['non_unique'] = item.non_unique
-            result_dict['index_info'][item.index_name]['index_name'] = item.index_name
-            result_dict['index_info'][item.index_name]['seq_in_index'] = item.seq_in_index
-            result_dict['index_info'][item.index_name]['cardinality'] = item.cardinality
-            result_dict['index_info'][item.index_name]['nullable'] = item.nullable
-            result_dict['index_info'][item.index_name]['index_type'] = item.index_type
-            result_dict['index_info'][item.index_name]['index_comment'] = item.index_comment
-
+            result_dict['index_info'][item.index_md5] = {}
+            result_dict['index_info'][item.index_md5]['column_name'] = item.column_name
+            result_dict['index_info'][item.index_md5]['non_unique'] = item.non_unique
+            result_dict['index_info'][item.index_md5]['index_name'] = item.index_name
+            result_dict['index_info'][item.index_md5]['seq_in_index'] = item.seq_in_index
+            result_dict['index_info'][item.index_md5]['cardinality'] = item.cardinality
+            result_dict['index_info'][item.index_md5]['nullable'] = item.nullable
+            result_dict['index_info'][item.index_md5]['index_type'] = item.index_type
+            result_dict['index_info'][item.index_md5]['index_comment'] = item.index_comment
 
         for item in table_sc:
             result_dict['table_sc']['sql_content'] = item['metadatatablestructure__content']
-
         return HttpResponse(json.dumps(result_dict))

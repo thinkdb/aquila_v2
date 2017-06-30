@@ -212,14 +212,16 @@ class GetMetadataitem(object):
                 md_str = self.host + item[0] + item[1] + item[2] + str(item[3]) + item[4] + str(item[5]) +\
                          str(cardinality) + str(item[7]) + item[8] + item[9]
                 md5_str = functions.py_password(md_str)
-
                 try:
                     index_flag = models.MetaDataIndexs.objects.filter(
                         host_ip=self.host,
                         table_schema=item[0],
                         table_name=item[1],
                         column_name=item[2],
+                        non_unique=item[3],
+                        index_name=item[4],
                     ).all()
+
                     if index_flag:
                         md5_flag = models.MetaDataIndexs.objects.filter(
                             index_md5=md5_str
@@ -236,20 +238,23 @@ class GetMetadataitem(object):
                                 index_md5=md5_str
                             )
                     else:
-                        models.MetaDataIndexs.objects.create(
-                            host_ip=self.host,
-                            table_schema=item[0],
-                            table_name=item[1],
-                            column_name=item[2],
-                            non_unique=item[3],
-                            index_name=item[4],
-                            seq_in_index=item[5],
-                            cardinality=cardinality,
-                            nullable=item[7],
-                            index_type=item[8],
-                            index_comment=item[9],
-                            index_md5=md5_str
-                        )
+                        try:
+                            models.MetaDataIndexs.objects.create(
+                                host_ip=self.host,
+                                table_schema=item[0],
+                                table_name=item[1],
+                                column_name=item[2],
+                                non_unique=item[3],
+                                index_name=item[4],
+                                seq_in_index=item[5],
+                                cardinality=cardinality,
+                                nullable=item[7],
+                                index_type=item[8],
+                                index_comment=item[9],
+                                index_md5=md5_str
+                            )
+                        except Exception as e:
+                            print(e)
                 except Exception as e:
                     functions.Logger().log('{0}--收集索引的基础数据失败--{1}'.format(self.host, str(e)), False)
 

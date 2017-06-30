@@ -4,3 +4,13 @@
 #detail_open{
     display: block;
 }
+
+.cancle{
+    background-color: #9d9d9d;
+}
+.running{
+    background-color: #449d44;
+}
+.wait_run{
+    background-color: #2aabd2;
+}
