@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 # from django.contrib import admin
 from back.views import Home
-from dbms.views import MySQL_MetaData
+from back.views import account
 
 urlpatterns = [
     # url(r'^admin/', admin.site.views),
+    url(r'^$', account.Login.as_view(), name='login'),
     url(r'^index.html$', Home.index, name='index'),
     url(r'^account/', include('back.urls')),
     url(r'^cmdb/', include('cmdb.urls')),

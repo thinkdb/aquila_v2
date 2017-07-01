@@ -30,19 +30,6 @@ class GetMetaData(View):
 
         return HttpResponse(json.dumps(result_dict))
 
-    def post(self, request):
-        account_list = models.HostAPPAccount.objects.values('host__host_ip',
-                                                            'host__host_user',
-                                                            'host__host_port',
-                                                            'host__host_pass',
-                                                            'app_port',
-                                                            'app_pass',
-                                                            'app_user'
-                                                            )
-
-        get_matedata(account_list)
-        return HttpResponse('ok')
-
 
 @method_decorator(AuthAccount, name='dispatch')
 class CollectMetadata(View):
@@ -51,6 +38,7 @@ class CollectMetadata(View):
         return render(request, 'collect_metadata.html', {'user_info': user_info})
 
     def post(self, request):
+        account_dict = {}
         account_list = models.HostAPPAccount.objects.values('host__host_ip',
                                                             'host__host_user',
                                                             'host__host_port',
@@ -59,8 +47,16 @@ class CollectMetadata(View):
                                                             'app_pass',
                                                             'app_user'
                                                             )
-
-        get_matedata(account_list)
+        for item in account_list:
+            account_dict[item['host__host_ip']] = {}
+            account_dict[item['host__host_ip']]['ip'] = item['host__host_ip']
+            account_dict[item['host__host_ip']]['app_user'] = item['app_user']
+            account_dict[item['host__host_ip']]['app_port'] = item['app_port']
+            account_dict[item['host__host_ip']]['app_pass'] = item['app_pass']
+            account_dict[item['host__host_ip']]['host_user'] = item['host__host_user']
+            account_dict[item['host__host_ip']]['host_pass'] = item['host__host_pass']
+            account_dict[item['host__host_ip']]['host_port'] = item['host__host_port']
+        get_matedata.delay(account_dict)
         return HttpResponse('ok')
 
 

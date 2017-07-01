@@ -129,7 +129,6 @@ $(function () {
         $('.tbody_index').find('tr').remove();
         for(item in data){
             var row = data[item];
-            console.log(row);
             var tr_obj = document.createElement('tr');
             tr_obj.innerHTML = '<td>' + row["column_name"] + '</td>' +
             '<td>'+row["non_unique"]+'</td>'+
@@ -152,7 +151,6 @@ $(function () {
         for(item in sql_list){
             td_content = td_content + sql_list[item] + '<br>';
         }
-        console.log(td_content);
         td_obj.innerHTML = td_content;
         $(td_obj).appendTo('.sql_content');
     }

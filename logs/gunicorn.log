@@ -1,0 +1,7 @@
+[2017-07-01 17:23:41 +0800] [19083] [INFO] Starting gunicorn 19.7.1
+[2017-07-01 17:23:41 +0800] [19083] [INFO] Listening at: http://127.0.0.1:8001 (19083)
+[2017-07-01 17:23:41 +0800] [19083] [INFO] Using worker: sync
+[2017-07-01 17:23:41 +0800] [19086] [INFO] Booting worker with pid: 19086
+[2017-07-01 17:24:47 +0800] [19083] [INFO] Handling signal: int
+[2017-07-01 17:24:47 +0800] [19086] [INFO] Worker exiting (pid: 19086)
+[2017-07-01 17:24:47 +0800] [19083] [INFO] Shutting down: Master

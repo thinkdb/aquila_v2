@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-from logging.config import dictConfig
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -164,12 +163,13 @@ LOGGING = {
         },
     }
 }
+from logging.config import dictConfig
 dictConfig(LOGGING)
 
 # error log
-ERROR_LOG_FILE = os.path.join(BASE_DIR, "logs", 'error.log')
+ERROR_LOG_FILE = os.path.join(BASE_DIR, "logs", 'aquila_error.log')
 # running log
-RUN_LOG_FILE = os.path.join(BASE_DIR, "logs", 'run.log')
+RUN_LOG_FILE = os.path.join(BASE_DIR, "logs", 'aquila_run.log')
 
 # ################### 用户修改项 ###################
 
@@ -181,8 +181,8 @@ DATABASES = {
         'NAME': 'aquila2',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': 4901
+        'HOST': '192.168.1.6',
+        'PORT': 3306
     }
 }
 
@@ -190,14 +190,14 @@ DATABASES = {
 # backup: 为inception产生备份信息存放的地方，需要跟 inception 的配置文件中的信息一致，这边用于查找备份
 INCEPTION = {
     'default': {
-        'INCEPTION_HOST': '127.0.0.1',
+        'INCEPTION_HOST': '192.168.1.6',
         'INCEPTION_PORT': 6669,
     },
     'backup': {
         'BACKUP_USER': 'root',          # inception_remote_system_user=root
         'BACKUP_PASSWORD': '123456',    # inception_remote_system_password=123456
-        'BACKUP_PORT': 4901,            # inception_remote_backup_port=4901
-        'BACKUP_HOST': '127.0.0.1',     # inception_remote_backup_host=127.0.0.1
+        'BACKUP_PORT': 3306,            # inception_remote_backup_port=4901
+        'BACKUP_HOST': '192.168.1.6',     # inception_remote_backup_host=127.0.0.1
     },
 }
 

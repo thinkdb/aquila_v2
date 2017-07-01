@@ -14,13 +14,13 @@
     </thead>
     <tbody>
     {% for rows in detail_sql_info %}
-    {% if rows.inceptionauditdetail__status == '执行成功' or rows.inceptionauditdetail__status == 'Successfully' or rows.inceptionauditdetail__status == '执行成功,备份成功' %}
-        <tr class="success">
-    {% elif rows.inceptionauditdetail__status == 'Warning' %}
-        <tr class="warning">
-    {% else %}
-        <tr class="danger">
-    {% endif %}
+        {% if rows.inceptionauditdetail__status == '执行成功' or rows.inceptionauditdetail__status == 'Successfully' or rows.inceptionauditdetail__status == '执行成功,备份成功' %}
+            <tr class="success">
+        {% elif rows.inceptionauditdetail__status == 'Warning' %}
+            <tr class="warning">
+        {% else %}
+            <tr class="danger">
+        {% endif %}
             {% if item.work_order_id == rows.work_order_id %}
                 <td>{{ rows.inceptionauditdetail__sql_sid }}</td>
                 <td>{{ rows.inceptionauditdetail__status }}</td>
@@ -55,7 +55,6 @@
 
             {% endif %}
         </tr>
-
     {% endfor %}
     </tbody>
 </table>

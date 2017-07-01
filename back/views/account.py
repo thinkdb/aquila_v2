@@ -48,8 +48,8 @@ class Register(View):
                 email=request.POST['email'],
                 lock_flag=0
             )
-            models.UserRoleRelationship.create(role_id=2, user=r)
-            models.UserGroupRelationship.create(user=r, group_id=2)
+            models.UserRoleRelationship.objects.create(role_id=2, user=r)
+            models.UserGroupRelationship.objects.create(user=r, group_id=2)
             return redirect('login.html')
         else:
             return render(request, 'register.html', {'RegForm': reg_form})

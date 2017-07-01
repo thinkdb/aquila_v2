@@ -69,16 +69,17 @@ def work_run_task(host, user, passwd, port, sql_content, wid):
 @app.task()
 def get_matedata(account_info):
     for item in account_info:
-        host = item['host__host_ip']
-        app_user = item['app_user']
-        app_port = item['app_port']
-        app_pass = item['app_pass']
 
-        os_user = item['host__host_user']
-        os_pass = item['host__host_pass']
-        os_port = item['host__host_port']
+        host = account_info[item]['ip']
+        app_user = account_info[item]['app_user']
+        app_port = account_info[item]['app_port']
+        app_pass = account_info[item]['app_pass']
 
-        conn_info = GetMetadataitem(host=host, user=app_user, port=app_port, passwd=app_pass)
+        os_user = account_info[item]['host_user']
+        os_pass = account_info[item]['host_pass']
+        os_port = account_info[item]['host_port']
+
+        conn_info = GetMetadataitem(host=host, user=app_user, port=int(app_port), passwd=app_pass)
         conn_info.clean_item()
 
 
@@ -89,6 +90,8 @@ class GetMetadataitem(object):
         self.port = int(port)
         self.passwd = passwd
         self.cur = ''
+
+    def __conn(self):
         db = functions.DBAPI(host=self.host, user=self.user, password=self.passwd, port=self.port)
         if db.error:
             models.GetMetaDataError.objects.create(host=self.host, error_msg=db.error)
@@ -106,6 +109,7 @@ class GetMetadataitem(object):
         if self.cur:
             functions.Logger().log('{0}--开始收集表的基础数据'.format(self.host))
             result = self.cur.conn_query(sql)
+            self.cur.close()
             for item in result:
                 c_time = u_time = check_time = None
                 if item[13]:
@@ -207,6 +211,7 @@ class GetMetadataitem(object):
         if self.cur:
             functions.Logger().log('{0}--开始收集索引的基础数据'.format(self.host))
             result = self.cur.conn_query(sql)
+            self.cur.close()
             for item in result:
                 cardinality = item[6] if item[6] else 0
                 md_str = self.host + item[0] + item[1] + item[2] + str(item[3]) + item[4] + str(item[5]) +\
@@ -278,6 +283,7 @@ class GetMetadataitem(object):
         if self.cur:
             functions.Logger().log('{0}--开始收集列的基础数据'.format(self.host))
             result = self.cur.conn_query(sql)
+            self.cur.close()
             for item in result:
                 collation_name = item[4] if item[4] else '---'
                 column_key = item[6] if item[6] else '---'
@@ -357,6 +363,7 @@ class GetMetadataitem(object):
         if self.cur:
             functions.Logger().log('{0}--开始收集库的基础数据'.format(self.host))
             result = self.cur.conn_query(sql)
+            self.cur.close()
             for item in result:
                 md_str = item[0] + item[1] + item[2]
                 md5_str = functions.py_password(md_str)
@@ -393,5 +400,6 @@ class GetMetadataitem(object):
         for name in all_item_list:
             if not name.startswith('__') and not name.startswith('clean_item'):
                 clean = getattr(self, name)
+                self.__conn()
                 clean()
-        self.cur.close()
+                self.cur.close()

@@ -141,9 +141,11 @@
                                         <li>
                                             <a href="{% url 'MySQLmetadata' %}">元数据查询</a>
                                         </li>
-                                        <li>
-                                            <a href="{% url 'CollectMetadata' %}">元数据收集</a>
-                                        </li>
+                                        {% if user_info.0.userrolerelationship__role_id == 1 %}
+                                            <li>
+                                                <a href="{% url 'CollectMetadata' %}">元数据收集</a>
+                                            </li>
+                                        {% endif %}
                                     </ul>
                                 </li>
                                 <li>
@@ -171,6 +173,7 @@
                                         </li>
                                     </ul>
                                 </li>
+                            {% if user_info.0.userrolerelationship__role_id == 1 %}
                                 <li>
                                     <a>备份与恢复<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
@@ -193,6 +196,7 @@
                                         </li>
                                     </ul>
                                 </li>
+                            {% endif %}
                             </ul>
                         </li>
                     </ul>

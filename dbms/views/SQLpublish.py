@@ -10,7 +10,7 @@ from scripts.functions import JsonCustomEncoder, get_uuid, result_tran, Logger
 from scripts.Inception import Inception
 from dbms.tasks import work_run_task
 import json
-import datetime
+import datetime, time
 
 
 @method_decorator(AuthAccount, name='dispatch')
@@ -252,7 +252,7 @@ class SqlRunning(View):
             master_ip = master_result['data']
 
             # 提交到后台执行, Linux下需要改成： work_run_task.delay, windowns 如下
-            work_run_task(master_ip, task_info[0]['app_user'],
+            work_run_task.delay(master_ip, task_info[0]['app_user'],
                           task_info[0]['app_pass'],
                           task_info[0]['app_port'],
                           task_info[0]['work_order__inceauditsqlcontent__sql_content'],
@@ -299,6 +299,7 @@ class SqlView(View):
 @method_decorator(AuthAccount, name='dispatch')
 class SqlProgress(View):
     def get(self, request):
+        time.sleep(2)
         sql_hash = request.GET.get('sql_hash', None)
         result_dict = {'status': 1, 'per': '', 'time': ''}
         if sql_hash and sql_hash != '----':
