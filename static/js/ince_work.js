@@ -134,4 +134,47 @@ $(function () {
             }
         });
     }
+    // async function get_progress(sql_hash, self){
+    //     var flag = 1;
+    //     while(flag){
+    //         $.ajax({
+    //             url: '/dbms/sql_publish/sql-progress.html',
+    //             type: 'GET',
+    //             data: {'sql_hash': sql_hash},
+    //             dataType: 'JSON',
+    //             success: function(data){
+    //                 var status = data.status;
+    //                 var time_con = data.time;
+    //                 var per = data.per;
+    //
+    //                 if(status==1){
+    //                     if(per){
+    //                         if (per == 100){
+    //                             self.parent().next().find('.w-progress-bar').text(per);
+    //                             $('.progress-bar').attr('style', 'width: '+ per+'%');
+    //                             $('.time_consuming').text('0');
+    //                             flag = 0
+    //                         }else{
+    //                             self.parent().next().find('.w-progress-bar').text(per);
+    //                             $('.progress-bar').attr('style', 'width: '+ per+'%');
+    //                             $('.time_consuming').text(time_con);
+    //                         }
+    //                     }else{flag=0};
+    //                 }
+    //                 else{
+    //                     alert('数据异常，请联系DBA');
+    //                 }
+    //             },
+    //             error: function(data){
+    //                 console.log(data);
+    //             }
+    //         });
+    //         await sleep(1000);
+    //         console.log(self.parent().next().attr('class') );
+    //         if (self.parent().next().attr('class') == 'detail_close'){
+    //             flag = 0;
+    //         }
+    //     }
+    //
+    // }
 });
