@@ -73,8 +73,14 @@ $(function () {
             }else {
                 self.parent().next().addClass('detail_close');
             }
+            self.parent().next().find('#sql_hash').each(function(){
+                console.log($(this).parent().attr('class'));
+                console.log($(this).text());
+            })
+            var sql_hash = self.parent().next().find('#sql_hash').text();
+            console.log(sql_hash);
             if (self.find('.w-progress-bar')){
-                get_progress(self);
+                get_progress(sql_hash, self);
             }
         })
     });
@@ -91,63 +97,47 @@ $(function () {
     WorkCommit('run_button', '/dbms/sql_publish/sql-running.html', '任务查已经提交到后台执行，请《工单询》页面查看进度');
 
     // 获取工单进度   
-    function get_progress(self) {
-        var flag = 1
-        self.parent().next().find('#sql_hash').each(function(){
-            var sql_hash1 = $(this).text();
-            var sql_hash = sql_hash1.slice(1);
-            var if_active = self.parent().next().find('#'+sql_hash).find('.active');
-            if (if_active){
-                $.ajax({
-                    url: '/dbms/sql_publish/sql-progress.html',
-                    type: 'GET',
-                    data: {'sql_hash': sql_hash1},
-                    dataType: 'JSON',
-                    success: function (data) {
-                        var status = data.status;
-                        var time_con = data.time;
-                        var per = data.per;
-                        if (status == 1) {
-                            if (self.parent().next().attr('class') == 'detail_close') {
-                                flag = 0;
-                            }
-                            if (flag){
-                                if (per) {
-                                    var pro_bar = self.parent().next().find('#'+sql_hash1);
-                                    if (per == 100) {
-                                        pro_bar.children('span').find('.w-progress-bar').text(per);
-                                        pro_bar.attr('style', 'width: ' + per + '%');
-                                        pro_bar.parent().parent().next().find('.time_consuming').text(0);
-                                        flag = 0;
-                                        pro_bar.removeClass("active");
-                                    } else {
-                                        pro_bar.children('span').find('.w-progress-bar').text(per);
-                                        pro_bar.attr('style', 'width: ' + per + '%');
-                                        pro_bar.parent().parent().next().find('.time_consuming').text(time_con);
-                                    }
-                                } else {
-                                    flag = 0
-                                }
-                            }
-                        }
-                        else {
-                            alert('数据异常，请联系DBA');
-                        }
-                    },
-                    error: function (data) {
-                        console.log(data);
+    function get_progress(sql_hash, self) {
+        var flag = 1;
+        $.ajax({
+            url: '/dbms/sql_publish/sql-progress.html',
+            type: 'GET',
+            data: {'sql_hash': sql_hash},
+            dataType: 'JSON',
+            success: function (data) {
+                var status = data.status;
+                var time_con = data.time_consuming;
+                var per = data.per;
+                if (status == 1) {
+                    if (self.parent().next().attr('class') == 'detail_close') {
+                        flag = 0;
                     }
-                });
-            }else{
-                self.parent().next().find('#'+sql_hash).children('span').find('.w-progress-bar').text(100);
-                self.parent().next().find('#'+sql_hash).parent().parent().next().find('.time_consuming').text('0');
+                    if (flag){
+                        if (per) {
+                            if (per == 100) {
+                                self.parent().next().find('.w-progress-bar').text(per);
+                                $('.progress-bar').attr('style', 'width: ' + per + '%');
+                                $('.time_consuming').text('0');
+                                flag = 0;
+                                self.parent().next().find('.progress-bar-striped').removeClass("active");
+                            } else {
+                                self.parent().next().find('.w-progress-bar').text(per);
+                                $('.progress-bar').attr('style', 'width: ' + per + '%');
+                                $('.time_consuming').text(time_con);
+                                window.setTimeout(get_progress(sql_hash, self), 10000);
+                            }
+                        } else {
+                            flag = 0
+                        }
+                    }
+                }
+                else {
+                    alert('数据异常，请联系DBA');
+                }
+            },
+            error: function (data) {
+                console.log(data);
             }
-
         });
-        var for_flag = self.parent().next().find('.active');
-        if (for_flag) {
-            // window.setTimeout(get_progress(self), 1000);
-        }
-
     }
 });

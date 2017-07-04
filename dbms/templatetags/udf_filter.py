@@ -33,3 +33,7 @@ def udf_split_3(ret):
 @register.filter
 def udf_split_4(ret, args):
     return ret.split(args)
+
+@register.filter
+def udf_strip(ret, arg):
+    return ret.strip(arg)

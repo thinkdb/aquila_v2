@@ -30,6 +30,19 @@ class GetMetaData(View):
 
         return HttpResponse(json.dumps(result_dict))
 
+    def post(self, request):
+        account_list = models.HostAPPAccount.objects.values('host__host_ip',
+                                                            'host__host_user',
+                                                            'host__host_port',
+                                                            'host__host_pass',
+                                                            'app_port',
+                                                            'app_pass',
+                                                            'app_user'
+                                                            )
+
+        get_matedata.delay(account_list)
+        return HttpResponse('ok')
+
 
 @method_decorator(AuthAccount, name='dispatch')
 class CollectMetadata(View):

@@ -35,7 +35,6 @@ $(function () {
         var host_ip = $('.host_list').val();
         var table_schema = $('.db_list').val();
         var table_name = $('.table_list').val();
-        console.log(table_name);
         $.ajax({
             url: '/dbms/metadata/get_table_info.html',
             type: 'GET',

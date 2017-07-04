@@ -14,14 +14,14 @@
     </thead>
     <tbody>
     {% for rows in detail_sql_info %}
-        {% if rows.inceptionauditdetail__status == '执行成功' or rows.inceptionauditdetail__status == 'Successfully' or rows.inceptionauditdetail__status == '执行成功,备份成功' %}
+            {% if item.work_order_id == rows.work_order_id %}
+               {% if rows.inceptionauditdetail__status == '执行成功' or rows.inceptionauditdetail__status == 'Successfully' or rows.inceptionauditdetail__status == '执行成功,备份成功' %}
             <tr class="success">
         {% elif rows.inceptionauditdetail__status == 'Warning' %}
             <tr class="warning">
         {% else %}
             <tr class="danger">
         {% endif %}
-            {% if item.work_order_id == rows.work_order_id %}
                 <td>{{ rows.inceptionauditdetail__sql_sid }}</td>
                 <td>{{ rows.inceptionauditdetail__status }}</td>
                 <td>
@@ -39,8 +39,8 @@
                 {% if rows.inceptionauditdetail__sql_hash != '----' and rows.inceptionauditdetail__status_code >= 3 %}
                     <td>
                         <div class="progress" style="margin-bottom: 0;">
-                          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                              <span style="display: none" id="sql_hash">{{ rows.inceptionauditdetail__sql_hash }}</span>
+                          <div class="progress-bar progress-bar-success progress-bar-striped active" id="{{ rows.inceptionauditdetail__sql_hash|slice:'1:' }}" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                              <span style="display: none" id="sql_hash">{{ rows.inceptionauditdetail__sql_hash|slice:"1:" }}</span>
                               <span class="w-progress-bar"></span>
                           </div>
                         </div>

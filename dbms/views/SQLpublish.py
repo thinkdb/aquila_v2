@@ -243,13 +243,19 @@ class SqlRunning(View):
                 result_dict['error_msg'] = master_result['data']
                 return HttpResponse(json.dumps(result_dict))
 
-            # 更新工单状态为 进入执行队列
-            models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=2,
-                                                                                   work_run_time=datetime.datetime.now())
+            # 更新工单状态为 进入执行队列, 添加定时任务后使用此状态
+            # models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=2,
+            #                                                                        work_run_time=datetime.datetime.now())
             result_dict['status'] = 1
 
             # 以下内容为任务执行函数中的内容
             master_ip = master_result['data']
+            
+            # 更新工单状态为执行状态
+            models.InceptionWorkOrderInfo.objects.filter(work_order_id=wid).update(work_status=3,
+                                                                                   work_run_time=datetime.datetime.now())
+
+            models.InceptionAuditDetail.objects.filter(work_order_id=wid).update(status_code=8)
 
             # 提交到后台执行, Linux下需要改成： work_run_task.delay, windowns 如下
             work_run_task.delay(master_ip, task_info[0]['app_user'],
@@ -300,20 +306,41 @@ class SqlView(View):
 class SqlProgress(View):
     def get(self, request):
         time.sleep(2)
-        sql_hash = request.GET.get('sql_hash', None)
-        result_dict = {'status': 1, 'per': '', 'time': ''}
-        if sql_hash and sql_hash != '----':
-            ince_host = settings.INCEPTION['default']['INCEPTION_HOST']
-            ince_port = settings.INCEPTION['default']['INCEPTION_PORT']
-            conn = functions.DBAPI(host=ince_host, password='', port=int(ince_port), user='')
+        sql_hash_str = request.GET.get('sql_hash', None)
+        sql_hash_list = sql_hash_str.split('*')[1:]
+        result_dict = {'ptosc_flag': 1}
+        print(sql_hash_list)
+        if not sql_hash_list:
+            result_dict['ptosc_flag'] = 0
+            return HttpResponse(json.dumps(result_dict))
+        # result_dict = {'id': {'per': '', 'time_consuming': ''}}
+        # 需要查询sql_hash 对应工单的状态，如果是执行中，则获取进度，如果为执行结束，则返回 100， 如果未执行，则返回0
+        for sql_hash in sql_hash_list:
+            sql_status = models.InceptionAuditDetail.objects.filter(sql_hash='*'+sql_hash).values('flag')
+            if len(sql_status) == 1:
+                pass
+            elif sql_status[1]['flag'] == 2:
+                ince_host = settings.INCEPTION['default']['INCEPTION_HOST']
+                ince_port = settings.INCEPTION['default']['INCEPTION_PORT']
+                conn = functions.DBAPI(host=ince_host, password='', port=int(ince_port), user='')
 
-            result = conn.conn_query("inception get osc_percent '%s'" % sql_hash)
-            if result:
-                result_dict['per'] = result[0][3]
-                result_dict['time_consuming'] = str(result[0][4])
+                result = conn.conn_query("inception get osc_percent '%s'" % '*'+sql_hash)
+                if result:
+                    result_dict[sql_hash] = {}
+                    result_dict[sql_hash]['per'] = result[0][3]
+                    result_dict[sql_hash]['time_consuming'] = str(result[0][4])
+                else:
+                    if sql_hash in result_dict.items():
+                        result_dict[sql_hash]['per'] = 100
+                        result_dict[sql_hash]['time_consuming'] = 0
             else:
-                result_dict['per'] = 100
-        return HttpResponse(json.dumps(result_dict))
+                result_dict[sql_hash] = {}
+                result_dict[sql_hash]['per'] = 100
+                result_dict[sql_hash]['time_consuming'] = 0
+
+        print(result_dict)
+        return HttpResponse('ok')
+        # return HttpResponse(json.dumps(result_dict))
 
     def post(self, request, wid):
         user_info = GetUserInfo(request)
