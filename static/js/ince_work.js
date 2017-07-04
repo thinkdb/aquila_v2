@@ -92,62 +92,45 @@ $(function () {
 
     // 获取工单进度   
     function get_progress(self) {
-        var flag = 1
-        self.parent().next().find('#sql_hash').each(function(){
-            var sql_hash1 = $(this).text();
-            var sql_hash = sql_hash1.slice(1);
-            var if_active = self.parent().next().find('#'+sql_hash).find('.active');
-            if (if_active){
-                $.ajax({
-                    url: '/dbms/sql_publish/sql-progress.html',
-                    type: 'GET',
-                    data: {'sql_hash': sql_hash1},
-                    dataType: 'JSON',
-                    success: function (data) {
-                        var status = data.status;
-                        var time_con = data.time;
-                        var per = data.per;
-                        if (status == 1) {
-                            if (self.parent().next().attr('class') == 'detail_close') {
-                                flag = 0;
-                            }
-                            if (flag){
-                                if (per) {
-                                    var pro_bar = self.parent().next().find('#'+sql_hash1);
-                                    if (per == 100) {
-                                        pro_bar.children('span').find('.w-progress-bar').text(per);
-                                        pro_bar.attr('style', 'width: ' + per + '%');
-                                        pro_bar.parent().parent().next().find('.time_consuming').text(0);
-                                        flag = 0;
-                                        pro_bar.removeClass("active");
-                                    } else {
-                                        pro_bar.children('span').find('.w-progress-bar').text(per);
-                                        pro_bar.attr('style', 'width: ' + per + '%');
-                                        pro_bar.parent().parent().next().find('.time_consuming').text(time_con);
-                                    }
-                                } else {
-                                    flag = 0
-                                }
-                            }
-                        }
-                        else {
-                            alert('数据异常，请联系DBA');
-                        }
-                    },
-                    error: function (data) {
-                        console.log(data);
-                    }
-                });
-            }else{
-                self.parent().next().find('#'+sql_hash).children('span').find('.w-progress-bar').text(100);
-                self.parent().next().find('#'+sql_hash).parent().parent().next().find('.time_consuming').text('0');
-            }
-
+        var sql_hash_str = '';
+        self.parent().next().find('#sql_hash').each(function () {
+            var a = $(this).text();
+            sql_hash_str = sql_hash_str.concat(a);
         });
-        var for_flag = self.parent().next().find('.active');
-        if (for_flag) {
-            // window.setTimeout(get_progress(self), 1000);
+        if (self.parent().next().attr('class') != 'detail_close') {
+            $.ajax({
+                url: '/dbms/sql_publish/sql-progress.html',
+                type: 'GET',
+                data: {'sql_hash': sql_hash_str},
+                dataType: 'JSON',
+                success: function (data) {
+                    // data = {'wid':'', 'per': '', 'time_consuming': '', 'ptosc_flag': 0, 'wid_status': 1}
+                    var wid_status = data.wid_status;
+                    var ptosc_flag = data.ptosc_flag;
+                    var per = data.per;
+                    var wid = data.wid;
+                    var time_consuming = data.time_consuming;
+                    if (ptosc_flag > 0 && wid_status > 1) {
+                        if (wid) {
+                            var pro_bar = self.parent().next().find('#' + wid);
+                            if (per == 100) {
+                                pro_bar.children('span').find('.w-progress-bar').text(per);
+                                pro_bar.attr('style', 'width: ' + per + '%');
+                                pro_bar.parent().parent().next().find('.time_consuming').text(time_consuming);
+                                pro_bar.removeClass("active");
+                            }
+                        }
+                    }
+                    else {
+                        alert('数据异常，请联系管理员');
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert('请求异常, 请联系管理员')
+                }
+            });
+            setTimeout(get_progress(self), 1000);
         }
-
     }
 });
