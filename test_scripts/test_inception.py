@@ -1,5 +1,5 @@
 import pymysql
-sql="inception get osc_percent '*E5D6B02513EE7F193E2001EAA581574D514411AD'"
+sql="inception get osc_percent '*8B76A885062DF60402C04C0C38EEBD4D22560737'"
 try:
     conn=pymysql.connect(host='192.168.1.6', user='', passwd='', db='', port=6669)
     cur=conn.cursor()

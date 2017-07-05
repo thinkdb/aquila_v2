@@ -74,7 +74,8 @@ $(function () {
                 self.parent().next().addClass('detail_close');
             }
             if (self.find('.w-progress-bar')){
-                get_progress(self);
+                // get_progress(self);
+                setTimeout(get_progress(self), 1000);
             }
         })
     });
@@ -95,7 +96,7 @@ $(function () {
         var sql_hash_str = '';
         self.parent().next().find('#sql_hash').each(function () {
             var a = $(this).text();
-            sql_hash_str = sql_hash_str.concat(a);
+            sql_hash_str = sql_hash_str.concat('*'+a);
         });
         if (self.parent().next().attr('class') != 'detail_close') {
             $.ajax({
@@ -104,19 +105,14 @@ $(function () {
                 data: {'sql_hash': sql_hash_str},
                 dataType: 'JSON',
                 success: function (data) {
-                    // data = {'wid':'', 'per': '', 'time_consuming': '', 'ptosc_flag': 0, 'wid_status': 1}
-                    var wid_status = data.wid_status;
-                    var ptosc_flag = data.ptosc_flag;
-                    var per = data.per;
-                    var wid = data.wid;
-                    var time_consuming = data.time_consuming;
-                    if (ptosc_flag > 0 && wid_status > 1) {
-                        if (wid) {
-                            var pro_bar = self.parent().next().find('#' + wid);
-                            if (per == 100) {
-                                pro_bar.children('span').find('.w-progress-bar').text(per);
-                                pro_bar.attr('style', 'width: ' + per + '%');
-                                pro_bar.parent().parent().next().find('.time_consuming').text(time_consuming);
+                    var wid_status = data.status;
+                    if (wid_status) {
+                        for (var item in data){
+                            if (item != 'status'){
+                                var pro_bar = self.parent().next().find('.progress').find('#' + item);
+                                self.parent().next().find('.progress').children().find('.w-progress-bar').text(data[item]['per']);
+                                pro_bar.attr('style', 'width: ' + data[item]['per'] + '%');
+                                pro_bar.parent().parent().next().find('.time_consuming').text(data[item]['time_consuming']);
                                 pro_bar.removeClass("active");
                             }
                         }
@@ -130,7 +126,7 @@ $(function () {
                     alert('请求异常, 请联系管理员')
                 }
             });
-            setTimeout(get_progress(self), 1000);
+
         }
     }
 });

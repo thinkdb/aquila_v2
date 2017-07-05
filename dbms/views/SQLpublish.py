@@ -308,36 +308,46 @@ class SqlProgress(View):
         time.sleep(2)
         sql_hash_str = request.GET.get('sql_hash', None)
         sql_hash_list = sql_hash_str.split('*')[1:]
-        result_dict = {'ptosc_flag': 0, 'wid_status': 1, 'wid': ''}
+        result_dict = {'status': 1}
+        # result_dict = {'ptosc_flag': 0, 'wid_status': 1, 'wid': ''}
         # wid_status: 1=audit, 2=running, 3=over
         sql_hash_list = set(sql_hash_list)
+
         if not sql_hash_list:
             return HttpResponse(json.dumps(result_dict))
         # result_dict = {'wid':'', 'per': '', 'time_consuming': '', 'ptosc_flag': 0, 'wid_status': 1}
         # 需要查询sql_hash 对应工单的状态，如果是执行中，则获取进度，如果为执行结束，则返回 100， 如果未执行，则返回0
         for sql_hash in sql_hash_list:
-            sql_status = models.InceptionAuditDetail.objects.filter(sql_hash='*'+sql_hash).values('flag')
-            if len(sql_status) == 1:
-                pass
-            elif sql_status[1]['flag'] == 2:
+            new_sql_hash = '*'+sql_hash
+            print(new_sql_hash)
+            sql_status = models.InceptionAuditDetail.objects.filter(sql_hash=new_sql_hash, flag__gt=1).values('flag')
+            print(sql_status)
+            if len(sql_status) > 1:
+                flag = 3
+            else:
+                flag = 2
+
+            if flag == 2:
+                result_dict['status'] = 1
                 ince_host = settings.INCEPTION['default']['INCEPTION_HOST']
                 ince_port = settings.INCEPTION['default']['INCEPTION_PORT']
                 conn = functions.DBAPI(host=ince_host, password='', port=int(ince_port), user='')
 
-                result = conn.conn_query("inception get osc_percent '%s'" % '*'+sql_hash)
-                if result:
-                    result_dict['wid'] = sql_hash
-                    result_dict['per'] = result[0][3]
-                    result_dict['time_consuming'] = str(result[0][4])
-                else:
-                    if sql_hash == result_dict['wid']:
-                        result_dict['per'] = 100
-                        result_dict['time_consuming'] = 0
-            else:
-                result_dict['wid'] = sql_hash
-                result_dict['per'] = 100
-                result_dict['time_consuming'] = 0
+                result = conn.conn_query("inception get osc_percent '%s'" % new_sql_hash)
 
+                if result:
+                    result_dict[sql_hash] = {}
+                    result_dict[sql_hash]['per'] = result[0][3]
+                    result_dict[sql_hash]['time_consuming'] = str(result[0][4])
+                else:
+                    if sql_hash in result_dict.keys():
+                        result_dict[sql_hash]['per'] = 100
+                        result_dict[sql_hash]['time_consuming'] = 0
+            else:
+                result_dict['status'] = 1
+                result_dict[sql_hash] = {}
+                result_dict[sql_hash]['per'] = 100
+                result_dict[sql_hash]['time_consuming'] = 0
         return HttpResponse(json.dumps(result_dict))
 
     def post(self, request, wid):

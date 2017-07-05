@@ -158,7 +158,7 @@ class InceptionAuditDetail(models.Model):
     # 0: Successfully,  1: Warning, 2: Error, 7: 审核完成
 
     # Execute
-    # 3: 执行失败, 4: 执行成功, 5: 执行成功,备份成功, 6: 执行成功,备份失败
+    # 3: 执行失败, 4: 执行成功, 5: 执行成功,备份成功, 6: 执行成功,备份失败, 8执行中
 
     error_msg = models.TextField()                    # None, str,
     sql_content = models.TextField()                  # sql content
