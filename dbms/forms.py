@@ -94,3 +94,39 @@ class SqlComForm(Form):
         self.fields['review_name'].widget.choices = user_info
 
 
+# Sql Query
+class SQLQueryForm(Form):
+    host = fields.CharField(
+        label='数据库地址',
+        widget=widgets.Select(choices=[],
+                              attrs={'class': 'form-control',
+                                     'id': 'chose_db_ip',
+                                     })
+    )
+    port = fields.IntegerField(
+        widget=widgets.Select(attrs={'class': 'form-control'},
+                              choices=[]
+                              ),
+        label='端口'
+    )
+    db_name = fields.CharField(
+        label='库名',
+        strip=True,
+        widget=widgets.TextInput(attrs={'class': 'form-control',
+                                        'style': 'min-width:200px; max-width:500px',
+                                        'placeholder': '库名'})
+    )
+
+    sql_content = fields.CharField(
+        label='SQL 内容',
+        error_messages={'required': 'SQL 内容不能为空'},
+        widget=widgets.Textarea(attrs={'class': 'form-control',
+                                       'style': 'min-width:200px;'
+                                                'max-width:800px;height: 100px'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(SQLQueryForm, self).__init__(*args, **kwargs)
+        self.fields['host'].widget.choices = models.HostInfo.objects.values_list('id', 'host_ip')
+        self.fields['port'].widget.choices = models.HostAPPAccount.objects.prefetch_related(host__host_ip=self.host)
+        self.fields['db_name'].widget.choices = models.HostInfo.objects.filter(app_type__app_name='MySQL', host_ip=self.host)
