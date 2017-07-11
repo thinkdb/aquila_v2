@@ -1,0 +1,67 @@
+{% extends 'include/base.html' %}
+
+
+{% block body_body %}
+<div style="margin-top: 20px;">
+    <form action="{% url 'SQLQuery' %}" method="post">
+    {% csrf_token %}
+        <div class="body_left2">
+            <div style="width: 200px; display: inline-block;">
+                <label>选择主机</label>
+                <select class="form-control host_list" name="host_ip">
+                    <option class="host_option">----</option>
+                        {% for line in sql_from.host %}
+                            {{ line }}
+                        {% endfor %}
+                </select>
+            </div>
+            <div style="width: 200px; display: inline-block;">
+                <label>选择端口</label>
+                <select class="form-control host_list" name="host_port">
+                    <option class="host_option">----</option>
+                    <option class="host_option">3306</option>
+                </select>
+            </div>
+            <div style="width: 200px; display: inline-block;">
+                <label>选择库名</label>
+                <select class="form-control host_list" name="schema_name">
+                    <option class="host_option">----</option>
+                    <option class="host_option">shanjin</option>
+                </select>
+            </div>
+        </div>
+        <div class="sql-query" style="margin-top: 10px;">
+            <div>
+                <label>SQL 语句</label>
+                {{ sql_from.sql_content }}
+            </div>
+        </div>
+        {% if error_msg %}
+            <p style="color: red">{{ error_msg }}</p>
+        {% endif %}
+        <input type="submit" value="执行" style="margin-top: 10px;">
+    </form>
+    <div class="sql-result" style="overflow: scroll; height: 550px;margin-top: 10px;">
+        <table class="table table-bordered table-condensed" >
+            <thead>
+            {% if col_result %}
+                {% for item in col_result %}
+                    <th >{{ item }}</th>
+                {% endfor %}
+            {% endif %}
+            </thead>
+            <tbody>
+            {% if sql_result %}
+                {% for line in sql_result %}
+                    <tr>
+                        {% for item in line %}
+                            <td >{{ item }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

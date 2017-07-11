@@ -24,7 +24,6 @@ class DBAPI(object):
         try:
             self.conn = pymysqldb.connect(host=host, user=user, passwd=password, port=int(port),
                                           autocommit=1, charset='utf8')
-
             if database:
                 self.conn.select_db(database)
             self.cur = self.conn.cursor()
@@ -48,6 +47,10 @@ class DBAPI(object):
             return rel
         except Exception as e:
             return e
+
+    def get_col(self):
+        field_names = [i[0] for i in self.cur.description]
+        return field_names
 
     def dml_commit(self):
 

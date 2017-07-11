@@ -127,6 +127,4 @@ class SQLQueryForm(Form):
 
     def __init__(self, *args, **kwargs):
         super(SQLQueryForm, self).__init__(*args, **kwargs)
-        self.fields['host'].widget.choices = models.HostInfo.objects.values_list('id', 'host_ip')
-        self.fields['port'].widget.choices = models.HostAPPAccount.objects.prefetch_related(host__host_ip=self.host)
-        self.fields['db_name'].widget.choices = models.HostInfo.objects.filter(app_type__app_name='MySQL', host_ip=self.host)
+        self.fields['host'].widget.choices = models.HostInfo.objects.filter(app_type__app_name='MySQL').values_list('id', 'host_ip')
