@@ -21,8 +21,9 @@ class QueryTableParser(object):
             'into'
         ]
         self.table_filter_tokens = [
-            'where',
-            '('
+            'WHERE',
+            '(',
+            ')'
         ]
 
     def parse(self, sql):
@@ -34,8 +35,10 @@ class QueryTableParser(object):
         # 替换 sql 文本中的任意空白字符为 空格, 并在逗号后面添加一个空格
         self.query = re.subn("\s+", " ", sql)[0]
         self.query = re.subn(",", ", ", self.query)[0]
-        self.query = re.subn("\)", ") ", self.query)[0]
-
+        self.query = re.subn("\)", " ) ", self.query)[0]
+        self.query = re.subn("\s+", " ", self.query)[0]
+        self.query = re.subn("\s+\)", ")", self.query)[0]
+        print(self.query)
         # 计算长度sql文本长度
         self.len = len(self.query)
 
@@ -62,6 +65,7 @@ class QueryTableParser(object):
                 '''
                 # 匹配表名中有逗号
                 if re.search(",", table_name):
+
                     # 表格式为 "table_name1, table_name2"
                     # 查找到 table_name1
                     while re.search(",", table_name):
@@ -77,7 +81,8 @@ class QueryTableParser(object):
                 # 匹配表名中没有逗号
                 else:
                     # 判断表名是不是 where 和 ( 开头，是否继续下一个单词过滤
-                    if self.table_filter_tokens.count(table_name.lower()) or table_name.startswith('('):
+                    if self.table_filter_tokens.count(table_name.lower()) \
+                            or table_name.startswith('('):
                         continue
                     if re.search('\w+', table_name.strip('`')):
                         table = re.sub('`', '', table_name)
@@ -231,7 +236,7 @@ class QueryRewrite(object):
 
 
 sql_content = """
-select * from (select * from (select * from  a)b,ccc)c
+select * from (select * from (select * from  a ) b, c cc ) xxxx
 """
 
 a = QueryRewrite()
