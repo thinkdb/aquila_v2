@@ -1,0 +1,17 @@
+{% extends 'include/base.html' %}
+
+{% block body_title %}
+    SlowQuery
+{% endblock %}
+
+{% block body_body %}
+<form method="post">
+    {% csrf_token %}
+    <select name="slow_id">
+    {% for host in host_obj %}
+        <option value="{{ host.1 }}">{{ host.0 }}</option>
+    {% endfor %}
+    </select>
+    <input type="submit" value="查询">
+</form>
+{% endblock %}

@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dff6ece-9130-45de-bc32-5297f150416c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scripts/SQLparser.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/SQLparser.py" afterPath="$PROJECT_DIR$/scripts/SQLparser_v2.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dbms/views/SlowQuery.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/SlowQuery/SlowQuery.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/aquila_v2.iml" afterPath="$PROJECT_DIR$/.idea/aquila_v2.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/aquila_v2/settings.py" afterPath="$PROJECT_DIR$/aquila_v2/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dbms/urls.py" afterPath="$PROJECT_DIR$/dbms/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/SQLparser_v2.py" afterPath="$PROJECT_DIR$/scripts/SQLparser_v2.py" />
     </list>
+    <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,9 +21,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/aquila_v2$t.coverage" NAME="t Coverage Results" MODIFIED="1500446564158" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
-    <SUITE FILE_PATH="coverage/aquila_v2$SQLparser.coverage" NAME="SQLparser Coverage Results" MODIFIED="1500458400481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
     <SUITE FILE_PATH="coverage/aquila_v2$test_inception.coverage" NAME="test_inception Coverage Results" MODIFIED="1500284984836" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_scripts" />
+    <SUITE FILE_PATH="coverage/aquila_v2$SQLparser_v2.coverage" NAME="SQLparser_v2 Coverage Results" MODIFIED="1500472634545" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
+    <SUITE FILE_PATH="coverage/aquila_v2$SQLparser.coverage" NAME="SQLparser Coverage Results" MODIFIED="1500458400481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
+    <SUITE FILE_PATH="coverage/aquila_v2$t.coverage" NAME="t Coverage Results" MODIFIED="1500446564158" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/scripts" />
     <SUITE FILE_PATH="coverage/aquila_v2$test.coverage" NAME="test Coverage Results" MODIFIED="1499835296970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_scripts" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -25,45 +34,28 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="aquila_v2" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SQLparser_v2.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/scripts/SQLparser_v2.py">
+      <file leaf-file-name="SlowQuery.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dbms/views/SlowQuery.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="238" column="0" lean-forward="false" selection-start-line="238" selection-start-column="0" selection-end-line="239" selection-end-column="0" />
+            <state relative-caret-position="344">
+              <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
               <folding>
-                <element signature="e#3225#3373#0" expanded="false" />
-                <element signature="e#3413#4041#0" expanded="false" />
-                <element signature="e#4076#8390#0" expanded="false" />
-                <marker date="1500458400416" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
-                <marker date="1500458400416" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
-                <marker date="1500458400416" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
-                <marker date="1500458400416" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
-                <marker date="1500458400416" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
-                <marker date="1500458400416" expanded="true" signature="8411:8474" ph="select * fro... *" />
-                <marker date="1500458400416" expanded="true" signature="8426:8467" ph="select * fro... *" />
-                <marker date="1500458400416" expanded="true" signature="8441:8457" ph="select * fro... a" />
+                <element signature="e#0#49#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_inception.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_scripts/test_inception.py">
+      <file leaf-file-name="SlowQuery.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/SlowQuery/SlowQuery.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="21" column="20" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SQLquery.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dbms/views/SQLquery.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="27" column="31" lean-forward="true" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+            <state relative-caret-position="153">
+              <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -72,11 +64,19 @@
       <file leaf-file-name="functions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-              <folding>
-                <element signature="e#42#74#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-85">
+              <caret line="13" column="9" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/aquila_v2/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="191">
+              <caret line="180" column="13" selection-start-line="180" selection-start-column="9" selection-end-line="180" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -86,8 +86,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -110,7 +110,6 @@
         <option value="$PROJECT_DIR$/scripts/Inception.py" />
         <option value="$PROJECT_DIR$/dbms/views/SQLpublish.py" />
         <option value="$PROJECT_DIR$/dbms/forms.py" />
-        <option value="$PROJECT_DIR$/dbms/urls.py" />
         <option value="$PROJECT_DIR$/templates/include/base.html" />
         <option value="$PROJECT_DIR$/test_scripts/sql" />
         <option value="$PROJECT_DIR$/test_scripts/test.py" />
@@ -121,6 +120,11 @@
         <option value="$PROJECT_DIR$/dbms/views/SQLquery.py" />
         <option value="$PROJECT_DIR$/scripts/t.py" />
         <option value="$PROJECT_DIR$/scripts/SQLparser.py" />
+        <option value="$PROJECT_DIR$/scripts/SQLparser_v2.py" />
+        <option value="$PROJECT_DIR$/aquila_v2/settings.py" />
+        <option value="$PROJECT_DIR$/dbms/urls.py" />
+        <option value="$PROJECT_DIR$/templates/SlowQuery/SlowQuery.html" />
+        <option value="$PROJECT_DIR$/dbms/views/SlowQuery.py" />
       </list>
     </option>
   </component>
@@ -131,13 +135,19 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="271" />
-    <option name="y" value="63" />
-    <option name="width" value="1609" />
-    <option name="height" value="1018" />
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="822" />
   </component>
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
     <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -155,8 +165,15 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="aquila_v2" />
@@ -177,7 +194,43 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test_scripts" />
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inception" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SlowQuery" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -192,6 +245,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model_model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -227,9 +294,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aquila_v2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -237,9 +317,10 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PerfectCRM_2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="Python.SQLparser">
+  <component name="RunManager" selected="Django server.aquila_v2">
     <configuration default="false" name="test_inception" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -312,6 +393,24 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
+    <configuration default="false" name="SQLparser_v2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="aquila_v2" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/SQLparser_v2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -330,12 +429,6 @@
       <option name="CUSTOM_SETTINGS" value="false" />
       <option name="USE_OPTIONS" value="false" />
       <option name="OPTIONS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
-      <config-file value="" />
-      <node-interpreter value="project" />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -433,7 +526,7 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run" />
+      <command value="run-script" />
       <scripts />
       <node-interpreter value="project" />
       <envs />
@@ -573,19 +666,21 @@
       <option name="customRunCommand" value="" />
       <method />
     </configuration>
-    <list size="5">
+    <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Django server.aquila_v2" />
       <item index="1" class="java.lang.String" itemvalue="Python.test_inception" />
       <item index="2" class="java.lang.String" itemvalue="Python.test" />
       <item index="3" class="java.lang.String" itemvalue="Python.SQLparser" />
       <item index="4" class="java.lang.String" itemvalue="Python.t" />
+      <item index="5" class="java.lang.String" itemvalue="Python.SQLparser_v2" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.SQLparser" />
-        <item index="1" class="java.lang.String" itemvalue="Python.t" />
-        <item index="2" class="java.lang.String" itemvalue="Python.test_inception" />
-        <item index="3" class="java.lang.String" itemvalue="Python.test" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.SQLparser_v2" />
+        <item index="1" class="java.lang.String" itemvalue="Python.SQLparser" />
+        <item index="2" class="java.lang.String" itemvalue="Python.t" />
+        <item index="3" class="java.lang.String" itemvalue="Python.test_inception" />
+        <item index="4" class="java.lang.String" itemvalue="Python.test" />
       </list>
     </recent_temporary>
   </component>
@@ -603,20 +698,20 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="271" y="63" width="1609" height="1018" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="23" width="1440" height="822" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1568754" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15879828" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45033112" sideWeight="0.5021322" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37529138" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.375" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.49668875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.49573863" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -629,6 +724,14 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
   </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -639,66 +742,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scripts/SQLparser_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#3225#3373#0" expanded="false" />
-            <element signature="e#3413#4041#0" expanded="false" />
-            <element signature="e#4076#8390#0" expanded="false" />
-            <marker date="1500458400416" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
-            <marker date="1500458400416" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
-            <marker date="1500458400416" expanded="true" signature="8411:8474" ph="select * fro... *" />
-            <marker date="1500458400416" expanded="true" signature="8426:8467" ph="select * fro... *" />
-            <marker date="1500458400416" expanded="true" signature="8441:8457" ph="select * fro... a" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/SQLparser_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3146">
-          <caret line="143" column="4" lean-forward="false" selection-start-line="142" selection-start-column="4" selection-end-line="143" selection-end-column="4" />
-          <folding>
-            <element signature="e#3225#3373#0" expanded="false" />
-            <element signature="e#3413#4041#0" expanded="false" />
-            <element signature="e#4076#8390#0" expanded="false" />
-            <marker date="1500458400416" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
-            <marker date="1500458400416" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
-            <marker date="1500458400416" expanded="true" signature="8411:8474" ph="select * fro... *" />
-            <marker date="1500458400416" expanded="true" signature="8426:8467" ph="select * fro... *" />
-            <marker date="1500458400416" expanded="true" signature="8441:8457" ph="select * fro... a" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dbms/views/SQLquery.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="34" lean-forward="false" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dbms/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/sqlquery/sql_query.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
-          <caret line="13" column="35" lean-forward="false" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
+          <caret line="13" column="35" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -706,7 +753,7 @@
     <entry file="file://$PROJECT_DIR$/test_scripts/test_inception.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
-          <caret line="17" column="4" lean-forward="false" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -714,7 +761,7 @@
     <entry file="file://$PROJECT_DIR$/scripts/Inception.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="638">
-          <caret line="29" column="50" lean-forward="false" selection-start-line="28" selection-start-column="20" selection-end-line="29" selection-end-column="50" />
+          <caret line="29" column="50" selection-start-line="28" selection-start-column="20" selection-end-line="29" selection-end-column="50" />
           <folding>
             <element signature="e#0#9#0" expanded="false" />
           </folding>
@@ -724,27 +771,24 @@
     <entry file="file://$PROJECT_DIR$/test_scripts/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
-          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-          <folding />
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/SQLparser_v2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#3225#3373#0" expanded="false" />
-            <element signature="e#3413#4041#0" expanded="false" />
-            <element signature="e#4076#8390#0" expanded="false" />
-            <marker date="1500458400416" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
-            <marker date="1500458400416" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
-            <marker date="1500458400416" expanded="true" signature="8411:8474" ph="select * fro... *" />
-            <marker date="1500458400416" expanded="true" signature="8426:8467" ph="select * fro... *" />
-            <marker date="1500458400416" expanded="true" signature="8441:8457" ph="select * fro... a" />
+            <element signature="e#3283#3431#0" expanded="false" />
+            <element signature="e#3471#4099#0" expanded="false" />
+            <element signature="e#4134#8448#0" expanded="false" />
+            <marker date="1500472280000" expanded="true" signature="7145:7187" ph="SELECT missi... missing_value" />
+            <marker date="1500472280000" expanded="true" signature="7758:7792" ph="SELECT missi... missing_value" />
+            <marker date="1500472280000" expanded="true" signature="8469:8546" ph="select * fro... *" />
+            <marker date="1500472280000" expanded="true" signature="8484:8539" ph="select * fro... *" />
+            <marker date="1500472280000" expanded="true" signature="8499:8515" ph="select * fro... a" />
+            <marker date="1500472280000" expanded="true" signature="8499:8529" ph="select * fro... a" />
           </folding>
         </state>
       </provider>
@@ -752,21 +796,21 @@
     <entry file="file://$PROJECT_DIR$/dbms/views/SQLquery.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="682">
-          <caret line="37" column="42" lean-forward="false" selection-start-line="37" selection-start-column="42" selection-end-line="37" selection-end-column="42" />
+          <caret line="37" column="42" selection-start-line="37" selection-start-column="42" selection-end-line="37" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dbms/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
-          <caret line="10" column="62" lean-forward="false" selection-start-line="10" selection-start-column="62" selection-end-line="10" selection-end-column="62" />
+          <caret line="10" column="62" selection-start-line="10" selection-start-column="62" selection-end-line="10" selection-end-column="62" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test_scripts/test_inception.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
-          <caret line="17" column="14" lean-forward="false" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
           <folding />
         </state>
       </provider>
@@ -774,185 +818,127 @@
     <entry file="file://$PROJECT_DIR$/templates/sqlquery/sql_query.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/include/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4268">
-          <caret line="194" column="35" lean-forward="true" selection-start-line="194" selection-start-column="35" selection-end-line="194" selection-end-column="35" />
+          <caret line="194" column="35" selection-start-line="194" selection-start-column="35" selection-end-line="194" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dbms/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2816">
-          <caret line="129" column="130" lean-forward="false" selection-start-line="129" selection-start-column="123" selection-end-line="129" selection-end-column="130" />
+          <caret line="129" column="130" selection-start-line="129" selection-start-column="123" selection-end-line="129" selection-end-column="130" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/site-packages/django/forms/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1672">
-          <caret line="95" column="13" lean-forward="false" selection-start-line="95" selection-start-column="13" selection-end-line="95" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/site-packages/django/forms/forms.py" />
     <entry file="file://$PROJECT_DIR$/scripts/functions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3894">
-          <caret line="303" column="0" lean-forward="true" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
+          <caret line="303" column="0" selection-start-line="303" selection-start-column="0" selection-end-line="303" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model_model/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2486">
-          <caret line="113" column="12" lean-forward="false" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="12" />
+          <caret line="113" column="12" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dbms/views/SQLquery.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/ince_work.js_bak">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1674">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/inception/WorkDetail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
-          <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
+          <caret line="46" column="25" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/aquila_v2/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
-          <caret line="9" column="16" lean-forward="false" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/ince_work.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="795">
-          <caret line="120" column="34" lean-forward="false" selection-start-line="120" selection-start-column="34" selection-end-line="120" selection-end-column="34" />
+          <caret line="120" column="34" selection-start-line="120" selection-start-column="34" selection-end-line="120" selection-end-column="34" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dbms/tasks.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="946">
-          <caret line="51" column="18" lean-forward="true" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
+          <caret line="51" column="18" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dbms/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/site-packages/django/db/models/query.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="884" column="39" lean-forward="false" selection-start-line="884" selection-start-column="32" selection-end-line="884" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/site-packages/django/forms/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1672">
-          <caret line="95" column="13" lean-forward="false" selection-start-line="95" selection-start-column="13" selection-end-line="95" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/site-packages/django/db/models/query.py" />
+    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/site-packages/django/forms/forms.py" />
     <entry file="file://$PROJECT_DIR$/back/views/AuthAccount.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
-          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          <caret line="16" column="4" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/get_metadata.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-220">
-          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="32" />
+          <caret line="14" column="8" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dbms/views/MySQL_MetaData.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
-          <caret line="10" column="6" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dbms/views/SQLpublish.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6">
-          <caret line="143" column="0" lean-forward="true" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model_model/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2486">
-          <caret line="113" column="12" lean-forward="false" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dbms/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="10" column="62" lean-forward="false" selection-start-line="10" selection-start-column="62" selection-end-line="10" selection-end-column="62" />
+          <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/include/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4268">
-          <caret line="194" column="35" lean-forward="false" selection-start-line="194" selection-start-column="35" selection-end-line="194" selection-end-column="35" />
+          <caret line="194" column="35" selection-start-line="194" selection-start-column="35" selection-end-line="194" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test_scripts/sql" />
-    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/site-packages/pymysql/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="22" column="3" lean-forward="true" selection-start-line="22" selection-start-column="3" selection-end-line="22" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/1230422388/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="4995" column="31" lean-forward="false" selection-start-line="4995" selection-start-column="25" selection-end-line="4995" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/re.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="174" column="24" lean-forward="false" selection-start-line="174" selection-start-column="24" selection-end-line="174" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/site-packages/pymysql/__init__.py" />
+    <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/1230422388/builtins.py" />
+    <entry file="file://$USER_HOME$/Miniconda3/envs/AquilaV2/Lib/re.py" />
     <entry file="file://$PROJECT_DIR$/test_scripts/dddd.py" />
     <entry file="file://$PROJECT_DIR$/scripts/Inception.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
-          <caret line="29" column="50" lean-forward="false" selection-start-line="28" selection-start-column="20" selection-end-line="29" selection-end-column="50" />
+          <caret line="29" column="50" selection-start-line="28" selection-start-column="20" selection-end-line="29" selection-end-column="50" />
           <folding>
             <element signature="e#0#9#0" expanded="false" />
           </folding>
@@ -962,15 +948,14 @@
     <entry file="file://$PROJECT_DIR$/test_scripts/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
-          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-          <folding />
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dbms/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="376">
-          <caret line="115" column="21" lean-forward="true" selection-start-line="115" selection-start-column="21" selection-end-line="115" selection-end-column="21" />
+          <caret line="115" column="21" selection-start-line="115" selection-start-column="21" selection-end-line="115" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -978,61 +963,136 @@
     <entry file="file://$PROJECT_DIR$/templates/sqlquery/sql_query.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
-          <caret line="13" column="35" lean-forward="false" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
+          <caret line="13" column="35" selection-start-line="13" selection-start-column="35" selection-end-line="13" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/t.py" />
+    <entry file="file://$PROJECT_DIR$/scripts/SQLparser_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="245" column="0" selection-start-line="245" selection-start-column="0" selection-end-line="245" selection-end-column="0" />
+          <folding>
+            <element signature="e#3283#3431#0" expanded="false" />
+            <element signature="e#3471#4099#0" expanded="false" />
+            <element signature="e#4134#8448#0" expanded="false" />
+            <marker date="1500472280000" expanded="true" signature="7145:7187" ph="SELECT missi... missing_value" />
+            <marker date="1500472280000" expanded="true" signature="7758:7792" ph="SELECT missi... missing_value" />
+            <marker date="1500472280000" expanded="true" signature="8469:8546" ph="select * fro... *" />
+            <marker date="1500472280000" expanded="true" signature="8484:8539" ph="select * fro... *" />
+            <marker date="1500472280000" expanded="true" signature="8499:8515" ph="select * fro... a" />
+            <marker date="1500472280000" expanded="true" signature="8499:8529" ph="select * fro... a" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_scripts/test_inception.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="33" column="20" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbms/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbms/views/SQLquery.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model_model/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="111" column="36" selection-start-line="111" selection-start-column="36" selection-end-line="111" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbms/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="42" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inception/SqlCommit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-391">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inception/SqlAudit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-527">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/enter/envs/aquila_v2/lib/python3.5/weakref.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="116" column="0" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/SlowQuery/SlowQuery.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/app/enter/envs/aquila_v2/lib/python3.5/site-packages/django/conf/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1296">
+          <caret line="200" column="0" selection-start-line="200" selection-start-column="0" selection-end-line="200" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/aquila_v2/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="180" column="13" selection-start-line="180" selection-start-column="9" selection-end-line="180" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scripts/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+        <state relative-caret-position="-85">
+          <caret line="13" column="9" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbms/views/SlowQuery.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
           <folding>
-            <element signature="e#42#74#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dbms/views/SQLquery.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="27" column="31" lean-forward="true" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/t.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1408">
-          <caret line="64" column="44" lean-forward="false" selection-start-line="64" selection-start-column="44" selection-end-line="64" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_scripts/test_inception.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="21" column="20" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/SQLparser_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="238" column="0" lean-forward="false" selection-start-line="238" selection-start-column="0" selection-end-line="239" selection-end-column="0" />
-          <folding>
-            <element signature="e#3225#3373#0" expanded="false" />
-            <element signature="e#3413#4041#0" expanded="false" />
-            <element signature="e#4076#8390#0" expanded="false" />
-            <marker date="1500458400416" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
-            <marker date="1500458400416" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
-            <marker date="1500458400416" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
-            <marker date="1500458400416" expanded="true" signature="8411:8474" ph="select * fro... *" />
-            <marker date="1500458400416" expanded="true" signature="8426:8467" ph="select * fro... *" />
-            <marker date="1500458400416" expanded="true" signature="8441:8457" ph="select * fro... a" />
+            <element signature="e#0#49#0" expanded="true" />
           </folding>
         </state>
       </provider>

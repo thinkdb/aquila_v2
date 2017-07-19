@@ -34,6 +34,7 @@ class QueryTableParser(object):
         """
         # 替换 sql 文本中的任意空白字符为 空格, 并在逗号后面添加一个空格
         self.query = re.subn("\s+", " ", sql)[0]
+        self.query = re.subn("\s+,", ", ", self.query)[0]
         self.query = re.subn(",", ", ", self.query)[0]
         self.query = re.subn("\)", " ) ", self.query)[0]
         self.query = re.subn("\s+", " ", self.query)[0]
@@ -236,7 +237,7 @@ class QueryRewrite(object):
 
 
 sql_content = """
-select * from (select * from (select * from  a ) b, c cc ) xxxx
+select * from (select * from (select * from  a left join abc ) b ,c cc ) xxxx
 """
 
 a = QueryRewrite()
