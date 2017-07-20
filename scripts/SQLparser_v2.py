@@ -21,7 +21,7 @@ class QueryTableParser(object):
             'into'
         ]
         self.table_filter_tokens = [
-            'WHERE',
+            'where',
             '(',
             ')'
         ]
@@ -33,13 +33,13 @@ class QueryTableParser(object):
         :return: 返回一个元组集合
         """
         # 替换 sql 文本中的任意空白字符为 空格, 并在逗号后面添加一个空格
-        self.query = re.subn("\s+", " ", sql)[0]
+        self.query = re.subn("\s+", " ", sql.upper())[0]
         self.query = re.subn("\s+,", ", ", self.query)[0]
         self.query = re.subn(",", ", ", self.query)[0]
         self.query = re.subn("\)", " ) ", self.query)[0]
         self.query = re.subn("\s+", " ", self.query)[0]
         self.query = re.subn("\s+\)", ")", self.query)[0]
-        print(self.query)
+
         # 计算长度sql文本长度
         self.len = len(self.query)
 
@@ -95,7 +95,8 @@ class QueryTableParser(object):
                         self.flag = 1
                     else:
                         self.flag = 0
-
+        if "DUAL" in tables:
+            tables.remove("DUAL")
         return set(tables)
 
     def has_next_token(self):
@@ -237,7 +238,7 @@ class QueryRewrite(object):
 
 
 sql_content = """
-select * from (select * from (select * from  a left join abc ) b ,c cc ) xxxx
+
 """
 
 a = QueryRewrite()

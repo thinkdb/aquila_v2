@@ -2,7 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6dff6ece-9130-45de-bc32-5297f150416c" name="Default" comment="">
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+=======
+<<<<<<< HEAD
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+=======
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dbms/views/SlowQuery.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/SlowQuery/SlowQuery.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/aquila_v2.iml" afterPath="$PROJECT_DIR$/.idea/aquila_v2.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/aquila_v2/settings.py" afterPath="$PROJECT_DIR$/aquila_v2/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dbms/urls.py" afterPath="$PROJECT_DIR$/dbms/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/SQLparser_v2.py" afterPath="$PROJECT_DIR$/scripts/SQLparser_v2.py" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
+>>>>>>> 26cb6a322633b7bf3e1e26f2e33910787e74066b
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,10 +50,27 @@
       <file leaf-file-name="SlowQuery.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dbms/views/SlowQuery.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="445">
+              <caret line="129" column="0" lean-forward="true" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+              <folding>
+                <element signature="e#3225#3373#0" expanded="false" />
+                <element signature="e#3413#4041#0" expanded="false" />
+                <element signature="e#4076#8390#0" expanded="false" />
+                <marker date="1500458711460" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
+                <marker date="1500458711460" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
+                <marker date="1500458711460" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
+                <marker date="1500458711460" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
+                <marker date="1500458711460" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
+                <marker date="1500458711460" expanded="true" signature="8411:8474" ph="select * fro... *" />
+                <marker date="1500458711460" expanded="true" signature="8426:8467" ph="select * fro... *" />
+                <marker date="1500458711460" expanded="true" signature="8441:8457" ph="select * fro... a" />
+=======
             <state relative-caret-position="344">
               <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
               <folding>
                 <element signature="e#0#49#0" expanded="true" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
               </folding>
             </state>
           </provider>
@@ -56,8 +89,13 @@
       <file leaf-file-name="functions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/functions.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="462">
+              <caret line="27" column="31" lean-forward="false" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+=======
             <state relative-caret-position="-85">
               <caret line="13" column="9" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
               <folding />
             </state>
           </provider>
@@ -66,9 +104,17 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/aquila_v2/settings.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="308">
+              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+              <folding>
+                <element signature="e#42#74#0" expanded="true" />
+              </folding>
+=======
             <state relative-caret-position="191">
               <caret line="180" column="13" selection-start-line="180" selection-start-column="9" selection-end-line="180" selection-end-column="13" />
               <folding />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
             </state>
           </provider>
         </entry>
@@ -113,10 +159,13 @@
         <option value="$PROJECT_DIR$/scripts/t.py" />
         <option value="$PROJECT_DIR$/scripts/SQLparser.py" />
         <option value="$PROJECT_DIR$/scripts/SQLparser_v2.py" />
+<<<<<<< HEAD
+=======
         <option value="$PROJECT_DIR$/aquila_v2/settings.py" />
         <option value="$PROJECT_DIR$/dbms/urls.py" />
         <option value="$PROJECT_DIR$/templates/SlowQuery/SlowQuery.html" />
         <option value="$PROJECT_DIR$/dbms/views/SlowQuery.py" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
       </list>
     </option>
   </component>
@@ -696,13 +745,26 @@
     <frame x="0" y="23" width="1440" height="822" extended-state="6" />
     <editor active="false" />
     <layout>
+<<<<<<< HEAD
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1568754" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15879828" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45033112" sideWeight="0.5021322" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37529138" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
+=======
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.375" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.375" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
+>>>>>>> 26cb6a322633b7bf3e1e26f2e33910787e74066b
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -737,6 +799,65 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/scripts/SQLparser_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#3225#3373#0" expanded="false" />
+            <element signature="e#3413#4041#0" expanded="false" />
+            <element signature="e#4076#8390#0" expanded="false" />
+            <marker date="1500458711460" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
+            <marker date="1500458711460" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
+            <marker date="1500458711460" expanded="true" signature="8411:8474" ph="select * fro... *" />
+            <marker date="1500458711460" expanded="true" signature="8426:8467" ph="select * fro... *" />
+            <marker date="1500458711460" expanded="true" signature="8441:8457" ph="select * fro... a" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/SQLparser_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3146">
+          <caret line="143" column="4" lean-forward="false" selection-start-line="142" selection-start-column="4" selection-end-line="143" selection-end-column="4" />
+          <folding>
+            <element signature="e#3225#3373#0" expanded="false" />
+            <element signature="e#3413#4041#0" expanded="false" />
+            <element signature="e#4076#8390#0" expanded="false" />
+            <marker date="1500458711460" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
+            <marker date="1500458711460" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
+            <marker date="1500458711460" expanded="true" signature="8411:8474" ph="select * fro... *" />
+            <marker date="1500458711460" expanded="true" signature="8426:8467" ph="select * fro... *" />
+            <marker date="1500458711460" expanded="true" signature="8441:8457" ph="select * fro... a" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbms/views/SQLquery.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="16" column="34" lean-forward="false" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dbms/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+=======
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
     <entry file="file://$PROJECT_DIR$/templates/sqlquery/sql_query.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -775,6 +896,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
+            <element signature="e#3225#3373#0" expanded="false" />
+            <element signature="e#3413#4041#0" expanded="false" />
+            <element signature="e#4076#8390#0" expanded="false" />
+            <marker date="1500458711460" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
+            <marker date="1500458711460" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
+            <marker date="1500458711460" expanded="true" signature="8411:8474" ph="select * fro... *" />
+            <marker date="1500458711460" expanded="true" signature="8426:8467" ph="select * fro... *" />
+            <marker date="1500458711460" expanded="true" signature="8441:8457" ph="select * fro... a" />
+=======
             <element signature="e#3283#3431#0" expanded="false" />
             <element signature="e#3471#4099#0" expanded="false" />
             <element signature="e#4134#8448#0" expanded="false" />
@@ -784,6 +918,7 @@
             <marker date="1500472280000" expanded="true" signature="8484:8539" ph="select * fro... *" />
             <marker date="1500472280000" expanded="true" signature="8499:8515" ph="select * fro... a" />
             <marker date="1500472280000" expanded="true" signature="8499:8529" ph="select * fro... a" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
           </folding>
         </state>
       </provider>
@@ -1052,16 +1187,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/SlowQuery/SlowQuery.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="308">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+          <folding>
+            <element signature="e#42#74#0" expanded="true" />
+          </folding>
+=======
         <state relative-caret-position="153">
           <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
           <folding />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/app/enter/envs/aquila_v2/lib/python3.5/site-packages/django/conf/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="462">
+          <caret line="27" column="31" lean-forward="false" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+=======
         <state relative-caret-position="1296">
           <caret line="200" column="0" selection-start-line="200" selection-start-column="0" selection-end-line="200" selection-end-column="0" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
           <folding />
         </state>
       </provider>
@@ -1084,10 +1232,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dbms/views/SlowQuery.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="445">
+          <caret line="129" column="0" lean-forward="true" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+          <folding>
+            <element signature="e#3225#3373#0" expanded="false" />
+            <element signature="e#3413#4041#0" expanded="false" />
+            <element signature="e#4076#8390#0" expanded="false" />
+            <marker date="1500458711460" expanded="true" signature="7087:7110" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="7087:7122" ph="SELECT {1} F... " />
+            <marker date="1500458711460" expanded="true" signature="7087:7129" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="7700:7734" ph="SELECT missi... missing_value" />
+            <marker date="1500458711460" expanded="true" signature="8393:8394" ph="select a.* f... cast" />
+            <marker date="1500458711460" expanded="true" signature="8411:8474" ph="select * fro... *" />
+            <marker date="1500458711460" expanded="true" signature="8426:8467" ph="select * fro... *" />
+            <marker date="1500458711460" expanded="true" signature="8441:8457" ph="select * fro... a" />
+=======
         <state relative-caret-position="344">
           <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
           <folding>
             <element signature="e#0#49#0" expanded="true" />
+>>>>>>> dd78472f04d182e4ad670112ad63cb0036a4ced5
           </folding>
         </state>
       </provider>
