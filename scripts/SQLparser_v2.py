@@ -238,33 +238,6 @@ class QueryRewrite(object):
 
 
 sql_content = """
-(SELECT
-    auth_type AS authType,
-    auth_status AS authStatus
-FROM
-    merchant_auth
-WHERE
-    merchant_id = 146103616807720866
-AND auth_type = 2
-ORDER BY
-    id desc
-LIMIT 1
-)
-UNION
-(
-    SELECT
-        auth_type AS authType,
-        auth_status AS authStatus
-    FROM
-        merchant_auth
-    WHERE
-        merchant_id = 146103616807720866
-    AND auth_type = 1
-    ORDER BY
-        id desc
-    LIMIT 1
-)
-
 
 """
 

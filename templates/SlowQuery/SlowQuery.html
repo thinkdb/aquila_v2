@@ -1,17 +1,31 @@
 {% extends 'include/base.html' %}
-
+{% load udf_tags %}
 {% block body_title %}
     SlowQuery
 {% endblock %}
 
 {% block body_body %}
-<form method="post">
+<form>
     {% csrf_token %}
     <select name="slow_id">
-    {% for host in host_obj %}
-        <option value="{{ host.1 }}">{{ host.0 }}</option>
-    {% endfor %}
+    {% build_select_option host_obj host_id %}
     </select>
     <input type="submit" value="查询">
 </form>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <td>主机</td>
+                <td>库名</td>
+                <td>首次执行时间</td>
+                <td>最后执行时间</td>
+                <td>总执行次数</td>
+                <td>sql 内容</td>
+                <td>查看完成sql</td>
+            </tr>
+        </thead>
+    <tbody>
+        {% build_slow_recodes slow_obj %}
+    </tbody>
+    </table>
 {% endblock %}
