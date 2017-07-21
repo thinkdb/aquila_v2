@@ -14,3 +14,10 @@
 .wait_run{
     background-color: #2aabd2;
 }
+
+.show {
+  display: block !important;
+}
+.hidden {
+  display: none !important;
+}

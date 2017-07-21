@@ -332,7 +332,7 @@ class MetaDataDatabase(models.Model):
 
 # ============================= Slow Query Log =========================
 class SlowQuery(models.Model):
-    id = models.PositiveBigIntegerFieldAuto(primary_key=True)
+    aid = models.PositiveBigIntegerFieldAuto(primary_key=True)
     checksum = models.PositiveBigIntegerField(unique=True)
     fingerprint = models.SmallTextField(max_length=65535, null=False)
     sample = models.TextField(null=False)
