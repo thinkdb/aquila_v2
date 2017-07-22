@@ -152,9 +152,9 @@ class QueryRewrite(object):
         self.INSERTSELECT = 10
         self.TABLEREF = '`?[A-Za-z0-9_]+`?(\.`?[A-Za-z0-9_]+`?)?'
 
-        self.COMMENTS_C = '/\s*\/\*.*?\*\/\s*/'
-        self.COMMENTS_HASH = '/#.*$/'
-        self.COMMENTS_SQL = '/--\s+.*$/'
+        self.COMMENTS_C = '\s*\/\*.*?\*\/\s*'
+        self.COMMENTS_HASH = '#.*$'
+        self.COMMENTS_SQL = '--\s+.*$'
 
     def format_sql(self, sql=None):
         self.sql = sql.upper()
@@ -241,12 +241,12 @@ sql_content = """
 
 """
 
-a = QueryRewrite()
-b = a.format_sql(sql=sql_content)
-print('sql 内容: ', b)
-
-if b:
-    a = QueryTableParser()
-    tables = a.parse(b)
-    print('使用的表名: ', tables or 0)
+# a = QueryRewrite()
+# b = a.format_sql(sql=sql_content)
+# print('sql 内容: ', b)
+#
+# if b:
+#     a = QueryTableParser()
+#     tables = a.parse(b)
+#     print('使用的表名: ', tables or 0)
 

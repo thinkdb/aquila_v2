@@ -4,7 +4,7 @@ from django.views import View
 from model_model import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
-from back.views.AuthAccount import AuthAccount
+from back.views.AuthAccount import AuthAccount, GetUserInfo
 from django.utils.decorators import method_decorator
 from scripts import functions
 
@@ -12,6 +12,7 @@ from scripts import functions
 @method_decorator(AuthAccount, name='dispatch')
 class SlowQuery(View):
     def get(self, request):
+        user_info = GetUserInfo(request)
         host_obj = models.HostAPPAccount.objects.all().values_list('host__host_ip', 'id')
         slow_obj = None
         host_id = request.GET.get('slow_id', None)
@@ -29,8 +30,7 @@ class SlowQuery(View):
             slow_obj = models.SlowQuery.objects.filter(
                 reviewed_status__isnull=True,
                 slowqueryhistory__hostname_max=host_ip
-            ).values('fingerprint',
-                     'aid',
+            ).values('aid',
                      'checksum',
                      'sample',
                      'slowqueryhistory__db_max',
@@ -59,7 +59,8 @@ class SlowQuery(View):
                           'slow_obj': slow_obj,
                           'host_obj': host_obj,
                           'host_id': host_id,
-                          'contacts': contacts
+                          'contacts': contacts,
+                          'user_info': user_info
                       })
 
     def post(self, request):
