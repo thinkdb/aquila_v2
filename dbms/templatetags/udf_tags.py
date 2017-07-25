@@ -40,12 +40,12 @@ def build_slow_recodes(slow_obj, host_id):
             # 过滤无法获取执行计划的语句
             sql_content = SQLparser.QueryRewrite().format_sql(line['sample'])
             if sql_content:
-                td_str += "<a id='{class_name}' href='/dbms/query_optimize-{host_id}-{sid}.html'>优化</a>" \
+                td_str += "<a id='{class_name}' href='/dbms/query_optimize-{host_id}-{sid}.html'>查看详情</a>" \
                           "</td></tr>".format(class_name=line['checksum'],
                                               sid=line['checksum'],
                                               host_id=host_id)
             else:
-                td_str += "<span>优化</span></td></tr>"
+                td_str += "<span>查看详情</span></td></tr>"
 
             td_str += "<tr class='hidden {class_name}'><td colspan=11    class='show_sql'>" \
                       "<div><code><span>{span_str}</span></code></div>" \
@@ -81,8 +81,9 @@ def build_optimize_recodes(slow_obj):
     if slow_obj:
         for line in slow_obj:
             td_str += "<tr><td>{dbname}</td><td>{ts_cnt}</td>" \
+                      "<td>{first_seen}</td><td>{last_seen}</td>" \
                       "<td>{sum_query}</td><td>{max_query}</td><td>{min_query}</td>" \
-                      "<td>{sum_lock}</td><td>{max_lock}</td><td>{min_lock}</td>" \
+                      "<td>{sum_lock}</td><td>{max_lock}</td><td>{min_lock}</td><td>优化</td>" \
                       "</tr>".format(dbname=line['slowqueryhistory__db_max'],
                                      ts_cnt=int(line['ts_cnt']),
                                      sum_query=line['sum_query_time'],
@@ -90,6 +91,8 @@ def build_optimize_recodes(slow_obj):
                                      max_query=line['max_query_time'],
                                      sum_lock=line['sum_lock_time'],
                                      min_lock=line['min_lock_time'],
+                                     first_seen=line['first_seen'],
+                                     last_seen=line['last_seen'],
                                      max_lock=line['max_lock_time'])
 
     return mark_safe(td_str)
@@ -116,14 +119,16 @@ def build_slow_query_rely_info(table_info_dict):
     """
     all_info_str = ""
     for table_name in table_info_dict.keys():
-        div_str = "<h3 class='show_query_rely'>查看{table}表详情</h3>" \
-                   "<div class='hidden' ><h4>状态信息</h4>" \
-                   "{base_info}" \
+        div_str = "<div class='panel panel-default base_info' style='border-color: #2aabd2;margin-top: 10px;'>" \
+                  "<div class='panel-heading show_query_rely' " \
+                  "style='background-color: #2aabd2; color: white; '>查看{table}表详情</div>" \
+                  "<div class='hidden' ><h4>状态信息</h4>" \
+                   "<div style='overflow: scroll;'>{base_info}</div>" \
                    "<h4>索引信息</h4>" \
                    "{index_info}" \
                    "<h4>表结构信息</h4>" \
                    "{str_info}" \
-                   "</div>"
+                   "</div></div>"
         # 默认只显示表名， 点表名展开这张表的所有信息
         table_tbody = table_info_dict[table_name]['table_info']['status']
         table_thead = table_info_dict[table_name]['table_info']['col']

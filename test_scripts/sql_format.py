@@ -156,8 +156,34 @@ def convert_keywords_to_uppercase(instring):
     MyOutWords = []
 
     # list of SQL keywords to treat differently
-    keywords = 'absolute action ada add all allocate alter and any are as asc assertion at authorization avg backup begin between bit bit_length both break browse bulk by cascade cascaded case cast catalog char char_length character character_length check checkpoint close clustered coalesce collate collation column commit compute connect connection constraint constraints contains containstable continue convert corresponding count create cross current current_date current_time current_timestamp current_user cursor database date day dbcc deallocate dec decimal declare default deferrable deferred delete deny desc describe descriptor diagnostics disconnect disk distinct distributed domain double drop dummy dump else end end-exec errlvl escape except exception exec execute exists exit external extract false fetch file fillfactor first float for foreign fortran found freetext freetexttable from full function get global go goto grant group having holdlock hour identity identity_insert identitycol if immediate in in include index index indicator initially inner inner input insensitive insert int integer intersect interval into into is isolation join key kill language last leading left level like lineno load local lower match max min minute module month names national natural nchar next no nocheck nonclustered none not null nullif numeric octet_length of off offsets on only open opendatasource openquery openrowset openxml option option or order outer output over overlaps pad partial pascal percent plan position precision prepare preserve primary print prior privileges proc procedure public raiserror read readtext real reconfigure references relative replication restore restrict return revoke right rollback rowcount rowguidcol rows rule save schema scroll second section select session session_user set setuser shutdown size smallint some space sql sqlca sqlcode sqlerror sqlstate sqlwarning statistics substring sum system_user system_user table temporary textsize then time timestamp timezone_hour timezone_minute to top trailing tran transaction translate translation trigger trim true truncate tsequal union unique unknown update updatetext upper usage use user using value values varchar varying view waitfor when whenever where while with work write writetext year zone'.split(
-        ' ')
+    keywords = 'absolute action ada add all allocate alter and any are as asc assertion' \
+               ' at authorization avg backup begin between bit bit_length both break browse' \
+               ' bulk by cascade cascaded case cast catalog char char_length character ' \
+               'character_length check checkpoint close clustered coalesce collate collation ' \
+               'column commit compute connect connection constraint constraints contains ' \
+               'containstable continue convert corresponding count create cross current current_' \
+               'date current_time current_timestamp current_user cursor database date day dbcc ' \
+               'deallocate dec decimal declare default deferrable deferred delete deny desc ' \
+               'describe descriptor diagnostics disconnect disk distinct distributed domain double ' \
+               'drop dummy dump else end end-exec errlvl escape except exception exec execute' \
+               ' exists exit external extract false fetch file fillfactor first float for foreign' \
+               ' fortran found freetext freetexttable from full function get global go goto' \
+               ' grant group having holdlock hour identity identity_insert identitycol if immediate' \
+               ' in in include index index indicator initially inner inner input insensitive insert' \
+               ' int integer intersect interval into into is isolation join key kill language last' \
+               ' leading left level like lineno load local lower match max min minute module month' \
+               ' names national natural nchar next no nocheck nonclustered none not null nullif numeric' \
+               ' octet_length of off offsets on only open opendatasource openquery openrowset openxml' \
+               ' option option or order outer output over overlaps pad partial pascal percent plan' \
+               ' position precision prepare preserve primary print prior privileges proc procedure' \
+               ' public raiserror read readtext real reconfigure references relative replication restore' \
+               ' restrict return revoke right rollback rowcount rowguidcol rows rule save schema scroll' \
+               ' second section select session session_user set setuser shutdown size smallint some space' \
+               ' sql sqlca sqlcode sqlerror sqlstate sqlwarning statistics substring sum system_user system_user' \
+               ' table temporary textsize then time timestamp timezone_hour timezone_minute to' \
+               ' top trailing tran transaction translate translation trigger trim true truncate tsequal' \
+               ' union unique unknown update updatetext upper usage use user using value values varchar' \
+               ' varying view waitfor when whenever where while with work write writetext year zone'.split(' ')
 
     # initialize ignoreflag = False
     ignoreflag = False
@@ -289,9 +315,23 @@ def format_sql(instring):
 
 
 sql = """
+/*master*/ select cast(oi.id AS CHAR) AS orderId, cast(oi.user_id AS CHAR) AS userId from order_info oi where flag =1 and is_immediate=0 and service_time < '2017-07-21 01:50:04' limit 100
 
-SELECT mi.id, ifnull(mi.name, '') as name, mi.longitude, mi.latitude, mi.province, mi.city, mi.app_type as appType, mi.king_status as kingStatus, (if(mi.app_type = 'gxfw', if(mi.user_auth =1 OR mi.auth_status = 1, 1, (SELECT a.auth_status FROM merchant_auth a WHERE a.merchant_id = mi.id AND a.auth_status = 1 ORDER BY a.join_time DESC LIMIT 1)), (SELECT a.auth_status FROM merchant_auth a WHERE a.merchant_id = mi.id AND a.auth_status = 1 ORDER BY a.join_time DESC LIMIT 1))) auth_status, (SELECT GROUP_CONCAT(service_type_id) FROM merchant_service_type t WHERE t.merchant_id = mi.id) serviceTypeIds, (SELECT group_concat(t.service_type_name) FROM service_type t WHERE t.id IN (SELECT m.service_type_id FROM merchant_service_type m WHERE m.merchant_id = mi.id)) serviceTypeNames, ifnull( (SELECT u.nickname FROM user_info u WHERE u.id IN ((SELECT t.user_id FROM merchant_employees t WHERE t.is_del = 0 AND t.verification_status = 1 AND t.employees_type = 1 AND t.merchant_id = mi.id)) ORDER BY u.id LIMIT 1), '') nickname, ifnull((SELECT service_frequency FROM merchant_statistics t WHERE t.merchant_id = mi.id LIMIT 1), 0) AS serviceFrequency FROM merchant_info mi WHERE mi.is_del = 0 AND (mi.app_type = 'gxfw' OR (mi.NAME IS NOT NULL AND mi.NAME != "")) ORDER BY mi.id LIMIT 1120000, 10000
+
 """
 
 formatted_sql = format_sql(sql)
 print(formatted_sql)
+
+
+from scripts import SQLparser
+
+a = SQLparser.QueryRewrite()
+b = a.format_sql(sql=sql)
+print(a.type)
+print('sql 内容: ', b)
+
+if b:
+    a = SQLparser.QueryTableParser()
+    tables = a.parse(b)
+    print('使用的表名: ', tables or 0)

@@ -23,9 +23,6 @@ class SlowQuery(View):
             host_obj = models.HostAPPAccount.objects.all().values_list('host__host_ip', 'id')
             slow_host_obj = models.HostAPPAccount.objects.filter(id=host_id).all()
             host_ip = slow_host_obj[0].host.host_ip
-            app_user = slow_host_obj[0].app_user
-            app_pass = slow_host_obj[0].app_pass
-            app_port = slow_host_obj[0].app_port
 
             slow_obj = models.SlowQuery.objects.filter(
                 reviewed_status__isnull=True,

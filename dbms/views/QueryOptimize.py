@@ -17,6 +17,8 @@ class QueryOptimize(View):
             reviewed_status__isnull=True,
             checksum=sid
         ).values('sample',
+                 'first_seen',
+                 'last_seen',
                  'slowqueryhistory__db_max',
                  'slowqueryhistory__hostname_max'
                  ).annotate(ts_cnt=Sum('slowqueryhistory__ts_cnt'),

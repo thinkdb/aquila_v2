@@ -2,40 +2,63 @@
 {% load udf_tags %}
 
 {% block body_body %}
-<div class="form-group">
+
 
     {% if slow_obj %}
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>库名</th>
-                    <th>总执行次数</th>
+        <div class="panel panel-default base_info" style="border-color: #2aabd2;margin-top: 10px;">
+            <div class="panel-heading" style="background-color: #2aabd2; color: white">慢SQL信息</div>
+            <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>库名</th>
+                        <th>总执行次数</th>
+                        <th>首次执行时间</th>
+                        <th>最后执行时间</th>
 
-                    <th>总执行时间</th>
-                    <th>最大执行时间</th>
-                    <th>最小执行时间</th>
+                        <th>总执行时间</th>
+                        <th>最大执行时间</th>
+                        <th>最小执行时间</th>
 
-                    <th>总锁定时间</th>
-                    <th>最大锁定时间</th>
-                    <th>最小锁定时间</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% build_optimize_recodes slow_obj %}
-            </tbody>
-        </table>
-        <div>
-        <p>SQL 文本:</p>
-            <code>{{ slow_obj.0.sample }}</code>
+                        <th>总锁定时间</th>
+                        <th>最大锁定时间</th>
+                        <th>最小锁定时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% build_optimize_recodes slow_obj %}
+                </tbody>
+            </table>
+            </div>
         </div>
+
+        <div class="panel panel-default base_info" style="border-color: #2aabd2;margin-top: 10px;">
+            <div class="panel-heading" style="background-color: #2aabd2; color: white">SQL 文本</div>
+            <div class="panel-body">
+            <code>{{ slow_obj.0.sample }}</code>
+            </div>
+        </div>
+
         {% if error_msg %}
-            <p>{{ error_msg }}</p>
+            <div class="panel panel-default base_info" style="border-color: #2aabd2;margin-top: 10px;">
+                <div class="panel-heading" style="background-color: #2aabd2; color: white">错误内容</div>
+                <div class="panel-body">
+                    <p>{{ error_msg }}</p>
+                </div>
+            </div>
         {% endif %}
 {#        显示执行计划#}
         {% if explain_result %}
-            <p>执行计划:</p>
-            {% build_explain_info explain_col explain_result %}
+            <div class="panel panel-default base_info" style="border-color: #2aabd2;margin-top: 10px;">
+                <div class="panel-heading" style="background-color: #2aabd2; color: white">执行计划</div>
+                <div class="panel-body">
+                    {% build_explain_info explain_col explain_result %}
+                </div>
+            </div>
         {% endif %}
+
+{#        优化框，输入sql内容查看其执行计划 #}
 
 {#        显示表相关信息#}
         {% if table_info_dict %}
