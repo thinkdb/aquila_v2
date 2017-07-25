@@ -3,7 +3,6 @@ from django.db.models import Count, Min, Max, Sum
 from django.views import View
 from model_model import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.conf import settings
 from back.views.AuthAccount import AuthAccount
 from django.utils.decorators import method_decorator
 from scripts import functions
