@@ -20,7 +20,9 @@
 </div>
     <button type="submit" class="btn btn-default">查询</button>
 
-<div class="form-group">
+<div class="panel panel-default base_info" style="border-color: #2aabd2;margin-top: 10px;">
+    <div class="panel-heading" style="background-color: #2aabd2; color: white">TOP SQL</div>
+    <div class="panel-body">
 
     {% if slow_obj %}
         <table class="table table-striped table-hover">
@@ -36,11 +38,12 @@
                     <th>总锁定时间</th>
                     <th>最大锁定时间</th>
                     <th>最小锁定时间</th>
-                    <th rowspan="2">操作</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                {% build_slow_recodes contacts %}
+                {% build_slow_recodes contacts host_id %}
             </tbody>
         </table>
         <nav aria-label="Page navigation">
@@ -74,8 +77,11 @@
           </ul>
         </nav>
     {% endif %}
+    </div>
+</div>
 </form>
     </div>
+
 {% endblock %}
 {% block js %}
     <script src="/static/js/slow_query.js"></script>

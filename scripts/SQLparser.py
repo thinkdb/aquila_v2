@@ -139,6 +139,7 @@ class QueryRewrite(object):
     def __init__(self):
         self.type = 0
         self.sql = None
+        self.EXPLAIN = 12
         self.UNKNOWN = 11
         self.SELECT = 1
         self.DELETE = 2
@@ -152,9 +153,9 @@ class QueryRewrite(object):
         self.INSERTSELECT = 10
         self.TABLEREF = '`?[A-Za-z0-9_]+`?(\.`?[A-Za-z0-9_]+`?)?'
 
-        self.COMMENTS_C = '/\s*\/\*.*?\*\/\s*/'
-        self.COMMENTS_HASH = '/#.*$/'
-        self.COMMENTS_SQL = '/--\s+.*$/'
+        self.COMMENTS_C = '\s*\/\*.*?\*\/\s*'
+        self.COMMENTS_HASH = '#.*$'
+        self.COMMENTS_SQL = '--\s+.*$'
 
     def format_sql(self, sql=None):
         self.sql = sql.upper()
@@ -171,6 +172,8 @@ class QueryRewrite(object):
     def figure_out_type(self):
         if re.search('^SELECT', self.sql):
             self.type = self.SELECT
+        elif re.search('^EXPLAIN SELECT', self.sql):
+            self.type = self.EXPLAIN
         elif re.search('^DELETE\s+FROM\s', self.sql):
             self.type = self.DELETE
         elif re.search('^DELETE\s+'+self.TABLEREF+'\s+FORM\s', self.sql):
@@ -197,6 +200,9 @@ class QueryRewrite(object):
         while not select:
             if self.type == self.SELECT:
                 select = self.sql
+                break
+            elif self.type == self.EXPLAIN:
+                select = self.sql.split('EXPLAIN')[1]
                 break
             elif self.type == self.UNION:
                 select = self.sql
@@ -237,16 +243,16 @@ class QueryRewrite(object):
         return select
 
 
-sql_content = """
+sql = """
 
 """
 
 a = QueryRewrite()
-b = a.format_sql(sql=sql_content)
+b = a.format_sql(sql=sql)
+print(a.type)
 print('sql 内容: ', b)
 
 if b:
     a = QueryTableParser()
     tables = a.parse(b)
     print('使用的表名: ', tables or 0)
-

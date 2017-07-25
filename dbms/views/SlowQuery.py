@@ -3,7 +3,12 @@ from django.db.models import Count, Min, Max, Sum
 from django.views import View
 from model_model import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+<<<<<<< HEAD
 from back.views.AuthAccount import AuthAccount
+=======
+from django.conf import settings
+from back.views.AuthAccount import AuthAccount, GetUserInfo
+>>>>>>> c2f6ef8a00b3d04ef44f41b7015ba7500febc0a2
 from django.utils.decorators import method_decorator
 from scripts import functions
 
@@ -11,6 +16,7 @@ from scripts import functions
 @method_decorator(AuthAccount, name='dispatch')
 class SlowQuery(View):
     def get(self, request):
+        user_info = GetUserInfo(request)
         host_obj = models.HostAPPAccount.objects.all().values_list('host__host_ip', 'id')
         slow_obj = None
         host_id = request.GET.get('slow_id', None)
@@ -21,15 +27,11 @@ class SlowQuery(View):
             host_obj = models.HostAPPAccount.objects.all().values_list('host__host_ip', 'id')
             slow_host_obj = models.HostAPPAccount.objects.filter(id=host_id).all()
             host_ip = slow_host_obj[0].host.host_ip
-            app_user = slow_host_obj[0].app_user
-            app_pass = slow_host_obj[0].app_pass
-            app_port = slow_host_obj[0].app_port
 
             slow_obj = models.SlowQuery.objects.filter(
                 reviewed_status__isnull=True,
                 slowqueryhistory__hostname_max=host_ip
-            ).values('fingerprint',
-                     'aid',
+            ).values('aid',
                      'checksum',
                      'sample',
                      'slowqueryhistory__db_max',
@@ -58,7 +60,8 @@ class SlowQuery(View):
                           'slow_obj': slow_obj,
                           'host_obj': host_obj,
                           'host_id': host_id,
-                          'contacts': contacts
+                          'contacts': contacts,
+                          'user_info': user_info
                       })
 
     def post(self, request):

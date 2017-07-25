@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from dbms.views import SQLpublish, MySQL_MetaData, RollBackWork, SQLquery
-from dbms.views import SlowQuery
+from dbms.views import SlowQuery, QueryOptimize
 
 urlpatterns = [
     url(r'^sql_publish/sql-commit.html$', SQLpublish.SqlCommit.as_view(), name='SqlCommit'),
@@ -15,6 +15,7 @@ urlpatterns = [
 
     url(r'^rollback/get_rollback-(?P<wid>\d+).html', RollBackWork.RollBack.as_view(), name='Rollback'),
 
-    url(r'^sqlquery.html$', SQLquery.SqlQuery.as_view(), name='SQLQuery'),
-    url(r'^slowquery.html$', SlowQuery.SlowQuery.as_view(), name='SlowQuery'),
+    url(r'^sql_query.html$', SQLquery.SqlQuery.as_view(), name='SQLQuery'),
+    url(r'^slow_query.html$', SlowQuery.SlowQuery.as_view(), name='SlowQuery'),
+    url(r'^query_optimize-(?P<host_id>\d+)-(?P<sid>\d+).html$', QueryOptimize.QueryOptimize.as_view(), name='QueryOptimize'),
 ]

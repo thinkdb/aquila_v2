@@ -128,6 +128,10 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
             return "text"
    ```
 
+7. 收集慢sql
+    收集脚本为 scripts/nlysis_slow_query.sh，需要部署到各台MySQL服务器上
+
+
 二、运行环境准备
 1. 虚拟环境准备
 推荐使用 conda 的虚拟环境来运行 aquila_v2 所需要的 python 环境
@@ -166,3 +170,4 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
 2. SQL 发布与审核
 3. 支持查看回滚语句
 4. 支持查询 ptosc 语句进度
+5. 慢sql展示
