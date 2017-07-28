@@ -43,6 +43,9 @@ while True:
         if error_code == 1062:
             error_msg = items[6].split('table')[1].split(';')[0]
             error_id = items[6].split('table')[1].split('Duplicate entry')[1].split(' ')[1].strip('\'')
+
+            # 添加日志
+
             sql = "delete from %s where id = %s" % (error_msg, error_id)
             dbapi.conn_query(sql)
             dbapi.conn_query("start slave")

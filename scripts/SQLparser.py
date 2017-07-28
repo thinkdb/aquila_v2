@@ -241,18 +241,18 @@ class QueryRewrite(object):
             else:
                 break
         return select
-
-
-sql = """
-
-"""
-
-a = QueryRewrite()
-b = a.format_sql(sql=sql)
-print(a.type)
-print('sql 内容: ', b)
-
-if b:
-    a = QueryTableParser()
-    tables = a.parse(b)
-    print('使用的表名: ', tables or 0)
+#
+#
+# sql = """
+#
+# """
+#
+# a = QueryRewrite()
+# b = a.format_sql(sql=sql)
+# print(a.type)
+# print('sql 内容: ', b)
+#
+# if b:
+#     a = QueryTableParser()
+#     tables = a.parse(b)
+#     print('使用的表名: ', tables or 0)

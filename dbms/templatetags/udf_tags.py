@@ -1,7 +1,8 @@
 from django import template
 register = template.Library()
 from django.utils.safestring import mark_safe
-from scripts import SQLparser
+from scripts import SQLparser, mysql_kerywords
+import sqlparse
 
 
 @register.simple_tag
@@ -48,8 +49,8 @@ def build_slow_recodes(slow_obj, host_id):
                 td_str += "<span>查看详情</span></td></tr>"
 
             td_str += "<tr class='hidden {class_name}'><td colspan=11    class='show_sql'>" \
-                      "<div><code><span>{span_str}</span></code></div>" \
-                      "</td><td></tr>".format(span_str=line['sample'],
+                      "<div><pre>{span_str}</pre></div>" \
+                      "</td><td></tr>".format(span_str=build_format_sql(line['sample']),
                                               class_name=line['checksum'])
 
     return mark_safe(td_str)
@@ -63,7 +64,7 @@ def render_page_ele(page_counter, contacts, host_id):
     :return:
     """
     ele = ''
-    if abs(contacts.number - page_counter) <= 10:
+    if abs(contacts.number - page_counter) <= 2:
         ele = '''<li><a href="?page=%s&slow_id=%s">%s</a></li>''' % (page_counter, host_id, page_counter)
     if contacts.number == page_counter:
         ele = '''<li class="active"><a href="?page=%s&slow_id=%s">%s</a></li>''' % (page_counter, host_id, page_counter)
@@ -108,6 +109,26 @@ def build_explain_info(explain_col, explain_result):
     """
     table_str = build_table(explain_col, explain_result)
     return mark_safe(table_str)
+
+
+@register.simple_tag
+def build_format_sql(sample):
+    sql_str = ''
+    for key in sqlparse.format(sample, reindent=True).split(' '):
+        for item in key.split('('):
+            for i in item.split(')'):
+                if ' ' in i:
+                    for k in i.split():
+                        if mysql_kerywords.keys_list.count(k.strip().upper()):
+                            sql_str += '<span class="k">{sql_key}&nbsp;</span>'.format(sql_key=k)
+                        else:
+                            sql_str += '<span>{sql_key}&nbsp;</span>'.format(sql_key=k)
+                elif mysql_kerywords.keys_list.count(i.strip().upper()):
+                    sql_str += '<span class="k">{sql_key}&nbsp;</span>'.format(sql_key=i)
+                else:
+                    sql_str += '<span>{sql_key}&nbsp;</span>'.format(sql_key=i)
+
+    return mark_safe(sql_str)
 
 
 @register.simple_tag

@@ -1,6 +1,10 @@
 {% extends 'include/base.html' %}
 {% load udf_tags %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/sql_keywords.css">
+{% endblock %}
+
 {% block body_body %}
 
 
@@ -36,7 +40,7 @@
         <div class="panel panel-default base_info" style="border-color: #2aabd2;margin-top: 10px;">
             <div class="panel-heading" style="background-color: #2aabd2; color: white">SQL 文本</div>
             <div class="panel-body">
-            <code>{{ slow_obj.0.sample }}</code>
+            <pre>{% build_format_sql slow_obj.0.sample %}</pre>
             </div>
         </div>
 
