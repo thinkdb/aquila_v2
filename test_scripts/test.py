@@ -69,4 +69,18 @@ SELECT mi.id,
 		ORDER BY mi.id
 		LIMIT 1120000, 10000
 """
-print(sqlparse.format(sql, reindent=True))
+# print(sqlparse.format(sql, reindent=True))
+
+b = """/*master*/ \
+SELECT cast(oi.id AS CHAR )AS orderId,
+      cast(oi.user_id AS CHAR )AS userId
+FROM order_info oi
+WHERE flag =1
+ AND is_immediate=0
+ AND service_time < 2017-07-21 01:50:04'
+ LIMIT 100 """
+
+import re
+for item in b.split(' '):
+    if re.search('\'', item):
+        print(item)
