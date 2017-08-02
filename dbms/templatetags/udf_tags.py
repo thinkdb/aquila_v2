@@ -3,6 +3,7 @@ register = template.Library()
 from django.utils.safestring import mark_safe
 from scripts import SQLparser, mysql_kerywords
 import sqlparse
+import re
 
 
 @register.simple_tag
@@ -114,19 +115,36 @@ def build_explain_info(explain_col, explain_result):
 @register.simple_tag
 def build_format_sql(sample):
     sql_str = ''
-    for key in sqlparse.format(sample, reindent=True).split(' '):
-        for item in key.split('('):
-            for i in item.split(')'):
-                if ' ' in i:
-                    for k in i.split():
-                        if mysql_kerywords.keys_list.count(k.strip().upper()):
-                            sql_str += '<span class="k">{sql_key}&nbsp;</span>'.format(sql_key=k)
-                        else:
-                            sql_str += '<span>{sql_key}&nbsp;</span>'.format(sql_key=k)
-                elif mysql_kerywords.keys_list.count(i.strip().upper()):
-                    sql_str += '<span class="k">{sql_key}&nbsp;</span>'.format(sql_key=i)
+    for key in sqlparse.format(sample, reindent=True, keyword_case='upper').split(' '):
+
+        if ' ' in key:
+            for k in key.split(' '):
+                if mysql_kerywords.keys_list.count(k.strip()):
+                    sql_str += '<span class="k">{sql_key}&nbsp;</span>'.format(sql_key=k)
                 else:
-                    sql_str += '<span>{sql_key}&nbsp;</span>'.format(sql_key=i)
+                    sql_str += '<span>{sql_key}&nbsp;</span>'.format(sql_key=k)
+
+        elif mysql_kerywords.keys_list.count(key.strip()):
+            sql_str += '<span class="k">{sql_key}&nbsp;</span>'.format(sql_key=key)
+        elif key.startswith('(') and mysql_kerywords.keys_list.count(key.strip('(')):
+            sql_str += '<span>(</span><span class="k">' \
+                       '{sql_key}&nbsp;</span>'.format(sql_key=key.strip('('))
+
+        elif key.endswith(')') and mysql_kerywords.keys_list.count(key.strip(')')):
+            sql_str += '<span class="k">' \
+                       '{sql_key}&nbsp;</span><span>)</span>'.format(sql_key=key.strip(')'))
+
+        elif '\n' in key:
+            if mysql_kerywords.keys_list.count(key.split('\n')[1].strip()):
+                sql_str += '<span>{sql_key1}\n</span>' \
+                           '<span class="k">{sql_key2}&nbsp;</span>'.format(sql_key1=key.split('\n')[0],
+                                                                            sql_key2=key.split('\n')[1])
+            else:
+                sql_str += '<span>{sql_key}</span>'.format(sql_key=key)
+        elif re.search('\'|\"', key):
+            sql_str += '<span class="s">{sql_key}&nbsp;</span>'.format(sql_key=key)
+        else:
+            sql_str += '<span>{sql_key}&nbsp;</span>'.format(sql_key=key)
 
     return mark_safe(sql_str)
 
