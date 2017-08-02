@@ -2,21 +2,14 @@ import pymysql
 sql="inception get osc processlist;"
 
 sql = """
-/*--user=root;--password=123456;--host=192.168.1.205;--port=3306;--enable-query-print;*/
+/*--user=root;--password=123456;--host=127.0.0.1;--port=4901;*/
 inception_magic_start;
-use shanjin;
-select a.* from (
-    select
-    cast(oi.id AS CHAR) AS orderId,
-    cast(oi.user_id AS CHAR) AS userId,
-    service_time
-    from order_info oi
-    where
-    flag =1 and is_immediate=1 limit 100 ) a where  a.service_time < '2017-07-07 01:30:00' ;
+use test;
+update t1 set c2 = 'a&b' where c1 = 1;
 inception_magic_commit;
 """
 try:
-    conn=pymysql.connect(host='192.168.1.6', user='', passwd='', db='', port=6669)
+    conn=pymysql.connect(host='127.0.0.1', user='', passwd='', db='', port=6669)
     cur=conn.cursor()
     ret=cur.execute(sql)
     result=cur.fetchall()

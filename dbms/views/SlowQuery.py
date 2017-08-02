@@ -3,14 +3,8 @@ from django.db.models import Count, Min, Max, Sum
 from django.views import View
 from model_model import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-<<<<<<< HEAD
-from back.views.AuthAccount import AuthAccount
-=======
-from django.conf import settings
 from back.views.AuthAccount import AuthAccount, GetUserInfo
->>>>>>> c2f6ef8a00b3d04ef44f41b7015ba7500febc0a2
 from django.utils.decorators import method_decorator
-from scripts import functions
 
 
 @method_decorator(AuthAccount, name='dispatch')

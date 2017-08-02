@@ -65,6 +65,7 @@ class SqlCommit(View):
                 sql_audit = functions.SplitSql(3, obj.cleaned_data['sql_content'])
                 sql_audit_status = sql_audit.get_audit()
                 if not sql_audit_status['status']:
+                    print(sql_audit_status)
                     self.result_dict['status'] = 0
                     self.result_dict['error'] = '语句不合法'
 

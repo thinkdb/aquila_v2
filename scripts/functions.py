@@ -292,7 +292,7 @@ class SplitSql(object):
 
     def check_all(self):
         sql_content_list = self.sql.lower().split()
-        error_list = ['begin', 'set', 'commit', 'rollback', 'revoke', 'rename', 'use'
+        error_list = ['begin', 'commit', 'rollback', 'revoke', 'rename', 'use'
                       'grant', '\*', 'execute', 'flush', 'shutdown', 'change', 'call']
         for item in sql_content_list:
             for i in error_list:
