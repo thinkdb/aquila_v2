@@ -160,7 +160,7 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
 
 5. 登录
    ```
-   http:aquila_v2_ip/login.html
+   http:aquila_v2_ip
    ```
 
 初始化时只给了管理账号， 其他用户账号自行注册
