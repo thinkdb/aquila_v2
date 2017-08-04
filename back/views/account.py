@@ -19,7 +19,7 @@ class Login(View):
             user_info = models.UserInfo.objects.filter((Q(user_name=username) |
                                                         Q(email=username)), user_pass=password).all()
             if user_info:
-                rem_flag = request.POST.get('Remember Me', None)
+                rem_flag = request.POST.get('remember', None)
                 sess = functions.OpSession()
                 if rem_flag:
                     sess.login(request, username, 1)

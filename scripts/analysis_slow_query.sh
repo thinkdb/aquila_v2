@@ -31,7 +31,7 @@ $pt_query_digest \
 --user=$monitor_db_user --password=$monitor_db_password --port=$monitor_db_port \
 --review h=$monitor_db_host,D=$monitor_db_database,t=mysql_slow_query_review  \
 --history h=$monitor_db_host,D=$monitor_db_database,t=mysql_slow_query_review_history  \
---no-report --limit=100% \
+--no-report --limit=100% --charset=utf8 \
 --filter="\$event->{Bytes} = length(\$event->{arg}) and \$event->{hostname}=\"$hostname\" " \
 $slowquery_file > /tmp/analysis_slow_query.log
 
