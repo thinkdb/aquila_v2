@@ -2,14 +2,21 @@ import pymysql
 sql="inception get osc processlist;"
 
 sql = """
+<<<<<<< HEAD
 /*--user=root;--password=123456;--host=192.168.1.6;--port=3306;--execute=1;*/
 inception_magic_start;
 use test;
 create table ince_war(id int);
+=======
+/*--user=root;--password=123456;--host=127.0.0.1;--port=4901;*/
+inception_magic_start;
+use test;
+update t1 set c2 = 'a&b' where c1 = 1;
+>>>>>>> 98a5ccda5b2d96a0921d74096981641d0c5b9828
 inception_magic_commit;
 """
 try:
-    conn=pymysql.connect(host='192.168.1.6', user='', passwd='', db='', port=6669)
+    conn=pymysql.connect(host='127.0.0.1', user='', passwd='', db='', port=6669)
     cur=conn.cursor()
     ret=cur.execute(sql)
     result=cur.fetchall()

@@ -8,6 +8,7 @@ cffi==1.10.0
 colorama==0.3.9
 cryptography==1.9
 Django==1.11.2
+django-crontab==0.7.1
 idna==2.5
 kombu==4.0.2
 paramiko==2.2.1
@@ -21,5 +22,6 @@ PyNaCl==1.1.2
 pytz==2017.2
 redis==2.10.5
 six==1.10.0
+SQLAlchemy==1.1.10
 sqlparse==0.2.3
 vine==1.1.3
