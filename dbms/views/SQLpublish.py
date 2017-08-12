@@ -259,7 +259,7 @@ class SqlRunning(View):
             models.InceptionAuditDetail.objects.filter(work_order_id=wid).update(status_code=8)
 
             # 提交到后台执行, Linux下需要改成： work_run_task.delay, windowns 如下
-            work_run_task(master_ip, task_info[0]['app_user'],
+            work_run_task.delay(master_ip, task_info[0]['app_user'],
                           task_info[0]['app_pass'],
                           task_info[0]['app_port'],
                           task_info[0]['work_order__inceauditsqlcontent__sql_content'],
