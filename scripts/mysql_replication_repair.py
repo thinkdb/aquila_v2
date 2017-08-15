@@ -1,7 +1,7 @@
 #!/bin/python3
 """
 作者：
-    think
+    think，现任 O盟 MySQL DBA
 联系方式：
     qq: 996846239
 功能：
@@ -19,6 +19,7 @@
     3. 如果想使用 python2 运行， 修改如下内容
         1). 把 pymysql 改成 MySQLdb
         2). 删除 Dbapi.__init__ 里面的 autocommit=1 参数
+        3). 如果服务器设置了 autocommit=0, 则需要把227和314 的注释打开
 
 最好的 MySQL 培训机构：
     知数堂：http://zhishutang.com
@@ -189,9 +190,18 @@ def split_sql(recode_list, col_info):
         if id <= num:
             if re.search("^@", item):
                 if re.search("^@1", item):
-                    a = re.sub("^@1", col_info[id], item)
+                    if re.search('@[\d]+=NULL', item):
+                        b = re.sub("=NULL", ' IS NULL', item)
+                        a = re.sub("^@1", col_info[id], b)
+                    else:
+                        a = re.sub("^@1", col_info[id], item)
+
                 else:
-                    a = re.sub("^@[\d]+", 'and ' + col_info[id], item)
+                    if re.search('@[\d]+=NULL', item):
+                        b = re.sub("=NULL", ' IS NULL', item)
+                        a = re.sub("^@[\d]+", 'and ' + col_info[id], b)
+                    else:
+                        a = re.sub("^@[\d]+", 'and ' + col_info[id], item)
                 if a:
                     id += 1
                     sql_file.append(a)
@@ -264,6 +274,7 @@ def repair_1062(slave_conn, split_msg, slave_host_port):
     delete_recode = slave_host_port + ' Error_code: 1062 -- delete recode: ' + str(select_result)
     logger('warning', delete_recode)
     slave_conn.conn_dml(delete_sql)
+    # slave_conn.dml_commit()
     slave_conn.conn_dml('start slave;')
 
 
@@ -294,14 +305,13 @@ def repair_1032(slave_conn, split_msg, master_log_file, start_log_pos, slave_hos
             select_sql = sql.replace('DELETE', 'SELECT 1')
         else:
             select_sql = sql.replace('UPDATE', 'SELECT 1 from ')
-
         result = slave_conn.conn_query(select_sql)
-
         if not result:
             insert_sql = delete_or_update_to_insert(sql)
             run_sql = slave_host_port + ' Error_code: 1032 -- run SQL: ' + insert_sql
             logger('warning', run_sql)
             slave_conn.conn_dml(insert_sql)
+            # slave_conn.dml_commit()
             slave_conn.conn_dml('start slave;')
 
 
@@ -310,7 +320,8 @@ def delete_or_update_to_insert(delete_sql):
     sql_2 = sql_1.replace('and', ',')
     sql_3 = re.sub(' (\w)+=', ' ', sql_2)
     sql_4 = re.sub(';', ');', sql_3)
-    run_sql = re.sub('DELETE FROM|UPDATE', 'INSERT INTO', sql_4)
+    sql_5 = re.sub('DELETE FROM|UPDATE', 'INSERT INTO', sql_4)
+    run_sql = re.sub(', (\w)+ IS NULL ,', ', NULL ,', sql_5)
     return run_sql
 
 
@@ -334,6 +345,8 @@ def repair_option(slave_conn, err_code, err_msg, master_log_file, start_log_pos,
 
         if err_code == 1032:
             repair_1032(slave_conn, split_msg, master_log_file, start_log_pos, slave_host_port)
+
+    # 其他的错误可以在这边加入
 
 
 def main():
