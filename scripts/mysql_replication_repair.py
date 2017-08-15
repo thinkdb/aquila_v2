@@ -1,14 +1,33 @@
 #!/bin/python3
 """
+作者：
+    think
+联系方式：
+    qq: 996846239
 功能：
     解决 MySQL Replication 的 1032 和 1062 错误
+使用与依赖说明：
+    1. 需要安装 pymysql, paramiko 模块
+    2. 直接运行代码即可
+    3. 运行后，在当前目录会生成一个日志文件(repair.log)，记录处理时的 sql 语句
+        1). 重复数据错误时，会记录在从库删除的完整数据行
+        2). 记录不存在的错误， 会记录在从库上插入的完整数据行
+注意事项:
+    1. 只处理一次 1062 或者 1032 错误，想要多次执行， 再需要修改 main() 函数实现
+    2. binlog_file_path 变量，最后必须有个 /, 不然无法修复， 或者 自己去改源码
+
+    3. 如果想使用 python2 运行， 修改如下内容
+        1). 把 pymysql 改成 MySQLdb
+        2). 删除 Dbapi.__init__ 里面的 autocommit=1 参数
+
+最好的 MySQL 培训机构：
+    知数堂：http://zhishutang.com
 """
 
 import pymysql
 import logging
 import paramiko
 import os
-import time
 import re
 
 master = {
@@ -28,6 +47,22 @@ slave = {
     'user': 'root',
     'password': '123456'
 }
+
+# 这边为所有需要的参数， 字典可有可无
+slave_host = slave['host']
+slave_user = slave['user']
+slave_port = slave['port']
+slave_password = slave['password']
+
+master_host = master['host']
+master_user = master['user']
+master_port = master['port']
+master_password = master['password']
+master_ssh_user = master['ssh_user']
+master_ssh_pass = master['ssh_pass']
+master_mysqlbinlog_cmd = master['mysqlbinlog_cmd']
+master_binlog_file_path = master['binlog_file_path']
+
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -122,10 +157,10 @@ def split_err_msg(err_code, err_msg):
 
 
 def get_table_structure(table_name):
-    host = master['host']
-    user = master['user']
-    port = master['port']
-    password = master['password']
+    host = master_host
+    user = master_user
+    port = master_port
+    password = master_password
 
     master_conn = Dbapi(host=host, user=user, port=port, password=password)
     result = master_conn.conn_query('show create table {table_name}'.format(table_name=table_name))
@@ -145,15 +180,18 @@ def get_column(data):
     return col_list
 
 
-def convert_sql(recode_list, col_info):
+def split_sql(recode_list, col_info):
     num = len(col_info)
     sql_file = []
     id = 0
-    for item in recode_list:
+    for item in recode_list[1:]:
         item = item.strip('### ')
         if id <= num:
             if re.search("^@", item):
-                a = re.sub("^@[\d]+", col_info[id], item)
+                if re.search("^@1", item):
+                    a = re.sub("^@1", col_info[id], item)
+                else:
+                    a = re.sub("^@[\d]+", 'and ' + col_info[id], item)
                 if a:
                     id += 1
                     sql_file.append(a)
@@ -163,29 +201,40 @@ def convert_sql(recode_list, col_info):
             else:
                 id = 0
                 sql_file.append(item)
-
-    print(sql_file)
+    return sql_file
 
 
 def find_recode_from_binlog(event, table_name, result):
     table_map_flag = 0
     event_flag = 0
+    where_flag = 1
+    option_flag = 0
+    option_keyword = '### ' + event.split('_')[0].upper()
     new_table_name = '`{schema_name}`.`{table_name}`'.format(schema_name=table_name.split('.')[0],
                                                              table_name=table_name.split('.')[1])
     recode_list = []
+
     for line in result:
+
         if line.startswith('#') and re.search("Table_map", line) and re.search(new_table_name, line):
             table_map_flag = 1
         if line.startswith('#') and re.search(event, line):
             event_flag = 1
-
-        if line.startswith('###') and table_map_flag and event_flag:
-            recode_list.append(line)
-        
+        if re.search('WHERE', line):
+            where_flag = 1
+        if line.startswith(option_keyword):
+            recode_list.append('---line---')
+            option_flag = 1
+        if line.startswith('### SET'):
+            where_flag = 0
+            continue
+        if line.startswith('###') and table_map_flag and event_flag and where_flag and option_flag:
+            recode_list.append(line.strip())
+    recode_list.append('---line---')
     return recode_list
 
 
-def repair_1062(slave_conn, split_msg, slave_host):
+def repair_1062(slave_conn, split_msg, slave_host_port):
     where_sql = """ where 1=1"""
     # 这边处理 重复记录，可能是复合索引引起数据重复， 也可能是单列索引引起数据重复
     sql = """select distinct s.column_name, s.seq_in_index, c.data_type
@@ -208,25 +257,28 @@ def repair_1062(slave_conn, split_msg, slave_host):
         else:
             where_sql += ' and ' + item[0] + '=' + split_msg['dup_recode'].split('-')[item[1] - 1]
     delete_sql = 'delete from ' + split_msg['table_name'] + where_sql + ';'
-
-    run_sql = slave_host + ' -- run SQL: ' + delete_sql
+    select_sql = 'select * from ' + split_msg['table_name'] + where_sql + ';'
+    run_sql = slave_host_port + ' -- run SQL: ' + delete_sql
     logger('warning', run_sql)
+    select_result = slave_conn.conn_query(select_sql)
+    delete_recode = slave_host_port + ' Error_code: 1062 -- delete recode: ' + str(select_result)
+    logger('warning', delete_recode)
     slave_conn.conn_dml(delete_sql)
     slave_conn.conn_dml('start slave;')
 
 
-def repair_1032(slave_conn, split_msg, master_log_file, start_log_pos):
+def repair_1032(slave_conn, split_msg, master_log_file, start_log_pos, slave_host_port):
     end_pos = split_msg['end_log_pos']
     ssh_cmd = '{cmd} -v --base64-output=decode-rows {master_file} ' \
               ' --start-position={start_pos}' \
-              ' --stop-position={stop_pos}'.format(master_file=master['binlog_file_path'] + master_log_file,
-                                                   cmd=master['mysqlbinlog_cmd'],
+              ' --stop-position={stop_pos}'.format(master_file=master_binlog_file_path + master_log_file,
+                                                   cmd=master_mysqlbinlog_cmd,
                                                    start_pos=start_log_pos,
                                                    stop_pos=end_pos)
 
-    host = master['host']
-    user = master['ssh_user']
-    passwd = master['ssh_pass']
+    host = master_host
+    user = master_ssh_user
+    passwd = master_ssh_pass
     result = ssh_run_cmd(host, user, passwd, ssh_cmd)
     event = split_msg['event']
     table_name = split_msg['table_name']
@@ -234,26 +286,64 @@ def repair_1032(slave_conn, split_msg, master_log_file, start_log_pos):
     col_info = get_table_structure(table_name)
 
     recode_list = find_recode_from_binlog(event, table_name, result)
-    convert_sql(recode_list, col_info, event)
+    split_sql_list = split_sql(recode_list, col_info)
+    ret = create_sql(split_sql_list)
+
+    for sql in ret:
+        if event == "Delete_rows":
+            select_sql = sql.replace('DELETE', 'SELECT 1')
+        else:
+            select_sql = sql.replace('UPDATE', 'SELECT 1 from ')
+
+        result = slave_conn.conn_query(select_sql)
+
+        if not result:
+            insert_sql = delete_or_update_to_insert(sql)
+            run_sql = slave_host_port + ' Error_code: 1032 -- run SQL: ' + insert_sql
+            logger('warning', run_sql)
+            slave_conn.conn_dml(insert_sql)
+            slave_conn.conn_dml('start slave;')
 
 
-def repair_option(slave_conn, err_code, err_msg, master_log_file, start_log_pos, slave_host):
+def delete_or_update_to_insert(delete_sql):
+    sql_1 = delete_sql.strip().replace('WHERE', 'VALUES(')
+    sql_2 = sql_1.replace('and', ',')
+    sql_3 = re.sub(' (\w)+=', ' ', sql_2)
+    sql_4 = re.sub(';', ');', sql_3)
+    run_sql = re.sub('DELETE FROM|UPDATE', 'INSERT INTO', sql_4)
+    return run_sql
+
+
+def create_sql(split_sql_list):
+    run_sql = ''
+    for item in split_sql_list:
+        if item == '---line---':
+            run_sql += ';'
+            yield run_sql
+            run_sql = ''
+        else:
+            run_sql += ' ' + item
+
+
+def repair_option(slave_conn, err_code, err_msg, master_log_file, start_log_pos, slave_host_port):
     if err_code in (1062, 1032):
         split_msg = split_err_msg(err_code, err_msg)
 
         if err_code == 1062:
-            repair_1062(slave_conn, split_msg, slave_host)
+            repair_1062(slave_conn, split_msg, slave_host_port)
 
         if err_code == 1032:
-            repair_1032(slave_conn, split_msg, master_log_file, start_log_pos)
+            repair_1032(slave_conn, split_msg, master_log_file, start_log_pos, slave_host_port)
 
 
 def main():
-    slave_host = slave['host'] + ':' + str(slave['port'])
-    slave_conn = Dbapi(host=slave['host'],
-                       user=slave['user'],
-                       port=slave['port'],
-                       password=slave['password'])
+    slave_host_port = slave_host + ':' + str(slave_port)
+
+    # 多次执行时，将下面代码加入循环中即可
+    slave_conn = Dbapi(host=slave_host,
+                       user=slave_user,
+                       port=slave_port,
+                       password=slave_password)
     ret = slave_conn.conn_query('show slave status;')[0]
     if ret[11] == 'No':
         err_code = ret[18]
@@ -261,7 +351,7 @@ def main():
         master_log_file = ret[9]
         start_log_pos = ret[21]
 
-        repair_option(slave_conn, err_code, err_msg, master_log_file, start_log_pos, slave_host)
+        repair_option(slave_conn, err_code, err_msg, master_log_file, start_log_pos, slave_host_port)
 
 
 if __name__ == '__main__':
