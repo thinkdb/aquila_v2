@@ -28,6 +28,7 @@
 import pymysql
 import logging
 import paramiko
+import time
 import os
 import re
 
@@ -189,8 +190,15 @@ def split_sql(recode_list, col_info):
         item = item.strip('### ')
         if id <= num:
             if re.search("^@", item):
+                if "TIMESTAMP" in item:
+                    sub_after_line = item.split("/*")[0].strip().split("=")[1]
+                    data_timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(sub_after_line)))
+                    item = item.split("/*")[0].strip().split("=")[0] + "=\'" + data_timestamp + "\'"
+                else:
+                    item = item.split("/*")[0].strip()
+
                 if re.search("^@1", item):
-                    if re.search('@[\d]+=NULL', item):
+                    if re.search('@1=NULL', item):
                         b = re.sub("=NULL", ' IS NULL', item)
                         a = re.sub("^@1", col_info[id], b)
                     else:
@@ -199,9 +207,9 @@ def split_sql(recode_list, col_info):
                 else:
                     if re.search('@[\d]+=NULL', item):
                         b = re.sub("=NULL", ' IS NULL', item)
-                        a = re.sub("^@[\d]+", 'and ' + col_info[id], b)
+                        a = re.sub("^@[\d]+", ' and ' + col_info[id], b)
                     else:
-                        a = re.sub("^@[\d]+", 'and ' + col_info[id], item)
+                        a = re.sub("^@[\d]+", ' and ' + col_info[id], item)
                 if a:
                     id += 1
                     sql_file.append(a)
@@ -280,7 +288,7 @@ def repair_1062(slave_conn, split_msg, slave_host_port):
 
 def repair_1032(slave_conn, split_msg, master_log_file, start_log_pos, slave_host_port):
     end_pos = split_msg['end_log_pos']
-    ssh_cmd = '{cmd} -v --base64-output=decode-rows {master_file} ' \
+    ssh_cmd = '{cmd} -vv --base64-output=decode-rows {master_file} ' \
               ' --start-position={start_pos}' \
               ' --stop-position={stop_pos}'.format(master_file=master_binlog_file_path + master_log_file,
                                                    cmd=master_mysqlbinlog_cmd,
