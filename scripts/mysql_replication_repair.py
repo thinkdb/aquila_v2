@@ -159,14 +159,14 @@ def split_err_msg(err_code, err_msg):
     return split_msg
 
 
-def get_table_structure(table_name):
-    host = master_host
-    user = master_user
-    port = master_port
-    password = master_password
+def get_table_structure(slave_conn, table_name):
+    # host = master_host
+    # user = master_user
+    # port = master_port
+    # password = master_password
 
-    master_conn = Dbapi(host=host, user=user, port=port, password=password)
-    result = master_conn.conn_query('show create table {table_name}'.format(table_name=table_name))
+    # master_conn = Dbapi(host=host, user=user, port=port, password=password)
+    result = slave_conn.conn_query('show create table {table_name}'.format(table_name=table_name))
     col = get_column(result[0][1])
     return col
 
@@ -303,7 +303,7 @@ def repair_1032(slave_conn, split_msg, master_log_file, start_log_pos, slave_hos
     event = split_msg['event']
     table_name = split_msg['table_name']
 
-    col_info = get_table_structure(table_name)
+    col_info = get_table_structure(slave_conn, table_name)
 
     recode_list = find_recode_from_binlog(event, table_name, result)
     split_sql_list = split_sql(recode_list, col_info)
