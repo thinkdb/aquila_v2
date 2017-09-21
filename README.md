@@ -176,4 +176,4 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
 
 示例图
 
-!(image)[https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/login.png]
+![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/login.png)
