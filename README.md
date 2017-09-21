@@ -173,3 +173,7 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
 3. 支持查看回滚语句
 4. 支持查询 ptosc 语句进度
 5. 慢sql展示
+
+示例图
+
+!(image)[https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/login.png]
