@@ -157,6 +157,8 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
     celery -A aquila_v2 worker
     ```
     使用 celery 功能时,需要安装 rabbitmq, 默认安装即可，不需要配置
+    
+    注意，如果在 windows 下面跑， 需要根据 dbms/views/SQLpublish.py 修改下 celery 执行任务的方式，celery4 不支持windows，所以需要取消celery 异步执行任务。
 
 5. 登录
    ```
