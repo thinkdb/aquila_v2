@@ -23,7 +23,7 @@ class DBAPI(object):
     def __init__(self, host, user, password, port, database=None):
         try:
             self.conn = pymysqldb.connect(host=host, user=user, passwd=password, port=int(port),
-                                          autocommit=1, charset='utf8')
+                                          autocommit=1, charset='utf8mb4')
             if database:
                 self.conn.select_db(database)
             self.cur = self.conn.cursor()
