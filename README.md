@@ -174,6 +174,21 @@ aquila_v2 为 Aquila 的第二版本，第一版本代码有点乱，所以重�
 4. 支持查询 ptosc 语句进度
 5. 慢sql展示
 
-示例图
-
+示例图-登录
 ![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/login.png)
+示例图-主机管理
+![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/host_manage.png)
+示例图-元数据查询
+![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/metadata_query.png)
+示例图-慢SQL查询
+![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/slow_query.png)
+示例图-慢SQL详情
+![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/slow_query_detail.png)
+
+示例图-sql工单提交
+![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/sql_commit.png)
+示例图-sql工单审核
+![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/sql_audit.png)
+
+示例图-sql工单查询
+![image](https://github.com/thinkdb/aquila_v2/blob/master/aquila_imgs/work_query.png)
