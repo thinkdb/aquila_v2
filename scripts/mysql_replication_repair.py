@@ -1,7 +1,7 @@
 #!/bin/python3
 """
 作者：
-    think，现任 O盟 MySQL DBA
+    think
 联系方式：
     qq: 996846239
 功能：
