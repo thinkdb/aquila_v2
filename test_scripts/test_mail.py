@@ -9,7 +9,7 @@ class MailSender(object):
         self.mail_server = 'smtp.qq.com'
         self.mail_ssl_port = 465
         self.mail_form_user = '996846239@qq.com'
-        self.mail_passwd = 'qxhonddalbdtbaja'
+        self.mail_passwd = 'qxhonddalbdtbajb'
 
     def _send(self, title, content, to_address):
         msg = MIMEText(content)
