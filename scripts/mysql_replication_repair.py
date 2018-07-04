@@ -163,12 +163,6 @@ def split_err_msg(err_code, err_msg):
 
 
 def get_table_structure(slave_conn, table_name):
-    # host = master_host
-    # user = master_user
-    # port = master_port
-    # password = master_password
-
-    # master_conn = Dbapi(host=host, user=user, port=port, password=password)
     result = slave_conn.conn_query('show create table {table_name}'.format(table_name=table_name))
     col = get_column(result[0][1])
     return col
