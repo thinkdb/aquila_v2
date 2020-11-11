@@ -272,7 +272,7 @@ def repair_1062(slave_conn, split_msg, slave_host_port):
             where_sql += ' and ' + item[0] + '=\'' + split_msg['dup_recode'].split('-')[item[1] - 1] + '\''
         else:
             where_sql += ' and ' + item[0] + '=' + split_msg['dup_recode'].split('-')[item[1] - 1]
-    delete_sql = 'delete from ' + split_msg['table_name'] + where_sql + ';'
+    delete_sql = 'set sql_log_bin = 0;delete from ' + split_msg['table_name'] + where_sql + ';'
     select_sql = 'select * from ' + split_msg['table_name'] + where_sql + ';'
     run_sql = slave_host_port + ' -- run SQL: ' + delete_sql
     logger('warning', run_sql)
@@ -327,7 +327,8 @@ def delete_or_update_to_insert(delete_sql):
     sql_3 = re.sub(' (\w)+=', ' ', sql_2)
     sql_4 = re.sub(';', ');', sql_3)
     sql_5 = re.sub('DELETE FROM|UPDATE', 'INSERT INTO', sql_4)
-    run_sql = re.sub(', (\w)+ IS NULL ,', ', NULL ,', sql_5)
+    sql_6 = re.sub(', (\w)+ IS NULL ,', ', NULL ,', sql_5)
+    run_sql = 'set sql_log_bin = 0;' + sql_6
     return run_sql
 
 
