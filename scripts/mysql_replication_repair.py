@@ -55,7 +55,7 @@ slave = {
     'password': '123456'
 }
 
-flag_ = true
+flag_ = false  # 循环标识，默认为 false
 
 ##################### END #####################
 
