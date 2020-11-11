@@ -36,6 +36,7 @@ import time
 import os
 import re
 
+##################### 这边为需要调整的参数 #####################
 master = {
     'host': '192.168.1.5',
     'port': 3306,
@@ -54,7 +55,11 @@ slave = {
     'password': '123456'
 }
 
-# 这边为所有需要的参数， 字典可有可无
+flag_ = true
+
+##################### END #####################
+
+
 slave_host = slave['host']
 slave_user = slave['user']
 slave_port = slave['port']
@@ -364,14 +369,16 @@ def main():
                        user=slave_user,
                        port=slave_port,
                        password=slave_password)
-    ret = slave_conn.conn_query('show slave status;')[0]
-    if ret[11] == 'No':
-        err_code = ret[18]
-        err_msg = ret[19]
-        master_log_file = ret[9]
-        start_log_pos = ret[21]
+    while flag_:
+        ret = slave_conn.conn_query('show slave status;')[0]
+        if ret[11] == 'No':
+            err_code = ret[18]
+            err_msg = ret[19]
+            master_log_file = ret[9]
+            start_log_pos = ret[21]
 
-        repair_option(slave_conn, err_code, err_msg, master_log_file, start_log_pos, slave_host_port)
+            repair_option(slave_conn, err_code, err_msg, master_log_file, start_log_pos, slave_host_port)
+        time.sleep(0.5)
 
 
 if __name__ == '__main__':
